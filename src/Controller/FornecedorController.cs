@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gerenciador_de_estoque.Controller
+namespace Gerenciador_de_estoque.Controllers
 {
-    internal class FornecedorController
-    {
-    }
+    internal class FornecedorController { }
 }

@@ -1,7 +1,6 @@
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.AssemblyReference.cache
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.SuggestedBindingRedirects.cache
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.Properties.Resources.resources
-C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.Home.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.GenerateResource.cache
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.CoreCompileInputs.cache
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\bin\Debug\Gerenciador de estoque.exe.config
@@ -42,3 +41,5 @@ C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerencia
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.exe
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.pdb
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.UI.ProductMenu.resources
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.btnSupplier.resources
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.UI.SupplierMenu.resources

@@ -6,16 +6,16 @@ using Gerenciador_de_estoque.Services;
 
 namespace Gerenciador_de_estoque.Controllers
 {
-    public class FornecedorController
+    public class ProdutoController
     {
-        FornecedorService fornecedorService = new FornecedorService();
+        ProdutoService produtoService = new ProdutoService();
 
-        public List<Fornecedor> GatherFornecedores(string nome)
+        public List<Produto> GatherProdutos(string nome)
         {
             try
             {
-                var fornecedores = fornecedorService.GatherFornecedores(nome);
-                return fornecedores;
+                var produtos = produtoService.GatherProdutos(nome);
+                return produtos;
             }
             catch (Exception ex)
             {
@@ -24,12 +24,12 @@ namespace Gerenciador_de_estoque.Controllers
             }
         }
 
-        public Fornecedor GetOneFornecedor(int id)
+        public Produto GetOneProduto(int id)
         {
             try
             {
-                var fornecedor = fornecedorService.GetOneFornecedor(id);
-                return fornecedor;
+                var produto = produtoService.GetOneProduto(id);
+                return produto;
             }
             catch (Exception ex)
             {
@@ -38,31 +38,31 @@ namespace Gerenciador_de_estoque.Controllers
             }
         }
 
-        public void AddFornecedor(Fornecedor fornecedor)
+        public void AddProduto(Produto produto)
         {
             try
             {
                 if (
-                    string.IsNullOrEmpty(fornecedor.NomeFornecedor)
-                    || string.IsNullOrEmpty(fornecedor.Endereco)
-                    || string.IsNullOrEmpty(fornecedor.Contato)
+                    string.IsNullOrEmpty(produto.NomeProduto)
+                    || produto.Preco < 0
+                    || produto.QuantidadeEstoque < 0
                 )
                 {
                     throw new ArgumentException(
-                        "Nome, Endereço e Contato do fornecedor não podem estar vazios"
+                        "Nome, Descrição, Preço e Quantidade em Estoque do produto não podem estar vazios ou negativos"
                     );
                 }
                 else
                 {
-                    if (fornecedor.IdFornecedor <= 0)
+                    if (produto.IdProduto <= 0)
                     {
-                        fornecedorService.AddFornecedor(fornecedor);
-                        MessageBox.Show("Fornecedor adicionado com sucesso!");
+                        produtoService.AddProduto(produto);
+                        MessageBox.Show("Produto adicionado com sucesso!");
                     }
                     else
                     {
-                        fornecedorService.UpdateFornecedor(fornecedor);
-                        MessageBox.Show("Fornecedor editado com sucesso!");
+                        produtoService.UpdateProduto(produto);
+                        MessageBox.Show("Produto editado com sucesso!");
                     }
                 }
             }
@@ -72,12 +72,12 @@ namespace Gerenciador_de_estoque.Controllers
             }
         }
 
-        public void DeleteFornecedor(int id)
+        public void DeleteProduto(int id)
         {
             try
             {
-                fornecedorService.DeleteFornecedor(id);
-                MessageBox.Show("Fornecedor deletado com sucesso!");
+                produtoService.DeleteProduto(id);
+                MessageBox.Show("Produto deletado com sucesso!");
             }
             catch (Exception ex)
             {
