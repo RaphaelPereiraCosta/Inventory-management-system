@@ -267,6 +267,5 @@ namespace Gerenciador_de_estoque.UI
             SetTextAndSelection(formattedNumber);
             return formattedNumber;
         }
-
     }
 }

@@ -1,7 +1,7 @@
-﻿using Gerenciador_de_estoque.Controllers;
-using Gerenciador_de_estoque.Models;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using Gerenciador_de_estoque.Controllers;
+using Gerenciador_de_estoque.Models;
 
 namespace Gerenciador_de_estoque.UI
 {
@@ -9,7 +9,6 @@ namespace Gerenciador_de_estoque.UI
     {
         Fornecedor _fornecedor = new Fornecedor();
         FornecedorController _controller = new FornecedorController();
-
 
         public SupplierMenu()
         {
@@ -40,7 +39,6 @@ namespace Gerenciador_de_estoque.UI
             dtSupplier.Columns.Add("Complemento", "Complemento");
             dtSupplier.Columns.Add("Estado", "Estado");
         }
-
 
         private void HandleFields(bool isReadOnly, Fornecedor fornecedor)
         {
@@ -101,8 +99,6 @@ namespace Gerenciador_de_estoque.UI
             btnSave.Visible = !isEnabled;
         }
 
-
-
         private void txtCEP_TextChanged(object sender, EventArgs e)
         {
             if (txtCEP.Text.Length > 8)
@@ -121,20 +117,36 @@ namespace Gerenciador_de_estoque.UI
             Close();
         }
 
-        private void btnNew_Click(object sender, EventArgs e)
+        private void btnNew_Click(object sender, EventArgs e) { }
+
+        private void FillSupplierList(string nome)
         {
-            txtName;
-            txtCity;
-            txtCEP;
-            txtCity;
-            txtNeigh.Text;
-            txtPhone;
-            txtStreet;
-            txtEmail;
-            txtNumber;
-            txtComplement;
-            cmbStates;
-                        
+            try
+            {
+                var fornecedores = _controller.GatherFornecedores(nome);
+                dtSupplier.Rows.Clear();
+
+                foreach (var fornecedor in fornecedores)
+                {
+                    dtSupplier.Rows.Add(
+                        fornecedor.IdFornecedor,
+                        fornecedor.NomeFornecedor,
+                        fornecedor.Cidade,
+                        fornecedor.CEP,
+                        fornecedor.Bairro,
+                        fornecedor.Telefone,
+                        fornecedor.Rua,
+                        fornecedor.Email,
+                        fornecedor.Numero,
+                        fornecedor.Complemento,
+                        fornecedor.Estado
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar a lista de fornecedores: {ex.Message}");
+            }
         }
     }
 }
