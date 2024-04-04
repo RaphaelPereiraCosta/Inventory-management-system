@@ -68,7 +68,8 @@ namespace Gerenciador_de_estoque.Controllers
             if (emptyFields.Count > 0)
             {
                 throw new ArgumentException(
-                    "Os seguintes campos estão vazios e não podem estar: " + string.Join(", ", emptyFields)
+                    "Os seguintes campos estão vazios e não podem estar: "
+                        + string.Join(", ", emptyFields)
                 );
             }
         }
@@ -77,18 +78,23 @@ namespace Gerenciador_de_estoque.Controllers
         {
             List<string> emptyFields = new List<string>();
 
-            if (string.IsNullOrEmpty(fornecedor.NomeFornecedor)) emptyFields.Add("Nome");
-            if (string.IsNullOrEmpty(fornecedor.Cidade)) emptyFields.Add("Cidade");
-            if (string.IsNullOrEmpty(fornecedor.CEP)) emptyFields.Add("CEP");
-            if (string.IsNullOrEmpty(fornecedor.Bairro)) emptyFields.Add("Bairro");
-            if (string.IsNullOrEmpty(fornecedor.Rua)) emptyFields.Add("Rua");
-            if (string.IsNullOrEmpty(fornecedor.Numero)) emptyFields.Add("Numero");
-            if (string.IsNullOrEmpty(fornecedor.Estado)) emptyFields.Add("Estado");
+            if (string.IsNullOrEmpty(fornecedor.NomeFornecedor))
+                emptyFields.Add("Nome");
+            if (string.IsNullOrEmpty(fornecedor.Cidade))
+                emptyFields.Add("Cidade");
+            if (string.IsNullOrEmpty(fornecedor.CEP))
+                emptyFields.Add("CEP");
+            if (string.IsNullOrEmpty(fornecedor.Bairro))
+                emptyFields.Add("Bairro");
+            if (string.IsNullOrEmpty(fornecedor.Rua))
+                emptyFields.Add("Rua");
+            if (string.IsNullOrEmpty(fornecedor.Numero))
+                emptyFields.Add("Numero");
+            if (string.IsNullOrEmpty(fornecedor.Estado))
+                emptyFields.Add("Estado");
 
             return emptyFields;
         }
-
-
 
         public void DeleteFornecedor(int id)
         {

@@ -129,6 +129,7 @@
     <Compile Include="src\UI\ProductMenu.Designer.cs">
       <DependentUpon>ProductMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Utils\Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
