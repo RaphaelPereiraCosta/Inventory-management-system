@@ -13,7 +13,7 @@ namespace Gerenciador_de_estoque
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new btnSupplier());
+            Application.Run(new Home());
         }
     }
 }

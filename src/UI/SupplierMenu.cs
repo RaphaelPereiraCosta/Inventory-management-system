@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Gerenciador_de_estoque.UI
@@ -15,6 +8,24 @@ namespace Gerenciador_de_estoque.UI
         public SupplierMenu()
         {
             InitializeComponent();
+        }
+
+        private void txtCEP_TextChanged(object sender, EventArgs e)
+        {
+            if (txtCEP.Text.Length > 8)
+            {
+                txtCEP.Text = txtCEP.Text.Substring(0, 8);
+            }
+            else if (txtCEP.Text.Length == 8)
+            {
+                txtCEP.Text = txtCEP.Text.Insert(5, "-");
+            }
+            txtCEP.SelectionStart = txtCEP.Text.Length;
+        }
+
+        private void btnGoBack_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -41,5 +41,5 @@ C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerencia
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.exe
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.pdb
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.UI.ProductMenu.resources
-C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.btnSupplier.resources
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.Home.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.UI.SupplierMenu.resources

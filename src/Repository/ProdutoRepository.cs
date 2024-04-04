@@ -44,7 +44,7 @@ namespace Gerenciador_de_estoque.Repositories
                                 IdProduto = reader.GetInt32("IdProduto"),
                                 NomeProduto = reader.GetString("NomeProduto"),
                                 Descricao = reader.GetString("Descricao"),
-                                Preco = reader.GetDouble("Preco"),
+                                Preco = reader.GetString("Preco"),
                                 QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
                             };
 
@@ -78,7 +78,7 @@ namespace Gerenciador_de_estoque.Repositories
                                 IdProduto = reader.GetInt32("IdProduto"),
                                 NomeProduto = reader.GetString("NomeProduto"),
                                 Descricao = reader.GetString("Descricao"),
-                                Preco = reader.GetDouble("Preco"),
+                                Preco = reader.GetString("Preco"),
                                 QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
                             };
                         }

@@ -42,9 +42,10 @@ namespace Gerenciador_de_estoque.Controllers
         {
             try
             {
+                
                 if (
                     string.IsNullOrEmpty(produto.NomeProduto)
-                    || produto.Preco < 0
+                    || produto.Preco == "R$ 0,00"
                     || produto.QuantidadeEstoque < 0
                 )
                 {

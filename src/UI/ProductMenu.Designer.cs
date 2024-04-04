@@ -69,9 +69,9 @@
             this.lblPrice.AutoSize = true;
             this.lblPrice.Location = new System.Drawing.Point(18, 76);
             this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(35, 13);
+            this.lblPrice.Size = new System.Drawing.Size(51, 13);
             this.lblPrice.TabIndex = 4;
-            this.lblPrice.Text = "Preço";
+            this.lblPrice.Text = "Valor Un.";
             // 
             // txtPrice
             // 
@@ -79,6 +79,7 @@
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(73, 20);
             this.txtPrice.TabIndex = 3;
+            this.txtPrice.TextChanged += new System.EventHandler(this.txtPrice_TextChanged);
             // 
             // lblDescription
             // 

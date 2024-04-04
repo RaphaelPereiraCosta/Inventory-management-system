@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.Controllers;
 using Gerenciador_de_estoque.Models;
@@ -32,15 +33,9 @@ namespace Gerenciador_de_estoque.UI
         {
             _produto.NomeProduto = txtName.Text;
 
-            if (double.TryParse(txtPrice.Text, out double preco))
-            {
-                _produto.Preco = preco;
-            }
-            else
-            {
-                MessageBox.Show("Preço inválido");
-                return;
-            }
+            _produto.Preco = txtPrice.Text;
+
+
 
             if (int.TryParse(txtQuantity.Text, out int quantidade))
             {
@@ -61,33 +56,6 @@ namespace Gerenciador_de_estoque.UI
         {
             HandleFields(false, null);
             _produto = new Produto();
-        }
-
-        private void SaveProduct()
-        {
-            try
-            {
-                if (_produto.Preco == 0 || _produto.QuantidadeEstoque == 0)
-                {
-                    DialogResult dialogResult = MessageBox.Show(
-                        "O preço do produto ou a quantidade em estoque é 0. Você deseja continuar?",
-                        "Confirmação",
-                        MessageBoxButtons.YesNo
-                    );
-                    if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
-
-                _controller.AddProduto(_produto);
-                HandleFields(false, _produto);
-                FillProductList(txtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
-            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -191,7 +159,7 @@ namespace Gerenciador_de_estoque.UI
                 int index = dtProduct.CurrentRow.Index;
 
                 _produto.NomeProduto = dtProduct.Rows[index].Cells["NomeProduto"].Value.ToString();
-                _produto.Preco = Convert.ToDouble(dtProduct.Rows[index].Cells["Preco"].Value);
+                _produto.Preco = dtProduct.Rows[index].Cells["Preco"].Value.ToString();
                 _produto.QuantidadeEstoque = Convert.ToInt32(
                     dtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
                 );
@@ -226,5 +194,82 @@ namespace Gerenciador_de_estoque.UI
             }
             _controller.DeleteProduto(produto);
         }
+
+        private void txtPrice_TextChanged(object sender, EventArgs e)
+        {
+            txtPrice.TextChanged -= txtPrice_TextChanged;
+
+            ApplyCurrencyFormat();
+
+            txtPrice.TextChanged += txtPrice_TextChanged;
+        }
+
+        private void SaveProduct()
+        {
+            try
+            {
+                decimal preco = decimal.Parse(RemoveNonNumericCharacters(txtPrice.Text));
+                if (preco == 0 || _produto.QuantidadeEstoque == 0)
+                {
+                    DialogResult dialogResult = MessageBox.Show(
+                        "O preço do produto ou a quantidade em estoque é 0. Você deseja continuar?",
+                        "Confirmação",
+                        MessageBoxButtons.YesNo
+                    );
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
+                _produto.Preco = FormatAndSetNumber(preco.ToString());
+                _controller.AddProduto(_produto);
+                HandleFields(false, _produto);
+                FillProductList(txtSearch.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
+            }
+        }
+
+
+        private void ApplyCurrencyFormat()
+        {
+            string cleanNumber = RemoveNonNumericCharacters(txtPrice.Text);
+
+            if (string.IsNullOrEmpty(cleanNumber))
+            {
+                SetTextAndSelection("0,00");
+            }
+            else
+            {
+                FormatAndSetNumber(cleanNumber);
+            }
+        }
+
+        private string RemoveNonNumericCharacters(string text)
+        {
+            return text.Replace(",", "").Replace("R$", "").Replace(".", "").TrimStart('0');
+        }
+
+        private void SetTextAndSelection(string text)
+        {
+            txtPrice.Text = text;
+            txtPrice.Select(txtPrice.Text.Length, 0);
+        }
+
+        private string FormatAndSetNumber(string cleanNumber)
+        {
+            decimal parsed = decimal.Parse(cleanNumber);
+            string formattedNumber = string.Format(
+                CultureInfo.CurrentCulture,
+                "{0:C2}",
+                parsed / 100
+            );
+            SetTextAndSelection(formattedNumber);
+            return formattedNumber;
+        }
+
     }
 }

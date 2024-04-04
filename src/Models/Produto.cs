@@ -5,7 +5,7 @@
         public int IdProduto { get; set; }
         public string NomeProduto { get; set; }
         public string Descricao { get; set; }
-        public double Preco { get; set; }
+        public string Preco { get; set; }
         public int QuantidadeEstoque { get; set; }
     }
 }
