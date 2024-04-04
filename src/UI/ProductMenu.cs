@@ -24,9 +24,10 @@ namespace Gerenciador_de_estoque.UI
             FillProductList("");
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private void btnNew_Click(object sender, EventArgs e)
         {
-            FillProductList(txtSearch.Text);
+            HandleFields(false, null);
+            _produto = new Produto();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -34,8 +35,6 @@ namespace Gerenciador_de_estoque.UI
             _produto.NomeProduto = txtName.Text;
 
             _produto.Preco = txtPrice.Text;
-
-
 
             if (int.TryParse(txtQuantity.Text, out int quantidade))
             {
@@ -52,12 +51,6 @@ namespace Gerenciador_de_estoque.UI
             SaveProduct();
         }
 
-        private void btnNew_Click(object sender, EventArgs e)
-        {
-            HandleFields(false, null);
-            _produto = new Produto();
-        }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             HandleFields(true, _produto);
@@ -72,6 +65,12 @@ namespace Gerenciador_de_estoque.UI
         private void btnEdit_Click(object sender, EventArgs e)
         {
             HandleFields(false, _produto);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteProduct(_produto.IdProduto);
+            FillProductList(txtSearch.Text);
         }
 
         private void HandleFields(bool isReadOnly, Produto produto)
@@ -175,12 +174,6 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            DeleteProduct(_produto.IdProduto);
-            FillProductList(txtSearch.Text);
-        }
-
         private void DeleteProduct(int produto)
         {
             DialogResult dialogResult = MessageBox.Show(
@@ -193,6 +186,11 @@ namespace Gerenciador_de_estoque.UI
                 return;
             }
             _controller.DeleteProduto(produto);
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            FillProductList(txtSearch.Text);
         }
 
         private void txtPrice_TextChanged(object sender, EventArgs e)
@@ -232,7 +230,6 @@ namespace Gerenciador_de_estoque.UI
                 MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
             }
         }
-
 
         private void ApplyCurrencyFormat()
         {

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblNumber = new System.Windows.Forms.Label();
-            this.txtContact = new System.Windows.Forms.TextBox();
+            this.txtNumber = new System.Windows.Forms.TextBox();
             this.lblStreet = new System.Windows.Forms.Label();
             this.txtStreet = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
@@ -54,8 +54,8 @@
             this.btnNew = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.dtSupplier = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dtSupplier)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNumber
@@ -67,12 +67,12 @@
             this.lblNumber.TabIndex = 14;
             this.lblNumber.Text = "Numero";
             // 
-            // txtContact
+            // txtNumber
             // 
-            this.txtContact.Location = new System.Drawing.Point(244, 99);
-            this.txtContact.Name = "txtContact";
-            this.txtContact.Size = new System.Drawing.Size(59, 20);
-            this.txtContact.TabIndex = 13;
+            this.txtNumber.Location = new System.Drawing.Point(244, 99);
+            this.txtNumber.Name = "txtNumber";
+            this.txtNumber.Size = new System.Drawing.Size(59, 20);
+            this.txtNumber.TabIndex = 13;
             // 
             // lblStreet
             // 
@@ -256,6 +256,7 @@
             this.btnNew.TabIndex = 32;
             this.btnNew.Text = "Novo";
             this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // btnCancel
             // 
@@ -275,20 +276,20 @@
             this.btnSave.Text = "Salvar";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dtSupplier
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(514, 83);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 326);
-            this.dataGridView1.TabIndex = 36;
+            this.dtSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtSupplier.Location = new System.Drawing.Point(514, 83);
+            this.dtSupplier.Name = "dtSupplier";
+            this.dtSupplier.Size = new System.Drawing.Size(240, 326);
+            this.dtSupplier.TabIndex = 36;
             // 
             // SupplierMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dtSupplier);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnGoBack);
@@ -310,14 +311,14 @@
             this.Controls.Add(this.lblComplement);
             this.Controls.Add(this.txtComplement);
             this.Controls.Add(this.lblNumber);
-            this.Controls.Add(this.txtContact);
+            this.Controls.Add(this.txtNumber);
             this.Controls.Add(this.lblStreet);
             this.Controls.Add(this.txtStreet);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtName);
             this.Name = "SupplierMenu";
             this.Text = "Menu de Fornecedor";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtSupplier)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,7 +327,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblNumber;
-        private System.Windows.Forms.TextBox txtContact;
+        private System.Windows.Forms.TextBox txtNumber;
         private System.Windows.Forms.Label lblStreet;
         private System.Windows.Forms.TextBox txtStreet;
         private System.Windows.Forms.Label lblName;
@@ -351,6 +352,6 @@
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtSupplier;
     }
 }
