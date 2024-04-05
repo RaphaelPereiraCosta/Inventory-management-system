@@ -178,7 +178,7 @@
             // 
             this.txtCEP.Location = new System.Drawing.Point(26, 260);
             this.txtCEP.Name = "txtCEP";
-            this.txtCEP.Size = new System.Drawing.Size(158, 20);
+            this.txtCEP.Size = new System.Drawing.Size(140, 20);
             this.txtCEP.TabIndex = 23;
             this.txtCEP.TextChanged += new System.EventHandler(this.txtCEP_TextChanged);
             // 
@@ -212,7 +212,7 @@
             // 
             this.txtEmail.Location = new System.Drawing.Point(26, 312);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(116, 20);
+            this.txtEmail.Size = new System.Drawing.Size(190, 20);
             this.txtEmail.TabIndex = 27;
             // 
             // cmbStates
@@ -220,7 +220,7 @@
             this.cmbStates.FormattingEnabled = true;
             this.cmbStates.Location = new System.Drawing.Point(179, 199);
             this.cmbStates.Name = "cmbStates";
-            this.cmbStates.Size = new System.Drawing.Size(79, 21);
+            this.cmbStates.Size = new System.Drawing.Size(124, 21);
             this.cmbStates.TabIndex = 29;
             // 
             // btnDelete

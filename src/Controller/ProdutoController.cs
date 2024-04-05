@@ -42,11 +42,7 @@ namespace Gerenciador_de_estoque.Controllers
         {
             try
             {
-                if (
-                    string.IsNullOrEmpty(produto.NomeProduto)
-                    || produto.Preco == "R$ 0,00"
-                    || produto.QuantidadeEstoque < 0
-                )
+                if (string.IsNullOrEmpty(produto.NomeProduto) || produto.QuantidadeEstoque < 0)
                 {
                     throw new ArgumentException(
                         "Nome, Descrição, Preço e Quantidade em Estoque do produto não podem estar vazios ou negativos"

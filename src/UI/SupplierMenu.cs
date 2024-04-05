@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.Controllers;
 using Gerenciador_de_estoque.Models;
@@ -55,24 +56,33 @@ namespace Gerenciador_de_estoque.UI
 
         private void txtPhone_TextChanged(object sender, EventArgs e)
         {
+            FormatPhone(txtPhone.Text);
+        }
+
+        private void txtCEP_TextChanged(object sender, EventArgs e)
+        {
+            FormatCEP(txtCEP.Text);
+        }
+
+        private void FormatPhone(string text)
+        {
             try
             {
-                if (txtPhone.Text.Length > 0 && !txtPhone.Text.StartsWith("("))
+                text = new string(text.Where(char.IsDigit).ToArray());
+
+                text = text.PadLeft(10, '0');
+
+                if (text.Length > 10)
                 {
-                    txtPhone.Text = "(" + txtPhone.Text;
+                    text = text.Substring(0, 10);
                 }
-                else if (txtPhone.Text.Length > 3 && !txtPhone.Text.Contains(")"))
+
+                if (text.Length == 10)
                 {
-                    txtPhone.Text = txtPhone.Text.Insert(3, ")");
+                    text = text.Insert(0, "(").Insert(3, ")").Insert(8, "-");
                 }
-                else if (txtPhone.Text.Length > 8 && !txtPhone.Text.Contains("-"))
-                {
-                    txtPhone.Text = txtPhone.Text.Insert(8, "-");
-                }
-                else if (txtPhone.Text.Length > 14)
-                {
-                    txtPhone.Text = txtPhone.Text.Substring(0, 14);
-                }
+
+                txtPhone.Text = text;
                 txtPhone.SelectionStart = txtPhone.Text.Length;
             }
             catch (Exception ex)
@@ -81,18 +91,25 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void txtCEP_TextChanged(object sender, EventArgs e)
+        private void FormatCEP(string text)
         {
             try
             {
-                if (txtCEP.Text.Length > 8)
+                text = new string(text.Where(char.IsDigit).ToArray());
+
+                text = text.PadLeft(8, '0');
+
+                if (text.Length > 8)
                 {
-                    txtCEP.Text = txtCEP.Text.Substring(0, 8);
+                    text = text.Substring(0, 8);
                 }
-                else if (txtCEP.Text.Length == 6 && !txtCEP.Text.Contains("-"))
+
+                if (text.Length == 8 && !text.Contains("-"))
                 {
-                    txtCEP.Text = txtCEP.Text.Insert(5, "-");
+                    text = text.Insert(5, "-");
                 }
+
+                txtCEP.Text = text;
                 txtCEP.SelectionStart = txtCEP.Text.Length;
             }
             catch (Exception ex)
@@ -139,186 +156,15 @@ namespace Gerenciador_de_estoque.UI
                 _fornecedor.Email = txtEmail.Text;
                 _fornecedor.Numero = txtNumber.Text;
                 _fornecedor.Complemento = txtComplement.Text;
-                _fornecedor.Estado = cmbStates.SelectedItem.ToString();
+                _fornecedor.Estado =
+                    cmbStates.SelectedItem != null ? cmbStates.SelectedItem.ToString() : null;
+
                 HandleFields(false, _fornecedor);
                 SaveSupplier();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao salvar o fornecedor: {ex.Message}");
-            }
-        }
-
-        private void AddColumnsToSupplierList()
-        {
-            try
-            {
-                dtSupplier.Columns.Clear();
-                dtSupplier.Columns.Add("IdFornecedor", "Id");
-                dtSupplier.Columns.Add("NomeFornecedor", "Nome");
-                dtSupplier.Columns.Add("CEP", "CEP");
-                dtSupplier.Columns.Add("Bairro", "Bairro");
-                dtSupplier.Columns.Add("Telefone", "Telefone");
-                dtSupplier.Columns.Add("Rua", "Rua");
-                dtSupplier.Columns.Add("Email", "Email");
-                dtSupplier.Columns.Add("Numero", "Número");
-                dtSupplier.Columns.Add("Complemento", "Complemento");
-                dtSupplier.Columns.Add("Cidade", "Cidade");
-                dtSupplier.Columns.Add("Estado", "Estado");
-
-                dtSupplier.Columns["IdFornecedor"].Visible = false;
-                dtSupplier.Columns["CEP"].Visible = false;
-                dtSupplier.Columns["Bairro"].Visible = false;
-                dtSupplier.Columns["Rua"].Visible = false;
-                dtSupplier.Columns["Email"].Visible = false;
-                dtSupplier.Columns["Numero"].Visible = false;
-                dtSupplier.Columns["Complemento"].Visible = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar colunas à lista de fornecedores: {ex.Message}");
-            }
-        }
-
-        private void FillStates()
-        {
-            try
-            {
-                states = Utils.FillStates(states);
-                foreach (string state in states)
-                {
-                    cmbStates.Items.Add(state);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao preencher estados: {ex.Message}");
-            }
-        }
-
-        private void HandleFields(bool isReadOnly, Fornecedor fornecedor)
-        {
-            try
-            {
-                UpdateFields(isReadOnly, fornecedor);
-                UpdateButtons(isReadOnly);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao manipular campos: {ex.Message}");
-            }
-        }
-
-        private void UpdateFields(bool isReadOnly, Fornecedor fornecedor)
-        {
-            try
-            {
-                if (fornecedor != null)
-                {
-                    txtName.Text = fornecedor.NomeFornecedor;
-                    txtCity.Text = fornecedor.Cidade;
-                    txtCEP.Text = fornecedor.CEP;
-                    txtNeigh.Text = fornecedor.Bairro;
-                    txtPhone.Text = fornecedor.Telefone;
-                    txtStreet.Text = fornecedor.Rua;
-                    txtEmail.Text = fornecedor.Email;
-                    txtNumber.Text = fornecedor.Numero;
-                    txtComplement.Text = fornecedor.Complemento;
-                    cmbStates.SelectedItem = fornecedor.Estado;
-                }
-                else
-                {
-                    txtName.Text = "";
-                    txtCity.Text = "";
-                    txtCEP.Text = "";
-                    txtNeigh.Text = "";
-                    txtPhone.Text = "";
-                    txtStreet.Text = "";
-                    txtEmail.Text = "";
-                    txtNumber.Text = "";
-                    txtComplement.Text = "";
-                    cmbStates.SelectedIndex = -1;
-                }
-
-                txtName.ReadOnly = isReadOnly;
-                txtCity.ReadOnly = isReadOnly;
-                txtCEP.ReadOnly = isReadOnly;
-                txtNeigh.ReadOnly = isReadOnly;
-                txtPhone.ReadOnly = isReadOnly;
-                txtStreet.ReadOnly = isReadOnly;
-                txtEmail.ReadOnly = isReadOnly;
-                txtNumber.ReadOnly = isReadOnly;
-                txtComplement.ReadOnly = isReadOnly;
-                cmbStates.Enabled = !isReadOnly;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
-            }
-        }
-
-        private void UpdateButtons(bool isEnabled)
-        {
-            try
-            {
-                btnNew.Enabled = isEnabled;
-                btnNew.Visible = isEnabled;
-                btnDelete.Visible = isEnabled;
-                btnDelete.Enabled = isEnabled;
-                btnEdit.Enabled = isEnabled;
-                btnEdit.Visible = isEnabled;
-                btnSave.Enabled = !isEnabled;
-                btnCancel.Enabled = !isEnabled;
-                btnCancel.Visible = !isEnabled;
-                btnSave.Visible = !isEnabled;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao atualizar botões: {ex.Message}");
-            }
-        }
-
-        private void FillSupplierList(string nome)
-        {
-            try
-            {
-                var fornecedores = _controller.GatherFornecedores(nome);
-                dtSupplier.Rows.Clear();
-
-                foreach (var fornecedor in fornecedores)
-                {
-                    dtSupplier.Rows.Add(
-                        fornecedor.IdFornecedor,
-                        fornecedor.NomeFornecedor,
-                        fornecedor.Cidade,
-                        fornecedor.CEP,
-                        fornecedor.Bairro,
-                        fornecedor.Telefone,
-                        fornecedor.Rua,
-                        fornecedor.Email,
-                        fornecedor.Numero,
-                        fornecedor.Complemento,
-                        fornecedor.Estado
-                    );
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao preencher a lista de fornecedores: {ex.Message}");
-            }
-        }
-
-        private void SaveSupplier()
-        {
-            try
-            {
-                _controller.AddFornecedor(_fornecedor);
-                HandleFields(true, _fornecedor);
-                FillSupplierList(txtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao salvar fornecedor: {ex.Message}");
             }
         }
 
@@ -356,6 +202,8 @@ namespace Gerenciador_de_estoque.UI
                 if (dtSupplier.CurrentRow != null)
                 {
                     int index = dtSupplier.CurrentRow.Index;
+
+                    // Obter os valores das células e atribuí-los ao objeto Fornecedor
                     _fornecedor.IdFornecedor = Convert.ToInt32(
                         dtSupplier.Rows[index].Cells["IdFornecedor"].Value
                     );
@@ -379,6 +227,7 @@ namespace Gerenciador_de_estoque.UI
                         .Value.ToString();
                     _fornecedor.Estado = dtSupplier.Rows[index].Cells["Estado"].Value.ToString();
 
+                    // Atribuir os valores do objeto Fornecedor aos controles de formulário
                     txtName.Text = _fornecedor.NomeFornecedor;
                     txtCity.Text = _fornecedor.Cidade;
                     txtCEP.Text = _fornecedor.CEP;
@@ -428,6 +277,181 @@ namespace Gerenciador_de_estoque.UI
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao excluir fornecedor: {ex.Message}");
+            }
+        }
+
+        private void SaveSupplier()
+        {
+            try
+            {
+                _controller.AddFornecedor(_fornecedor);
+                HandleFields(true, _fornecedor);
+                FillSupplierList(txtSearch.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao salvar fornecedor: {ex.Message}");
+            }
+        }
+
+        private void AddColumnsToSupplierList()
+        {
+            try
+            {
+                dtSupplier.Columns.Clear();
+                dtSupplier.Columns.Add("IdFornecedor", "Id");
+                dtSupplier.Columns.Add("NomeFornecedor", "Nome");
+                dtSupplier.Columns.Add("Telefone", "Telefone");
+                dtSupplier.Columns.Add("CEP", "CEP");
+                dtSupplier.Columns.Add("Bairro", "Bairro");
+                dtSupplier.Columns.Add("Rua", "Rua");
+                dtSupplier.Columns.Add("Email", "Email");
+                dtSupplier.Columns.Add("Numero", "Número");
+                dtSupplier.Columns.Add("Complemento", "Complemento");
+                dtSupplier.Columns.Add("Cidade", "Cidade");
+                dtSupplier.Columns.Add("Estado", "Estado");
+
+                dtSupplier.Columns["IdFornecedor"].Visible = false;
+                dtSupplier.Columns["CEP"].Visible = false;
+                dtSupplier.Columns["Bairro"].Visible = false;
+                dtSupplier.Columns["Rua"].Visible = false;
+                dtSupplier.Columns["Email"].Visible = false;
+                dtSupplier.Columns["Numero"].Visible = false;
+                dtSupplier.Columns["Complemento"].Visible = false;
+                dtSupplier.Columns["Telefone"].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar colunas à lista de fornecedores: {ex.Message}");
+            }
+        }
+
+        private void FillSupplierList(string nome)
+        {
+            try
+            {
+                var fornecedores = _controller.GatherFornecedores(nome);
+                dtSupplier.Rows.Clear();
+
+                foreach (var fornecedor in fornecedores)
+                {
+                    dtSupplier.Rows.Add(
+                        fornecedor.IdFornecedor,
+                        fornecedor.NomeFornecedor,
+                        fornecedor.Telefone,
+                        fornecedor.CEP,
+                        fornecedor.Bairro,
+                        fornecedor.Rua,
+                        fornecedor.Email,
+                        fornecedor.Numero,
+                        fornecedor.Complemento,
+                        fornecedor.Cidade,
+                        fornecedor.Estado
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao preencher a lista de fornecedores: {ex.Message}");
+            }
+        }
+
+        private void FillStates()
+        {
+            try
+            {
+                states = Utils.FillStates(states);
+                foreach (string state in states)
+                {
+                    cmbStates.Items.Add(state);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao preencher estados: {ex.Message}");
+            }
+        }
+
+        private void HandleFields(bool isReadOnly, Fornecedor fornecedor)
+        {
+            try
+            {
+                UpdateFields(isReadOnly, fornecedor);
+                UpdateButtons(isReadOnly);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao manipular campos: {ex.Message}");
+            }
+        }
+
+        private void UpdateFields(bool isReadOnly, Fornecedor fornecedor)
+        {
+            try
+            {
+                if (fornecedor != null && fornecedor.IdFornecedor > 0)
+                {
+                    txtName.Text = fornecedor.NomeFornecedor;
+                    txtCity.Text = fornecedor.Cidade;
+                    txtCEP.Text = fornecedor.CEP;
+                    txtNeigh.Text = fornecedor.Bairro;
+                    txtPhone.Text = fornecedor.Telefone;
+                    txtStreet.Text = fornecedor.Rua;
+                    txtEmail.Text = fornecedor.Email;
+                    txtNumber.Text = fornecedor.Numero;
+                    txtComplement.Text = fornecedor.Complemento;
+                    cmbStates.SelectedItem = fornecedor.Estado;
+                }
+                else
+                {
+                    txtName.Text = "";
+                    txtCity.Text = "";
+                    txtCEP.Text = "";
+                    txtNeigh.Text = "";
+                    txtPhone.Text = "";
+                    txtStreet.Text = "";
+                    txtEmail.Text = "";
+                    txtNumber.Text = "";
+                    txtComplement.Text = "";
+                    cmbStates.SelectedItem = null;
+                    cmbStates.SelectedText = "";
+                }
+
+                txtName.ReadOnly = isReadOnly;
+                txtCity.ReadOnly = isReadOnly;
+                txtCEP.ReadOnly = isReadOnly;
+                txtNeigh.ReadOnly = isReadOnly;
+                txtPhone.ReadOnly = isReadOnly;
+                txtStreet.ReadOnly = isReadOnly;
+                txtEmail.ReadOnly = isReadOnly;
+                txtNumber.ReadOnly = isReadOnly;
+                txtComplement.ReadOnly = isReadOnly;
+                cmbStates.Enabled = !isReadOnly;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
+            }
+        }
+
+        private void UpdateButtons(bool isEnabled)
+        {
+            try
+            {
+                btnNew.Enabled = isEnabled;
+                btnNew.Visible = isEnabled;
+                btnDelete.Visible = isEnabled;
+                btnDelete.Enabled = isEnabled;
+                btnEdit.Enabled = isEnabled;
+                btnEdit.Visible = isEnabled;
+                btnSave.Enabled = !isEnabled;
+                btnCancel.Enabled = !isEnabled;
+                btnCancel.Visible = !isEnabled;
+                btnSave.Visible = !isEnabled;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar botões: {ex.Message}");
             }
         }
     }

@@ -57,7 +57,7 @@ namespace Gerenciador_de_estoque.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Falha na operação: {ex.Message}");
+                MessageBox.Show($"Aviso: {ex.Message}");
             }
         }
 
@@ -68,7 +68,7 @@ namespace Gerenciador_de_estoque.Controllers
             if (emptyFields.Count > 0)
             {
                 throw new ArgumentException(
-                    "Os seguintes campos estão vazios e não podem estar: "
+                    "Preencha os campos a seguir antes de continuar: "
                         + string.Join(", ", emptyFields)
                 );
             }
@@ -80,18 +80,18 @@ namespace Gerenciador_de_estoque.Controllers
 
             if (string.IsNullOrEmpty(fornecedor.NomeFornecedor))
                 emptyFields.Add("Nome");
-            if (string.IsNullOrEmpty(fornecedor.Cidade))
-                emptyFields.Add("Cidade");
-            if (string.IsNullOrEmpty(fornecedor.CEP))
-                emptyFields.Add("CEP");
-            if (string.IsNullOrEmpty(fornecedor.Bairro))
-                emptyFields.Add("Bairro");
             if (string.IsNullOrEmpty(fornecedor.Rua))
                 emptyFields.Add("Rua");
             if (string.IsNullOrEmpty(fornecedor.Numero))
                 emptyFields.Add("Numero");
+            if (string.IsNullOrEmpty(fornecedor.Bairro))
+                emptyFields.Add("Bairro");
+            if (string.IsNullOrEmpty(fornecedor.Cidade))
+                emptyFields.Add("Cidade");
             if (string.IsNullOrEmpty(fornecedor.Estado))
                 emptyFields.Add("Estado");
+            if (string.IsNullOrEmpty(fornecedor.CEP))
+                emptyFields.Add("CEP");
 
             return emptyFields;
         }

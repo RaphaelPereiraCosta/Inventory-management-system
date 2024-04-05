@@ -25,39 +25,46 @@ namespace Gerenciador_de_estoque.Repositories
                 query = "SELECT * FROM Fornecedor WHERE NomeFornecedor LIKE @nome";
             }
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    if (!string.IsNullOrEmpty(nome))
+                    using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nome", "%" + nome + "%");
-                    }
-
-                    connectDb.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
+                        if (!string.IsNullOrEmpty(nome))
                         {
-                            var fornecedor = new Fornecedor
-                            {
-                                IdFornecedor = reader.GetInt32("IdFornecedor"),
-                                NomeFornecedor = reader.GetString("NomeFornecedor"),
-                                Rua = reader.GetString("Rua"),
-                                Numero = reader.GetString("Numero"),
-                                Complemento = reader.GetString("Complemento"),
-                                Bairro = reader.GetString("Bairro"),
-                                Cidade = reader.GetString("Cidade"),
-                                Estado = reader.GetString("Estado"),
-                                CEP = reader.GetString("CEP"),
-                                Telefone = reader.GetString("Telefone"),
-                                Email = reader.GetString("Email")
-                            };
+                            command.Parameters.AddWithValue("@nome", "%" + nome + "%");
+                        }
 
-                            fornecedores.Add(fornecedor);
+                        connectDb.Open();
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var fornecedor = new Fornecedor
+                                {
+                                    IdFornecedor = reader.GetInt32("IdFornecedor"),
+                                    NomeFornecedor = reader.GetString("NomeFornecedor"),
+                                    Rua = reader.GetString("Rua"),
+                                    Numero = reader.GetString("Numero"),
+                                    Complemento = reader.GetString("Complemento"),
+                                    Bairro = reader.GetString("Bairro"),
+                                    Cidade = reader.GetString("Cidade"),
+                                    Estado = reader.GetString("Estado"),
+                                    CEP = reader.GetString("CEP"),
+                                    Telefone = reader.GetString("Telefone"),
+                                    Email = reader.GetString("Email")
+                                };
+
+                                fornecedores.Add(fornecedor);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao recuperar fornecedores: {ex.Message}");
             }
 
             return fornecedores;
@@ -68,34 +75,41 @@ namespace Gerenciador_de_estoque.Repositories
             Fornecedor fornecedor = null;
             var query = $"SELECT * FROM Fornecedor WHERE IdFornecedor = @id";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@id", id);
-                    connectDb.Open();
-
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new MySqlCommand(query, connectDb))
                     {
-                        if (reader.Read())
+                        command.Parameters.AddWithValue("@id", id);
+                        connectDb.Open();
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            fornecedor = new Fornecedor
+                            if (reader.Read())
                             {
-                                IdFornecedor = reader.GetInt32("IdFornecedor"),
-                                NomeFornecedor = reader.GetString("NomeFornecedor"),
-                                Rua = reader.GetString("Rua"),
-                                Numero = reader.GetString("Numero"),
-                                Complemento = reader.GetString("Complemento"),
-                                Bairro = reader.GetString("Bairro"),
-                                Cidade = reader.GetString("Cidade"),
-                                Estado = reader.GetString("Estado"),
-                                CEP = reader.GetString("CEP"),
-                                Telefone = reader.GetString("Telefone"),
-                                Email = reader.GetString("Email")
-                            };
+                                fornecedor = new Fornecedor
+                                {
+                                    IdFornecedor = reader.GetInt32("IdFornecedor"),
+                                    NomeFornecedor = reader.GetString("NomeFornecedor"),
+                                    Rua = reader.GetString("Rua"),
+                                    Numero = reader.GetString("Numero"),
+                                    Complemento = reader.GetString("Complemento"),
+                                    Bairro = reader.GetString("Bairro"),
+                                    Cidade = reader.GetString("Cidade"),
+                                    Estado = reader.GetString("Estado"),
+                                    CEP = reader.GetString("CEP"),
+                                    Telefone = reader.GetString("Telefone"),
+                                    Email = reader.GetString("Email")
+                                };
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao recuperar fornecedor: {ex.Message}");
             }
 
             return fornecedor;
@@ -104,53 +118,65 @@ namespace Gerenciador_de_estoque.Repositories
         public void AddFornecedor(Fornecedor fornecedor)
         {
             var query =
-                "INSERT INTO Fornecedor (NomeFornecedor, Rua, Numero, Complemento, Bairro, Cidade, Estado, CEP, Telefone, Email) VALUES (@nomeFornecedor, @rua, @numero, @complemento, @bairro, @cidade, @estado, @cep, @telefone, @email)";
+                "INSERT INTO Fornecedor (NomeFornecedor, Rua, Numero, Complemento, Bairro, Cidade, Estado, CEP, Email) VALUES (@nomeFornecedor, @rua, @numero, @complemento, @bairro, @cidade, @estado, @cep, @email)";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.NomeFornecedor);
-                    command.Parameters.AddWithValue("@rua", fornecedor.Rua);
-                    command.Parameters.AddWithValue("@numero", fornecedor.Numero);
-                    command.Parameters.AddWithValue("@complemento", fornecedor.Complemento);
-                    command.Parameters.AddWithValue("@bairro", fornecedor.Bairro);
-                    command.Parameters.AddWithValue("@cidade", fornecedor.Cidade);
-                    command.Parameters.AddWithValue("@estado", fornecedor.Estado);
-                    command.Parameters.AddWithValue("@cep", fornecedor.CEP);
-                    command.Parameters.AddWithValue("@telefone", fornecedor.Telefone);
-                    command.Parameters.AddWithValue("@email", fornecedor.Email);
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.NomeFornecedor);
+                        command.Parameters.AddWithValue("@rua", fornecedor.Rua);
+                        command.Parameters.AddWithValue("@numero", fornecedor.Numero);
+                        command.Parameters.AddWithValue("@complemento", fornecedor.Complemento);
+                        command.Parameters.AddWithValue("@bairro", fornecedor.Bairro);
+                        command.Parameters.AddWithValue("@cidade", fornecedor.Cidade);
+                        command.Parameters.AddWithValue("@estado", fornecedor.Estado);
+                        command.Parameters.AddWithValue("@cep", fornecedor.CEP);
+                        command.Parameters.AddWithValue("@email", fornecedor.Email);
 
-                    connectDb.Open();
-                    command.ExecuteNonQuery();
+                        connectDb.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao adicionar fornecedor: {ex.Message}");
             }
         }
 
         public void UpdateFornecedor(Fornecedor fornecedor)
         {
             var query =
-                "UPDATE Fornecedor SET NomeFornecedor = @nomeFornecedor, Rua = @rua, Numero = @numero, Complemento = @complemento, Bairro = @bairro, Cidade = @cidade, Estado = @estado, CEP = @cep, Telefone = @telefone, Email = @email WHERE IdFornecedor = @idFornecedor";
+                "UPDATE Fornecedor SET NomeFornecedor = @nomeFornecedor, Rua = @rua, Numero = @numero, Complemento = @complemento, Bairro = @bairro, Cidade = @cidade, Estado = @estado, CEP = @cep, Email = @email WHERE IdFornecedor = @idFornecedor";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.NomeFornecedor);
-                    command.Parameters.AddWithValue("@rua", fornecedor.Rua);
-                    command.Parameters.AddWithValue("@numero", fornecedor.Numero);
-                    command.Parameters.AddWithValue("@complemento", fornecedor.Complemento);
-                    command.Parameters.AddWithValue("@bairro", fornecedor.Bairro);
-                    command.Parameters.AddWithValue("@cidade", fornecedor.Cidade);
-                    command.Parameters.AddWithValue("@estado", fornecedor.Estado);
-                    command.Parameters.AddWithValue("@cep", fornecedor.CEP);
-                    command.Parameters.AddWithValue("@telefone", fornecedor.Telefone);
-                    command.Parameters.AddWithValue("@email", fornecedor.Email);
-                    command.Parameters.AddWithValue("@idFornecedor", fornecedor.IdFornecedor);
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.NomeFornecedor);
+                        command.Parameters.AddWithValue("@rua", fornecedor.Rua);
+                        command.Parameters.AddWithValue("@numero", fornecedor.Numero);
+                        command.Parameters.AddWithValue("@complemento", fornecedor.Complemento);
+                        command.Parameters.AddWithValue("@bairro", fornecedor.Bairro);
+                        command.Parameters.AddWithValue("@cidade", fornecedor.Cidade);
+                        command.Parameters.AddWithValue("@estado", fornecedor.Estado);
+                        command.Parameters.AddWithValue("@cep", fornecedor.CEP);
+                        command.Parameters.AddWithValue("@email", fornecedor.Email);
+                        command.Parameters.AddWithValue("@idFornecedor", fornecedor.IdFornecedor);
 
-                    connectDb.Open();
-                    command.ExecuteNonQuery();
+                        connectDb.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao atualizar fornecedor: {ex.Message}");
             }
         }
 
@@ -158,21 +184,35 @@ namespace Gerenciador_de_estoque.Repositories
         {
             var query = "DELETE FROM Fornecedor WHERE IdFornecedor = @id";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
 
-                    connectDb.Open();
-                    command.ExecuteNonQuery();
+                        connectDb.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao excluir fornecedor: {ex.Message}");
             }
         }
 
         public void Dispose()
         {
-            _connection.desconectar();
+            try
+            {
+                _connection.desconectar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao desconectar: {ex.Message}");
+            }
         }
     }
 }

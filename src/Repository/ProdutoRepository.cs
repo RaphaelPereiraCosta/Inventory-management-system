@@ -25,33 +25,39 @@ namespace Gerenciador_de_estoque.Repositories
                 query = "SELECT * FROM Produto WHERE NomeProduto LIKE @nome";
             }
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    if (!string.IsNullOrEmpty(nome))
+                    using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nome", "%" + nome + "%");
-                    }
-
-                    connectDb.Open();
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
+                        if (!string.IsNullOrEmpty(nome))
                         {
-                            var produto = new Produto
-                            {
-                                IdProduto = reader.GetInt32("IdProduto"),
-                                NomeProduto = reader.GetString("NomeProduto"),
-                                Descricao = reader.GetString("Descricao"),
-                                Preco = reader.GetString("Preco"),
-                                QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
-                            };
+                            command.Parameters.AddWithValue("@nome", "%" + nome + "%");
+                        }
 
-                            produtos.Add(produto);
+                        connectDb.Open();
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var produto = new Produto
+                                {
+                                    IdProduto = reader.GetInt32("IdProduto"),
+                                    NomeProduto = reader.GetString("NomeProduto"),
+                                    Descricao = reader.GetString("Descricao"),
+                                    QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
+                                };
+
+                                produtos.Add(produto);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao recuperar produtos: {ex.Message}");
             }
 
             return produtos;
@@ -62,28 +68,34 @@ namespace Gerenciador_de_estoque.Repositories
             Produto produto = null;
             var query = $"SELECT * FROM Produto WHERE IdProduto = @id";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@id", id);
-                    connectDb.Open();
-
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new MySqlCommand(query, connectDb))
                     {
-                        if (reader.Read())
+                        command.Parameters.AddWithValue("@id", id);
+                        connectDb.Open();
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            produto = new Produto
+                            if (reader.Read())
                             {
-                                IdProduto = reader.GetInt32("IdProduto"),
-                                NomeProduto = reader.GetString("NomeProduto"),
-                                Descricao = reader.GetString("Descricao"),
-                                Preco = reader.GetString("Preco"),
-                                QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
-                            };
+                                produto = new Produto
+                                {
+                                    IdProduto = reader.GetInt32("IdProduto"),
+                                    NomeProduto = reader.GetString("NomeProduto"),
+                                    Descricao = reader.GetString("Descricao"),
+                                    QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
+                                };
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao recuperar produto: {ex.Message}");
             }
 
             return produto;
@@ -92,47 +104,59 @@ namespace Gerenciador_de_estoque.Repositories
         public void AddProduto(Produto produto)
         {
             var query =
-                "INSERT INTO Produto (NomeProduto, Descricao, Preco, QuantidadeEstoque) VALUES (@nomeProduto, @descricao, @preco, @quantidadeEstoque)";
+                "INSERT INTO Produto (NomeProduto, Descricao, QuantidadeEstoque) VALUES (@nomeProduto, @descricao, @quantidadeEstoque)";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@nomeProduto", produto.NomeProduto);
-                    command.Parameters.AddWithValue("@descricao", produto.Descricao);
-                    command.Parameters.AddWithValue("@preco", produto.Preco);
-                    command.Parameters.AddWithValue(
-                        "@quantidadeEstoque",
-                        produto.QuantidadeEstoque
-                    );
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@nomeProduto", produto.NomeProduto);
+                        command.Parameters.AddWithValue("@descricao", produto.Descricao);
+                        command.Parameters.AddWithValue(
+                            "@quantidadeEstoque",
+                            produto.QuantidadeEstoque
+                        );
 
-                    connectDb.Open();
-                    command.ExecuteNonQuery();
+                        connectDb.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao adicionar produto: {ex.Message}");
             }
         }
 
         public void UpdateProduto(Produto produto)
         {
             var query =
-                "UPDATE Produto SET NomeProduto = @nomeProduto, Descricao = @descricao, Preco = @preco, QuantidadeEstoque = @quantidadeEstoque WHERE IdProduto = @idProduto";
+                "UPDATE Produto SET NomeProduto = @nomeProduto, Descricao = @descricao, QuantidadeEstoque = @quantidadeEstoque WHERE IdProduto = @idProduto";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@nomeProduto", produto.NomeProduto);
-                    command.Parameters.AddWithValue("@descricao", produto.Descricao);
-                    command.Parameters.AddWithValue("@preco", produto.Preco);
-                    command.Parameters.AddWithValue(
-                        "@quantidadeEstoque",
-                        produto.QuantidadeEstoque
-                    );
-                    command.Parameters.AddWithValue("@idProduto", produto.IdProduto);
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@nomeProduto", produto.NomeProduto);
+                        command.Parameters.AddWithValue("@descricao", produto.Descricao);
+                        command.Parameters.AddWithValue(
+                            "@quantidadeEstoque",
+                            produto.QuantidadeEstoque
+                        );
+                        command.Parameters.AddWithValue("@idProduto", produto.IdProduto);
 
-                    connectDb.Open();
-                    command.ExecuteNonQuery();
+                        connectDb.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao atualizar produto: {ex.Message}");
             }
         }
 
@@ -140,21 +164,35 @@ namespace Gerenciador_de_estoque.Repositories
         {
             var query = "DELETE FROM Produto WHERE IdProduto = @id";
 
-            using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+            try
             {
-                using (var command = new MySqlCommand(query, connectDb))
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
 
-                    connectDb.Open();
-                    command.ExecuteNonQuery();
+                        connectDb.Open();
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao excluir produto: {ex.Message}");
             }
         }
 
         public void Dispose()
         {
-            _connection.desconectar();
+            try
+            {
+                _connection.desconectar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao desconectar: {ex.Message}");
+            }
         }
     }
 }

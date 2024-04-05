@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Gerenciador_de_estoque.src.Utils
 {
@@ -43,6 +44,19 @@ namespace Gerenciador_de_estoque.src.Utils
 
             states.AddRange(stateAbbreviations);
             return states;
+        }
+
+        public static List<string> FillType(List<string> types)
+        {
+            string[] type = new string[]
+            {
+                "Entrada",
+                "Saída"
+               
+            };
+
+            types.AddRange(type);
+            return types;
         }
     }
 }

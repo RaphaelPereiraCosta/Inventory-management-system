@@ -56,7 +56,6 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 _produto.NomeProduto = txtName.Text;
-                _produto.Preco = txtPrice.Text;
 
                 if (int.TryParse(txtQuantity.Text, out int quantidade))
                 {
@@ -147,20 +146,17 @@ namespace Gerenciador_de_estoque.UI
                 if (produto != null)
                 {
                     txtName.Text = produto.NomeProduto;
-                    txtPrice.Text = Convert.ToString(produto.Preco);
                     txtQuantity.Text = Convert.ToString(produto.QuantidadeEstoque);
                     txtDescription.Text = produto.Descricao;
                 }
                 else
                 {
                     txtName.Text = "";
-                    txtPrice.Text = "0";
                     txtQuantity.Text = "0";
                     txtDescription.Text = "";
                 }
 
                 txtName.ReadOnly = isReadOnly;
-                txtPrice.ReadOnly = isReadOnly;
                 txtQuantity.ReadOnly = isReadOnly;
                 txtDescription.ReadOnly = isReadOnly;
             }
@@ -199,7 +195,6 @@ namespace Gerenciador_de_estoque.UI
                 dtProduct.Columns.Add("IdProduto", "Id");
                 dtProduct.Columns["IdProduto"].Visible = false;
                 dtProduct.Columns.Add("NomeProduto", "Nome do Produto");
-                dtProduct.Columns.Add("Preco", "Preço");
                 dtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque");
                 dtProduct.Columns.Add("Descricao", "Descrição");
             }
@@ -221,7 +216,6 @@ namespace Gerenciador_de_estoque.UI
                     dtProduct.Rows.Add(
                         produto.IdProduto,
                         produto.NomeProduto,
-                        produto.Preco,
                         produto.QuantidadeEstoque,
                         produto.Descricao
                     );
@@ -247,7 +241,6 @@ namespace Gerenciador_de_estoque.UI
                         .Rows[index]
                         .Cells["NomeProduto"]
                         .Value.ToString();
-                    _produto.Preco = dtProduct.Rows[index].Cells["Preco"].Value.ToString();
                     _produto.QuantidadeEstoque = Convert.ToInt32(
                         dtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
                     );
@@ -259,7 +252,6 @@ namespace Gerenciador_de_estoque.UI
                     txtName.Text = _produto.NomeProduto;
                     txtQuantity.Text = _produto.QuantidadeEstoque.ToString();
                     txtDescription.Text = _produto.Descricao;
-                    txtPrice.Text = _produto.Preco.ToString();
                 }
             }
             catch (Exception ex)
@@ -301,42 +293,10 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void txtPrice_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                txtPrice.TextChanged -= txtPrice_TextChanged;
-
-                ApplyCurrencyFormat();
-
-                txtPrice.TextChanged += txtPrice_TextChanged;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao manipular preço: {ex.Message}");
-            }
-        }
-
         private void SaveProduct()
         {
             try
             {
-                decimal preco = decimal.Parse(RemoveNonNumericCharacters(txtPrice.Text));
-                if (preco == 0 || _produto.QuantidadeEstoque == 0)
-                {
-                    DialogResult dialogResult = MessageBox.Show(
-                        "O preço do produto ou a quantidade em estoque é 0. Você deseja continuar?",
-                        "Confirmação",
-                        MessageBoxButtons.YesNo
-                    );
-                    if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
-
-                _produto.Preco = FormatAndSetNumber(preco.ToString());
-
                 _controller.AddProduto(_produto);
                 HandleFields(false, _produto);
                 FillProductList(txtSearch.Text);
@@ -344,73 +304,6 @@ namespace Gerenciador_de_estoque.UI
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
-            }
-        }
-
-        private void ApplyCurrencyFormat()
-        {
-            try
-            {
-                string cleanNumber = RemoveNonNumericCharacters(txtPrice.Text);
-
-                if (string.IsNullOrEmpty(cleanNumber))
-                {
-                    SetTextAndSelection("0,00");
-                }
-                else
-                {
-                    FormatAndSetNumber(cleanNumber);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao aplicar formato de moeda: {ex.Message}");
-            }
-        }
-
-        private string RemoveNonNumericCharacters(string text)
-        {
-            try
-            {
-                return text.Replace(",", "").Replace("R$", "").Replace(".", "").TrimStart('0');
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao remover caracteres não numéricos: {ex.Message}");
-                return "";
-            }
-        }
-
-        private void SetTextAndSelection(string text)
-        {
-            try
-            {
-                txtPrice.Text = text;
-                txtPrice.Select(txtPrice.Text.Length, 0);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao definir texto e seleção: {ex.Message}");
-            }
-        }
-
-        private string FormatAndSetNumber(string cleanNumber)
-        {
-            try
-            {
-                decimal parsed = decimal.Parse(cleanNumber);
-                string formattedNumber = string.Format(
-                    CultureInfo.CurrentCulture,
-                    "{0:C2}",
-                    parsed / 100
-                );
-                SetTextAndSelection(formattedNumber);
-                return formattedNumber;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao formatar e definir número: {ex.Message}");
-                return "";
             }
         }
     }

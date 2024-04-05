@@ -30,8 +30,6 @@
         {
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.lblPrice = new System.Windows.Forms.Label();
-            this.txtPrice = new System.Windows.Forms.TextBox();
             this.lblDescription = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.txtQuantity = new System.Windows.Forms.TextBox();
@@ -64,23 +62,6 @@
             this.lblName.TabIndex = 2;
             this.lblName.Text = "Nome";
             // 
-            // lblPrice
-            // 
-            this.lblPrice.AutoSize = true;
-            this.lblPrice.Location = new System.Drawing.Point(18, 76);
-            this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(51, 13);
-            this.lblPrice.TabIndex = 4;
-            this.lblPrice.Text = "Valor Un.";
-            // 
-            // txtPrice
-            // 
-            this.txtPrice.Location = new System.Drawing.Point(21, 92);
-            this.txtPrice.Name = "txtPrice";
-            this.txtPrice.Size = new System.Drawing.Size(73, 20);
-            this.txtPrice.TabIndex = 3;
-            this.txtPrice.TextChanged += new System.EventHandler(this.txtPrice_TextChanged);
-            // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
@@ -100,7 +81,7 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(135, 92);
+            this.txtQuantity.Location = new System.Drawing.Point(21, 90);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(73, 20);
             this.txtQuantity.TabIndex = 7;
@@ -108,7 +89,7 @@
             // lblQuantity
             // 
             this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(132, 76);
+            this.lblQuantity.Location = new System.Drawing.Point(18, 74);
             this.lblQuantity.Name = "lblQuantity";
             this.lblQuantity.Size = new System.Drawing.Size(62, 13);
             this.lblQuantity.TabIndex = 8;
@@ -227,8 +208,6 @@
             this.Controls.Add(this.txtQuantity);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.lblPrice);
-            this.Controls.Add(this.txtPrice);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtName);
             this.Name = "ProductMenu";
@@ -243,8 +222,6 @@
 
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Label lblPrice;
-        private System.Windows.Forms.TextBox txtPrice;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.TextBox txtQuantity;
