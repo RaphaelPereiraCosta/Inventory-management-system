@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows.Forms;
-using Gerenciador_de_estoque.Controllers;
-using Gerenciador_de_estoque.Models;
+using Gerenciador_de_estoque.src.Controllers;
+using Gerenciador_de_estoque.src.Models;
+using Gerenciador_de_estoque.src.Utils;
 
 namespace Gerenciador_de_estoque.UI
 {
@@ -16,7 +16,10 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 InitializeComponent();
-                InitializeForm();
+                if (this.IsHandleCreated)
+                {
+                    InitializeForm();
+                }
             }
             catch (Exception ex)
             {
@@ -306,5 +309,15 @@ namespace Gerenciador_de_estoque.UI
                 MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
             }
         }
+
+        private void txtQuantity_TextChanged(object sender, EventArgs e)
+        {
+            Utilities utils = new Utilities();
+
+            txtQuantity.Text = utils.ValidateNonNegativeNumber(txtQuantity.Text);
+
+          
+        }
+
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Gerenciador_de_estoque.Models;
-using Gerenciador_de_estoque.Services;
+using Gerenciador_de_estoque.src.Models;
+using Gerenciador_de_estoque.src.Services;
 
-namespace Gerenciador_de_estoque.Controllers
+namespace Gerenciador_de_estoque.src.Controllers
 {
     public class ProdutoController
     {

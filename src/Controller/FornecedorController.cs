@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Gerenciador_de_estoque.Models;
-using Gerenciador_de_estoque.Services;
+using Gerenciador_de_estoque.src.Models;
+using Gerenciador_de_estoque.src.Services;
 
-namespace Gerenciador_de_estoque.Controllers
+namespace Gerenciador_de_estoque.src.Controllers
 {
     public class FornecedorController
     {
@@ -15,6 +15,13 @@ namespace Gerenciador_de_estoque.Controllers
             try
             {
                 var fornecedores = fornecedorService.GatherFornecedores(nome);
+
+                if (!string.IsNullOrEmpty(nome) && (fornecedores == null || fornecedores.Count == 0))
+                {
+                    MessageBox.Show("O fornecedor não está cadastrado.");
+                    return null;
+                }
+
                 return fornecedores;
             }
             catch (Exception ex)
@@ -23,6 +30,7 @@ namespace Gerenciador_de_estoque.Controllers
                 return null;
             }
         }
+
 
         public Fornecedor GetOneFornecedor(int id)
         {

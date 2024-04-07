@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Gerenciador_de_estoque.src.Utils
 {
-    public class Utils
+    public class Utilities
     {
-        public static List<string> FillStates(List<string> states)
+        public List<string> FillStates(List<string> states)
         {
             string[] stateAbbreviations = new string[]
             {
@@ -46,7 +42,7 @@ namespace Gerenciador_de_estoque.src.Utils
             return states;
         }
 
-        public static List<string> FillType(List<string> types)
+        public List<string> FillType(List<string> types)
         {
             string[] type = new string[]
             {
@@ -58,5 +54,26 @@ namespace Gerenciador_de_estoque.src.Utils
             types.AddRange(type);
             return types;
         }
+
+        public string ValidateNonNegativeNumber(string text)
+        {
+            int number;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                text = "0";
+            }
+
+            bool isNumber = int.TryParse(text, out number);
+
+            if (!isNumber || number < 0)
+            {
+                MessageBox.Show("Por favor, insira um número não negativo");
+                text = "0";
+            }
+
+            return text;
+        }
+
     }
 }

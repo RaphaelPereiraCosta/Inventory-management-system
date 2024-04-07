@@ -32,8 +32,7 @@
             this.btnSupplierMenu = new System.Windows.Forms.Button();
             this.cmbType = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
-            this.cmbSupplier = new System.Windows.Forms.ComboBox();
-            this.lblSuppliers = new System.Windows.Forms.Label();
+            this.btnMvm = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ProductBtn
@@ -73,32 +72,22 @@
             this.lblType.TabIndex = 3;
             this.lblType.Text = "Movimentação de: ";
             // 
-            // cmbSupplier
+            // btnMvm
             // 
-            this.cmbSupplier.DisplayMember = "NomeFornecedor";
-            this.cmbSupplier.FormattingEnabled = true;
-            this.cmbSupplier.Location = new System.Drawing.Point(117, 112);
-            this.cmbSupplier.Name = "cmbSupplier";
-            this.cmbSupplier.Size = new System.Drawing.Size(327, 21);
-            this.cmbSupplier.TabIndex = 4;
-            this.cmbSupplier.ValueMember = "IdFornecedor";
-            // 
-            // lblSuppliers
-            // 
-            this.lblSuppliers.AutoSize = true;
-            this.lblSuppliers.Location = new System.Drawing.Point(114, 96);
-            this.lblSuppliers.Name = "lblSuppliers";
-            this.lblSuppliers.Size = new System.Drawing.Size(61, 13);
-            this.lblSuppliers.TabIndex = 5;
-            this.lblSuppliers.Text = "Fornecedor";
+            this.btnMvm.Location = new System.Drawing.Point(308, 332);
+            this.btnMvm.Name = "btnMvm";
+            this.btnMvm.Size = new System.Drawing.Size(136, 48);
+            this.btnMvm.TabIndex = 6;
+            this.btnMvm.Text = "Nova Movimentação";
+            this.btnMvm.UseVisualStyleBackColor = true;
+            this.btnMvm.Click += new System.EventHandler(this.btnMvm_Click);
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblSuppliers);
-            this.Controls.Add(this.cmbSupplier);
+            this.Controls.Add(this.btnMvm);
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.cmbType);
             this.Controls.Add(this.btnSupplierMenu);
@@ -116,8 +105,7 @@
         private System.Windows.Forms.Button btnSupplierMenu;
         private System.Windows.Forms.ComboBox cmbType;
         private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.ComboBox cmbSupplier;
-        private System.Windows.Forms.Label lblSuppliers;
+        private System.Windows.Forms.Button btnMvm;
     }
 }
 

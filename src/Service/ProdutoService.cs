@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Gerenciador_de_estoque.Models;
-using Gerenciador_de_estoque.Repositories;
+using Gerenciador_de_estoque.src.Repositories;
+using Gerenciador_de_estoque.src.Models;
 
-namespace Gerenciador_de_estoque.Services
+namespace Gerenciador_de_estoque.src.Services
 {
     public class ProdutoService
     {

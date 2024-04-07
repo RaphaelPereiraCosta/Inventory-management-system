@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace Gerenciador_de_estoque.Connection
+namespace Gerenciador_de_estoque.src.Connection
 {
     public class DbConnect
     {

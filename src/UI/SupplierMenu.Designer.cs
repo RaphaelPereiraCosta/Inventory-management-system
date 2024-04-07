@@ -57,6 +57,7 @@
             this.dtSupplier = new System.Windows.Forms.DataGridView();
             this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnSelect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtSupplier)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,6 +76,7 @@
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(59, 20);
             this.txtNumber.TabIndex = 13;
+            this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
             // lblStreet
             // 
@@ -318,11 +320,22 @@
             this.txtSearch.TabIndex = 37;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
+            // btnSelect
+            // 
+            this.btnSelect.Location = new System.Drawing.Point(91, 364);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(180, 45);
+            this.btnSelect.TabIndex = 64;
+            this.btnSelect.Text = "Selecionar";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            // 
             // SupplierMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.dtSupplier);
@@ -391,5 +404,6 @@
         private System.Windows.Forms.DataGridView dtSupplier;
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnSelect;
     }
 }

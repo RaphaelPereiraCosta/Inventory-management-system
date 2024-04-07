@@ -85,6 +85,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(73, 20);
             this.txtQuantity.TabIndex = 7;
+            this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
             // 
             // lblQuantity
             // 

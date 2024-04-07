@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gerenciador_de_estoque.Connection;
-using Gerenciador_de_estoque.Models;
+using Gerenciador_de_estoque.src.Connection;
+using Gerenciador_de_estoque.src.Models;
 using MySql.Data.MySqlClient;
 
-namespace Gerenciador_de_estoque.Repositories
+namespace Gerenciador_de_estoque.src.Repositories
 {
     public class FornecedorRepository : IDisposable
     {

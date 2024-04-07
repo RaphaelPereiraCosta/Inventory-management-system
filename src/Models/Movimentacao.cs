@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Gerenciador_de_estoque.Models
+namespace Gerenciador_de_estoque.src.Models
 {
     public class Movimentacao
     {
