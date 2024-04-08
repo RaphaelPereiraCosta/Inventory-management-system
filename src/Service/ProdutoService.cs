@@ -6,7 +6,7 @@ namespace Gerenciador_de_estoque.src.Services
 {
     public class ProdutoService
     {
-        ProdutoRepository produtoRepository = new ProdutoRepository();
+        readonly ProdutoRepository produtoRepository = new ProdutoRepository();
 
         public List<Produto> GatherProdutos(string nome)
         {

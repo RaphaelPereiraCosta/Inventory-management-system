@@ -8,7 +8,7 @@ namespace Gerenciador_de_estoque.src.Repositories
 {
     public class ProdutoRepository : IDisposable
     {
-        DbConnect _connection = new DbConnect();
+        readonly DbConnect _connection = new DbConnect();
 
         public List<Produto> GatherProdutos(string nome)
         {

@@ -8,7 +8,7 @@ namespace Gerenciador_de_estoque.src.Controllers
 {
     public class ProdutoController
     {
-        ProdutoService produtoService = new ProdutoService();
+        readonly ProdutoService produtoService = new ProdutoService();
 
         public List<Produto> GatherProdutos(string nome)
         {

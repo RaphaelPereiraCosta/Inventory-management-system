@@ -51,6 +51,7 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data, Version=8.3.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>packages\MySql.Data.8.3.0\lib\net48\MySql.Data.dll</HintPath>
     </Reference>
@@ -103,6 +104,12 @@
     <Compile Include="src\Controller\ProdutoController.cs" />
     <Compile Include="src\Service\FornecedorService.cs" />
     <Compile Include="src\Service\ProdutoService.cs" />
+    <Compile Include="src\UI\ProductSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\ProductSelect.Designer.cs">
+      <DependentUpon>ProductSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\UI\SupplierMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\ProductMenu.resx">
       <DependentUpon>ProductMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\ProductSelect.resx">
+      <DependentUpon>ProductSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\SupplierMenu.resx">
       <DependentUpon>SupplierMenu.cs</DependentUpon>

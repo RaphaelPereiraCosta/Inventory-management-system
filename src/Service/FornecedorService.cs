@@ -6,7 +6,7 @@ namespace Gerenciador_de_estoque.src.Services
 {
     public class FornecedorService
     {
-        FornecedorRepository fornecedorRepository = new FornecedorRepository();
+        readonly FornecedorRepository fornecedorRepository = new FornecedorRepository();
 
         public List<Fornecedor> GatherFornecedores(string nome)
         {

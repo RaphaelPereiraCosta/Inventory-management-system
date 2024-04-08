@@ -11,9 +11,9 @@ namespace Gerenciador_de_estoque.UI
     public partial class SupplierMenu : Form
     {
         private Fornecedor _fornecedor = new Fornecedor();
-        private FornecedorController _controller = new FornecedorController();
+        private readonly FornecedorController _controller = new FornecedorController();
         private List<string> states = new List<string>();
-        private bool _isSelecting;
+        private readonly bool _isSelecting;
 
         public event Action<Fornecedor> SupplierSelected;
 
@@ -46,7 +46,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             try
             {
@@ -58,17 +58,17 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void txtPhone_TextChanged(object sender, EventArgs e)
+        private void TxtPhone_TextChanged(object sender, EventArgs e)
         {
             FormatPhone(txtPhone.Text);
         }
 
-        private void txtCEP_TextChanged(object sender, EventArgs e)
+        private void TxtCEP_TextChanged(object sender, EventArgs e)
         {
             FormatCEP(txtCEP.Text);
         }
 
-        private void txtNumber_TextChanged(object sender, EventArgs e)
+        private void TxtNumber_TextChanged(object sender, EventArgs e)
         {
             txtNumber.Text = new Utilities().ValidateNonNegativeNumber(txtNumber.Text);
         }
@@ -117,7 +117,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
  
-        private void btnNew_Click(object sender, EventArgs e)
+        private void BtnNew_Click(object sender, EventArgs e)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private void BtnEdit_Click(object sender, EventArgs e)
         {
             try
             {
@@ -155,7 +155,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnGoBack_Click(object sender, EventArgs e)
+        private void BtnGoBack_Click(object sender, EventArgs e)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
             try
             {
@@ -203,7 +203,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void dtSupplier_SelectionChanged(object sender, EventArgs e)
+        private void DtSupplier_SelectionChanged(object sender, EventArgs e)
         {
             try
             {
@@ -417,7 +417,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnSelect_Click(object sender, EventArgs e)
+        private void BtnSelect_Click(object sender, EventArgs e)
         {
             if (_fornecedor != null)
             {
@@ -437,7 +437,7 @@ namespace Gerenciador_de_estoque.UI
             _fornecedor.Email = txtEmail.Text;
             _fornecedor.Numero = txtNumber.Text;
             _fornecedor.Complemento = txtComplement.Text;
-            _fornecedor.Estado = cmbStates.SelectedItem != null ? cmbStates.SelectedItem.ToString() : null;
+            _fornecedor.Estado = cmbStates.SelectedItem?.ToString();
         }
 
     }

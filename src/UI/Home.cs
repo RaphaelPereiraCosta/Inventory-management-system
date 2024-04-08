@@ -9,15 +9,17 @@ namespace Gerenciador_de_estoque
     {
         ProductMenu productMenu;
         SupplierMenu supplierMenu;
-        SupplyMovementMenu supplyMovementMenu = new SupplyMovementMenu();
+        SupplyMovementMenu supplyMovementMenu;
 
         public Home()
         {
             InitializeComponent();
             CreateNewProductMenu();
+            CreateNewSupplierMenu(false);
+            CreateNewSupplyMovementMenu();
         }
 
-        private void ProductBtn_Click(object sender, EventArgs e)
+        private void BtnProductMenu_Click(object sender, EventArgs e)
         {
             ShowProductMenu();
         }
@@ -32,6 +34,7 @@ namespace Gerenciador_de_estoque
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao mostrar o menu do produto: {ex.Message}");
+                CreateNewProductMenu();
             }
         }
 
@@ -47,12 +50,10 @@ namespace Gerenciador_de_estoque
             CreateNewProductMenu();
         }
 
-        private void btnSupplierMenu_Click(object sender, EventArgs e)
+        private void BtnSupplierMenu_Click(object sender, EventArgs e)
         {
-            CreateNewSupplierMenu(false);
             ShowSupplierMenu();
         }
-
 
         private void ShowSupplierMenu()
         {
@@ -64,6 +65,7 @@ namespace Gerenciador_de_estoque
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao mostrar o menu do fornecedor: {ex.Message}");
+                CreateNewSupplierMenu(false);
             }
         }
 
@@ -89,6 +91,7 @@ namespace Gerenciador_de_estoque
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao mostrar o menu de movimentação de suprimentos: {ex.Message}");
+                CreateNewSupplyMovementMenu();
             }
         }
 
@@ -104,7 +107,7 @@ namespace Gerenciador_de_estoque
             CreateNewSupplyMovementMenu();
         }
 
-        private void btnMvm_Click(object sender, EventArgs e)
+        private void BtnSupplyMovementMenu_Click(object sender, EventArgs e)
         {
             ShowSupplyMovementMenu();
         }

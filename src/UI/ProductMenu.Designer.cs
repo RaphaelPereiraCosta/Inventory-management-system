@@ -28,73 +28,73 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.txtDescription = new System.Windows.Forms.TextBox();
-            this.txtQuantity = new System.Windows.Forms.TextBox();
-            this.lblQuantity = new System.Windows.Forms.Label();
+            this.TxtName = new System.Windows.Forms.TextBox();
+            this.LblName = new System.Windows.Forms.Label();
+            this.LblDescription = new System.Windows.Forms.Label();
+            this.TxtDescription = new System.Windows.Forms.TextBox();
+            this.TxtQuantity = new System.Windows.Forms.TextBox();
+            this.LblQuantity = new System.Windows.Forms.Label();
             this.dtProduct = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnNew = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.btnGoBack = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
+            this.BtnNew = new System.Windows.Forms.Button();
+            this.TxtSearch = new System.Windows.Forms.TextBox();
+            this.LblSearch = new System.Windows.Forms.Label();
+            this.BtnGoBack = new System.Windows.Forms.Button();
+            this.BtnEdit = new System.Windows.Forms.Button();
+            this.BtnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtName
+            // TxtName
             // 
-            this.txtName.Location = new System.Drawing.Point(21, 41);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(142, 20);
-            this.txtName.TabIndex = 0;
+            this.TxtName.Location = new System.Drawing.Point(21, 41);
+            this.TxtName.Name = "TxtName";
+            this.TxtName.Size = new System.Drawing.Size(142, 20);
+            this.TxtName.TabIndex = 0;
             // 
-            // lblName
+            // LblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(18, 25);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(35, 13);
-            this.lblName.TabIndex = 2;
-            this.lblName.Text = "Nome";
+            this.LblName.AutoSize = true;
+            this.LblName.Location = new System.Drawing.Point(18, 25);
+            this.LblName.Name = "LblName";
+            this.LblName.Size = new System.Drawing.Size(35, 13);
+            this.LblName.TabIndex = 2;
+            this.LblName.Text = "Nome";
             // 
-            // lblDescription
+            // LblDescription
             // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(18, 124);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(55, 13);
-            this.lblDescription.TabIndex = 6;
-            this.lblDescription.Text = "Descrição";
+            this.LblDescription.AutoSize = true;
+            this.LblDescription.Location = new System.Drawing.Point(18, 124);
+            this.LblDescription.Name = "LblDescription";
+            this.LblDescription.Size = new System.Drawing.Size(55, 13);
+            this.LblDescription.TabIndex = 6;
+            this.LblDescription.Text = "Descrição";
             // 
-            // txtDescription
+            // TxtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(21, 140);
-            this.txtDescription.Multiline = true;
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(237, 174);
-            this.txtDescription.TabIndex = 5;
+            this.TxtDescription.Location = new System.Drawing.Point(21, 140);
+            this.TxtDescription.Multiline = true;
+            this.TxtDescription.Name = "TxtDescription";
+            this.TxtDescription.Size = new System.Drawing.Size(237, 174);
+            this.TxtDescription.TabIndex = 5;
             // 
-            // txtQuantity
+            // TxtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(21, 90);
-            this.txtQuantity.Name = "txtQuantity";
-            this.txtQuantity.Size = new System.Drawing.Size(73, 20);
-            this.txtQuantity.TabIndex = 7;
-            this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
+            this.TxtQuantity.Location = new System.Drawing.Point(21, 90);
+            this.TxtQuantity.Name = "TxtQuantity";
+            this.TxtQuantity.Size = new System.Drawing.Size(73, 20);
+            this.TxtQuantity.TabIndex = 7;
+            this.TxtQuantity.TextChanged += new System.EventHandler(this.TxtQuantity_TextChanged);
             // 
-            // lblQuantity
+            // LblQuantity
             // 
-            this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(18, 74);
-            this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(62, 13);
-            this.lblQuantity.TabIndex = 8;
-            this.lblQuantity.Text = "Quantidade";
+            this.LblQuantity.AutoSize = true;
+            this.LblQuantity.Location = new System.Drawing.Point(18, 74);
+            this.LblQuantity.Name = "LblQuantity";
+            this.LblQuantity.Size = new System.Drawing.Size(62, 13);
+            this.LblQuantity.TabIndex = 8;
+            this.LblQuantity.Text = "Quantidade";
             // 
             // dtProduct
             // 
@@ -111,7 +111,7 @@
             this.dtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtProduct.Size = new System.Drawing.Size(401, 305);
             this.dtProduct.TabIndex = 9;
-            this.dtProduct.SelectionChanged += new System.EventHandler(this.dtProduct_SelectionChanged);
+            this.dtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged);
             // 
             // btnSave
             // 
@@ -121,7 +121,7 @@
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Salvar";
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // btnCancel
             // 
@@ -131,64 +131,64 @@
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // btnNew
+            // BtnNew
             // 
-            this.btnNew.Location = new System.Drawing.Point(21, 320);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(75, 23);
-            this.btnNew.TabIndex = 12;
-            this.btnNew.Text = "Novo";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            this.BtnNew.Location = new System.Drawing.Point(21, 320);
+            this.BtnNew.Name = "BtnNew";
+            this.BtnNew.Size = new System.Drawing.Size(75, 23);
+            this.BtnNew.TabIndex = 12;
+            this.BtnNew.Text = "Novo";
+            this.BtnNew.UseVisualStyleBackColor = true;
+            this.BtnNew.Click += new System.EventHandler(this.BtnNew_Click);
             // 
-            // txtSearch
+            // TxtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(360, 41);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(244, 20);
-            this.txtSearch.TabIndex = 13;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.TxtSearch.Location = new System.Drawing.Point(360, 41);
+            this.TxtSearch.Name = "TxtSearch";
+            this.TxtSearch.Size = new System.Drawing.Size(244, 20);
+            this.TxtSearch.TabIndex = 13;
+            this.TxtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             // 
-            // lblSearch
+            // LblSearch
             // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Location = new System.Drawing.Point(357, 25);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(129, 13);
-            this.lblSearch.TabIndex = 14;
-            this.lblSearch.Text = "Buscar (nome do produto)";
+            this.LblSearch.AutoSize = true;
+            this.LblSearch.Location = new System.Drawing.Point(357, 25);
+            this.LblSearch.Name = "LblSearch";
+            this.LblSearch.Size = new System.Drawing.Size(129, 13);
+            this.LblSearch.TabIndex = 14;
+            this.LblSearch.Text = "Buscar (nome do produto)";
             // 
-            // btnGoBack
+            // BtnGoBack
             // 
-            this.btnGoBack.Location = new System.Drawing.Point(52, 369);
-            this.btnGoBack.Name = "btnGoBack";
-            this.btnGoBack.Size = new System.Drawing.Size(156, 23);
-            this.btnGoBack.TabIndex = 15;
-            this.btnGoBack.Text = "Voltar";
-            this.btnGoBack.UseVisualStyleBackColor = true;
-            this.btnGoBack.Click += new System.EventHandler(this.btnGoBack_Click);
+            this.BtnGoBack.Location = new System.Drawing.Point(52, 369);
+            this.BtnGoBack.Name = "BtnGoBack";
+            this.BtnGoBack.Size = new System.Drawing.Size(156, 23);
+            this.BtnGoBack.TabIndex = 15;
+            this.BtnGoBack.Text = "Voltar";
+            this.BtnGoBack.UseVisualStyleBackColor = true;
+            this.BtnGoBack.Click += new System.EventHandler(this.BtnGoBack_Click);
             // 
-            // btnEdit
+            // BtnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(102, 320);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 16;
-            this.btnEdit.Text = "Editar";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            this.BtnEdit.Location = new System.Drawing.Point(102, 320);
+            this.BtnEdit.Name = "BtnEdit";
+            this.BtnEdit.Size = new System.Drawing.Size(75, 23);
+            this.BtnEdit.TabIndex = 16;
+            this.BtnEdit.Text = "Editar";
+            this.BtnEdit.UseVisualStyleBackColor = true;
+            this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
-            // btnDelete
+            // BtnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(183, 320);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 17;
-            this.btnDelete.Text = "Deletar";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.BtnDelete.Location = new System.Drawing.Point(183, 320);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(75, 23);
+            this.BtnDelete.TabIndex = 17;
+            this.BtnDelete.Text = "Deletar";
+            this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // ProductMenu
             // 
@@ -196,21 +196,21 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(787, 404);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnEdit);
-            this.Controls.Add(this.btnGoBack);
-            this.Controls.Add(this.lblSearch);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.btnNew);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.BtnEdit);
+            this.Controls.Add(this.BtnGoBack);
+            this.Controls.Add(this.LblSearch);
+            this.Controls.Add(this.TxtSearch);
+            this.Controls.Add(this.BtnNew);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.dtProduct);
-            this.Controls.Add(this.lblQuantity);
-            this.Controls.Add(this.txtQuantity);
-            this.Controls.Add(this.lblDescription);
-            this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.LblQuantity);
+            this.Controls.Add(this.TxtQuantity);
+            this.Controls.Add(this.LblDescription);
+            this.Controls.Add(this.TxtDescription);
+            this.Controls.Add(this.LblName);
+            this.Controls.Add(this.TxtName);
             this.Name = "ProductMenu";
             this.Text = "Menu de produtos";
             ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).EndInit();
@@ -221,20 +221,20 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Label lblDescription;
-        private System.Windows.Forms.TextBox txtDescription;
-        private System.Windows.Forms.TextBox txtQuantity;
-        private System.Windows.Forms.Label lblQuantity;
+        private System.Windows.Forms.TextBox TxtName;
+        private System.Windows.Forms.Label LblName;
+        private System.Windows.Forms.Label LblDescription;
+        private System.Windows.Forms.TextBox TxtDescription;
+        private System.Windows.Forms.TextBox TxtQuantity;
+        private System.Windows.Forms.Label LblQuantity;
         private System.Windows.Forms.DataGridView dtProduct;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnNew;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.Button btnGoBack;
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button BtnNew;
+        private System.Windows.Forms.TextBox TxtSearch;
+        private System.Windows.Forms.Label LblSearch;
+        private System.Windows.Forms.Button BtnGoBack;
+        private System.Windows.Forms.Button BtnEdit;
+        private System.Windows.Forms.Button BtnDelete;
     }
 }

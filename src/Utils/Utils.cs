@@ -42,29 +42,26 @@ namespace Gerenciador_de_estoque.src.Utils
             return states;
         }
 
-        public List<string> FillType(List<string> types)
+        public Dictionary<string, int> FillType()
         {
-            string[] type = new string[]
+            Dictionary<string, int> types = new Dictionary<string, int>
             {
-                "Entrada",
-                "Saída"
-               
+                { "Entrada", 0 },
+                { "Saída", 1 }
             };
 
-            types.AddRange(type);
             return types;
         }
 
         public string ValidateNonNegativeNumber(string text)
         {
-            int number;
 
             if (string.IsNullOrEmpty(text))
             {
                 text = "0";
             }
 
-            bool isNumber = int.TryParse(text, out number);
+            bool isNumber = int.TryParse(text, out int number);
 
             if (!isNumber || number < 0)
             {
@@ -74,6 +71,5 @@ namespace Gerenciador_de_estoque.src.Utils
 
             return text;
         }
-
     }
 }

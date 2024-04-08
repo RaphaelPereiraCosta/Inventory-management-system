@@ -9,17 +9,15 @@ namespace Gerenciador_de_estoque.UI
     public partial class ProductMenu : Form
     {
         Produto _produto = new Produto();
-        ProdutoController _controller = new ProdutoController();
+        readonly ProdutoController _controller = new ProdutoController();
 
         public ProductMenu()
         {
             try
             {
                 InitializeComponent();
-                if (this.IsHandleCreated)
-                {
+
                     InitializeForm();
-                }
             }
             catch (Exception ex)
             {
@@ -31,9 +29,10 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                HandleFields(true, _produto);
+                
                 AddColumnsToProductList();
-                FillProductList("");
+                FillProductList(TxtSearch.Text);
+                HandleFields(true, _produto);
             }
             catch (Exception ex)
             {
@@ -41,7 +40,59 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnNew_Click(object sender, EventArgs e)
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                FillProductList(TxtSearch.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao pesquisar produto: {ex.Message}");
+            }
+        }
+
+        private void TxtQuantity_TextChanged(object sender, EventArgs e)
+        {
+            Utilities utils = new Utilities();
+
+            TxtQuantity.Text = utils.ValidateNonNegativeNumber(TxtQuantity.Text);
+        }
+
+        private void DtProduct_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                HandleFields(true, _produto);
+
+                if (dtProduct.CurrentRow != null)
+                {
+                    int index = dtProduct.CurrentRow.Index;
+
+                    _produto.NomeProduto = dtProduct
+                        .Rows[index]
+                        .Cells["NomeProduto"]
+                        .Value.ToString();
+                    _produto.QuantidadeEstoque = Convert.ToInt32(
+                        dtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
+                    );
+                    _produto.Descricao = dtProduct.Rows[index].Cells["Descricao"].Value.ToString();
+                    _produto.IdProduto = Convert.ToInt32(
+                        dtProduct.Rows[index].Cells["IdProduto"].Value
+                    );
+
+                    TxtName.Text = _produto.NomeProduto;
+                    TxtQuantity.Text = _produto.QuantidadeEstoque.ToString();
+                    TxtDescription.Text = _produto.Descricao;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
+        private void BtnNew_Click(object sender, EventArgs e)
         {
             try
             {
@@ -54,13 +105,13 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
             try
             {
-                _produto.NomeProduto = txtName.Text;
+                _produto.NomeProduto = TxtName.Text;
 
-                if (int.TryParse(txtQuantity.Text, out int quantidade))
+                if (int.TryParse(TxtQuantity.Text, out int quantidade))
                 {
                     _produto.QuantidadeEstoque = quantidade;
                 }
@@ -70,7 +121,7 @@ namespace Gerenciador_de_estoque.UI
                     return;
                 }
 
-                _produto.Descricao = txtDescription.Text;
+                _produto.Descricao = TxtDescription.Text;
                 SaveProduct();
             }
             catch (Exception ex)
@@ -79,7 +130,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             try
             {
@@ -92,7 +143,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnGoBack_Click(object sender, EventArgs e)
+        private void BtnGoBack_Click(object sender, EventArgs e)
         {
             try
             {
@@ -104,7 +155,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private void BtnEdit_Click(object sender, EventArgs e)
         {
             try
             {
@@ -116,12 +167,12 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
             try
             {
                 DeleteProduct(_produto.IdProduto);
-                FillProductList(txtSearch.Text);
+                FillProductList(TxtSearch.Text);
             }
             catch (Exception ex)
             {
@@ -148,20 +199,20 @@ namespace Gerenciador_de_estoque.UI
             {
                 if (produto != null)
                 {
-                    txtName.Text = produto.NomeProduto;
-                    txtQuantity.Text = Convert.ToString(produto.QuantidadeEstoque);
-                    txtDescription.Text = produto.Descricao;
+                    TxtName.Text = produto.NomeProduto;
+                    TxtQuantity.Text = Convert.ToString(produto.QuantidadeEstoque);
+                    TxtDescription.Text = produto.Descricao;
                 }
                 else
                 {
-                    txtName.Text = "";
-                    txtQuantity.Text = "0";
-                    txtDescription.Text = "";
+                    TxtName.Text = "";
+                    TxtQuantity.Text = "0";
+                    TxtDescription.Text = "";
                 }
 
-                txtName.ReadOnly = isReadOnly;
-                txtQuantity.ReadOnly = isReadOnly;
-                txtDescription.ReadOnly = isReadOnly;
+                TxtName.ReadOnly = isReadOnly;
+                TxtQuantity.ReadOnly = isReadOnly;
+                TxtDescription.ReadOnly = isReadOnly;
             }
             catch (Exception ex)
             {
@@ -173,12 +224,12 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                btnNew.Enabled = isEnabled;
-                btnNew.Visible = isEnabled;
-                btnDelete.Visible = isEnabled;
-                btnDelete.Enabled = isEnabled;
-                btnEdit.Enabled = isEnabled;
-                btnEdit.Visible = isEnabled;
+                BtnNew.Enabled = isEnabled;
+                BtnNew.Visible = isEnabled;
+                BtnDelete.Visible = isEnabled;
+                BtnDelete.Enabled = isEnabled;
+                BtnEdit.Enabled = isEnabled;
+                BtnEdit.Visible = isEnabled;
                 btnSave.Enabled = !isEnabled;
                 btnCancel.Enabled = !isEnabled;
                 btnCancel.Visible = !isEnabled;
@@ -230,39 +281,6 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void dtProduct_SelectionChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                HandleFields(true, _produto);
-
-                if (dtProduct.CurrentRow != null)
-                {
-                    int index = dtProduct.CurrentRow.Index;
-
-                    _produto.NomeProduto = dtProduct
-                        .Rows[index]
-                        .Cells["NomeProduto"]
-                        .Value.ToString();
-                    _produto.QuantidadeEstoque = Convert.ToInt32(
-                        dtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
-                    );
-                    _produto.Descricao = dtProduct.Rows[index].Cells["Descricao"].Value.ToString();
-                    _produto.IdProduto = Convert.ToInt32(
-                        dtProduct.Rows[index].Cells["IdProduto"].Value
-                    );
-
-                    txtName.Text = _produto.NomeProduto;
-                    txtQuantity.Text = _produto.QuantidadeEstoque.ToString();
-                    txtDescription.Text = _produto.Descricao;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
-            }
-        }
-
         private void DeleteProduct(int produto)
         {
             try
@@ -284,25 +302,13 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                FillProductList(txtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao pesquisar produto: {ex.Message}");
-            }
-        }
-
         private void SaveProduct()
         {
             try
             {
                 _controller.AddProduto(_produto);
                 HandleFields(false, _produto);
-                FillProductList(txtSearch.Text);
+                FillProductList(TxtSearch.Text);
             }
             catch (Exception ex)
             {
@@ -310,14 +316,6 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void txtQuantity_TextChanged(object sender, EventArgs e)
-        {
-            Utilities utils = new Utilities();
-
-            txtQuantity.Text = utils.ValidateNonNegativeNumber(txtQuantity.Text);
-
-          
-        }
 
     }
 }

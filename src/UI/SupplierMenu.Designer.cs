@@ -76,7 +76,7 @@
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(59, 20);
             this.txtNumber.TabIndex = 13;
-            this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
+            this.txtNumber.TextChanged += new System.EventHandler(this.TxtNumber_TextChanged);
             // 
             // lblStreet
             // 
@@ -182,7 +182,7 @@
             this.txtCEP.Name = "txtCEP";
             this.txtCEP.Size = new System.Drawing.Size(140, 20);
             this.txtCEP.TabIndex = 23;
-            this.txtCEP.TextChanged += new System.EventHandler(this.txtCEP_TextChanged);
+            this.txtCEP.TextChanged += new System.EventHandler(this.TxtCEP_TextChanged);
             // 
             // lblPhone
             // 
@@ -199,7 +199,7 @@
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(134, 20);
             this.txtPhone.TabIndex = 25;
-            this.txtPhone.TextChanged += new System.EventHandler(this.txtPhone_TextChanged);
+            this.txtPhone.TextChanged += new System.EventHandler(this.TxtPhone_TextChanged);
             // 
             // lblEmail
             // 
@@ -219,6 +219,7 @@
             // 
             // cmbStates
             // 
+            this.cmbStates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbStates.FormattingEnabled = true;
             this.cmbStates.Location = new System.Drawing.Point(179, 199);
             this.cmbStates.Name = "cmbStates";
@@ -233,7 +234,7 @@
             this.btnDelete.TabIndex = 35;
             this.btnDelete.Text = "Deletar";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // btnEdit
             // 
@@ -243,7 +244,7 @@
             this.btnEdit.TabIndex = 34;
             this.btnEdit.Text = "Editar";
             this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
             // btnGoBack
             // 
@@ -253,7 +254,7 @@
             this.btnGoBack.TabIndex = 33;
             this.btnGoBack.Text = "Voltar";
             this.btnGoBack.UseVisualStyleBackColor = true;
-            this.btnGoBack.Click += new System.EventHandler(this.btnGoBack_Click);
+            this.btnGoBack.Click += new System.EventHandler(this.BtnGoBack_Click);
             // 
             // btnNew
             // 
@@ -263,7 +264,7 @@
             this.btnNew.TabIndex = 32;
             this.btnNew.Text = "Novo";
             this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            this.btnNew.Click += new System.EventHandler(this.BtnNew_Click);
             // 
             // btnCancel
             // 
@@ -273,7 +274,7 @@
             this.btnCancel.TabIndex = 31;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // btnSave
             // 
@@ -283,12 +284,13 @@
             this.btnSave.TabIndex = 30;
             this.btnSave.Text = "Salvar";
             this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // dtSupplier
             // 
             this.dtSupplier.AllowUserToAddRows = false;
             this.dtSupplier.AllowUserToDeleteRows = false;
+            this.dtSupplier.AllowUserToOrderColumns = true;
             this.dtSupplier.AllowUserToResizeColumns = false;
             this.dtSupplier.AllowUserToResizeRows = false;
             this.dtSupplier.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -301,7 +303,7 @@
             this.dtSupplier.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtSupplier.Size = new System.Drawing.Size(362, 326);
             this.dtSupplier.TabIndex = 36;
-            this.dtSupplier.SelectionChanged += new System.EventHandler(this.dtSupplier_SelectionChanged);
+            this.dtSupplier.SelectionChanged += new System.EventHandler(this.DtSupplier_SelectionChanged);
             // 
             // lblSearch
             // 
@@ -318,7 +320,7 @@
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(244, 20);
             this.txtSearch.TabIndex = 37;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             // 
             // btnSelect
             // 
@@ -328,7 +330,7 @@
             this.btnSelect.TabIndex = 64;
             this.btnSelect.Text = "Selecionar";
             this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            this.btnSelect.Click += new System.EventHandler(this.BtnSelect_Click);
             // 
             // SupplierMenu
             // 

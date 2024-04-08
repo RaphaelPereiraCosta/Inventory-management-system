@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblType = new System.Windows.Forms.Label();
-            this.cmbType = new System.Windows.Forms.ComboBox();
+            this.CmbType = new System.Windows.Forms.ComboBox();
             this.lblEmail = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.lblPhone = new System.Windows.Forms.Label();
@@ -50,33 +50,36 @@
             this.lblSupName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtState = new System.Windows.Forms.TextBox();
-            this.btnSelectSupplier = new System.Windows.Forms.Button();
-            this.dtProduct = new System.Windows.Forms.DataGridView();
+            this.BtnSelectSupplier = new System.Windows.Forms.Button();
+            this.DtProduct = new System.Windows.Forms.DataGridView();
             this.lblQuantity = new System.Windows.Forms.Label();
             this.txtQuantity = new System.Windows.Forms.TextBox();
             this.lblDescription = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.lblProdName = new System.Windows.Forms.Label();
             this.txtProdName = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).BeginInit();
+            this.BtnSelectProducts = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(12, 22);
+            this.lblType.Location = new System.Drawing.Point(417, 205);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(98, 13);
             this.lblType.TabIndex = 5;
             this.lblType.Text = "Movimentação de: ";
             // 
-            // cmbType
+            // CmbType
             // 
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(116, 19);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(121, 21);
-            this.cmbType.TabIndex = 4;
+            this.CmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbType.FormattingEnabled = true;
+            this.CmbType.Location = new System.Drawing.Point(521, 202);
+            this.CmbType.Name = "CmbType";
+            this.CmbType.Size = new System.Drawing.Size(121, 21);
+            this.CmbType.TabIndex = 4;
+            this.CmbType.SelectedIndexChanged += new System.EventHandler(this.CmbType_SelectedIndexChanged);
             // 
             // lblEmail
             // 
@@ -115,7 +118,7 @@
             // lblCEP
             // 
             this.lblCEP.AutoSize = true;
-            this.lblCEP.Location = new System.Drawing.Point(22, 157);
+            this.lblCEP.Location = new System.Drawing.Point(683, 60);
             this.lblCEP.Name = "lblCEP";
             this.lblCEP.Size = new System.Drawing.Size(28, 13);
             this.lblCEP.TabIndex = 44;
@@ -123,7 +126,7 @@
             // 
             // txtCEP
             // 
-            this.txtCEP.Location = new System.Drawing.Point(25, 173);
+            this.txtCEP.Location = new System.Drawing.Point(686, 76);
             this.txtCEP.Name = "txtCEP";
             this.txtCEP.ReadOnly = true;
             this.txtCEP.Size = new System.Drawing.Size(140, 20);
@@ -132,7 +135,7 @@
             // lblState
             // 
             this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(605, 111);
+            this.lblState.Location = new System.Drawing.Point(761, 111);
             this.lblState.Name = "lblState";
             this.lblState.Size = new System.Drawing.Size(40, 13);
             this.lblState.TabIndex = 42;
@@ -141,7 +144,7 @@
             // lblCity
             // 
             this.lblCity.AutoSize = true;
-            this.lblCity.Location = new System.Drawing.Point(465, 111);
+            this.lblCity.Location = new System.Drawing.Point(621, 111);
             this.lblCity.Name = "lblCity";
             this.lblCity.Size = new System.Drawing.Size(40, 13);
             this.lblCity.TabIndex = 41;
@@ -149,7 +152,7 @@
             // 
             // txtCity
             // 
-            this.txtCity.Location = new System.Drawing.Point(468, 127);
+            this.txtCity.Location = new System.Drawing.Point(624, 127);
             this.txtCity.Name = "txtCity";
             this.txtCity.ReadOnly = true;
             this.txtCity.Size = new System.Drawing.Size(134, 20);
@@ -158,7 +161,7 @@
             // lblNeigh
             // 
             this.lblNeigh.AutoSize = true;
-            this.lblNeigh.Location = new System.Drawing.Point(306, 111);
+            this.lblNeigh.Location = new System.Drawing.Point(462, 111);
             this.lblNeigh.Name = "lblNeigh";
             this.lblNeigh.Size = new System.Drawing.Size(34, 13);
             this.lblNeigh.TabIndex = 39;
@@ -166,7 +169,7 @@
             // 
             // txtNeigh
             // 
-            this.txtNeigh.Location = new System.Drawing.Point(309, 127);
+            this.txtNeigh.Location = new System.Drawing.Point(465, 127);
             this.txtNeigh.Name = "txtNeigh";
             this.txtNeigh.ReadOnly = true;
             this.txtNeigh.Size = new System.Drawing.Size(153, 20);
@@ -175,7 +178,7 @@
             // lblComplement
             // 
             this.lblComplement.AutoSize = true;
-            this.lblComplement.Location = new System.Drawing.Point(168, 157);
+            this.lblComplement.Location = new System.Drawing.Point(307, 111);
             this.lblComplement.Name = "lblComplement";
             this.lblComplement.Size = new System.Drawing.Size(71, 13);
             this.lblComplement.TabIndex = 37;
@@ -183,7 +186,7 @@
             // 
             // txtComplement
             // 
-            this.txtComplement.Location = new System.Drawing.Point(171, 173);
+            this.txtComplement.Location = new System.Drawing.Point(310, 127);
             this.txtComplement.Name = "txtComplement";
             this.txtComplement.ReadOnly = true;
             this.txtComplement.Size = new System.Drawing.Size(149, 20);
@@ -242,34 +245,44 @@
             // 
             // txtState
             // 
-            this.txtState.Location = new System.Drawing.Point(608, 127);
+            this.txtState.Location = new System.Drawing.Point(764, 127);
             this.txtState.Name = "txtState";
             this.txtState.ReadOnly = true;
             this.txtState.Size = new System.Drawing.Size(80, 20);
             this.txtState.TabIndex = 49;
             // 
-            // btnSelectSupplier
+            // BtnSelectSupplier
             // 
-            this.btnSelectSupplier.Location = new System.Drawing.Point(341, 171);
-            this.btnSelectSupplier.Name = "btnSelectSupplier";
-            this.btnSelectSupplier.Size = new System.Drawing.Size(140, 23);
-            this.btnSelectSupplier.TabIndex = 50;
-            this.btnSelectSupplier.Text = "Selecionar fornecedor";
-            this.btnSelectSupplier.UseVisualStyleBackColor = true;
-            this.btnSelectSupplier.Click += new System.EventHandler(this.btnSelectSupplier_Click);
+            this.BtnSelectSupplier.Location = new System.Drawing.Point(356, 22);
+            this.BtnSelectSupplier.Name = "BtnSelectSupplier";
+            this.BtnSelectSupplier.Size = new System.Drawing.Size(140, 23);
+            this.BtnSelectSupplier.TabIndex = 50;
+            this.BtnSelectSupplier.Text = "Selecionar fornecedor";
+            this.BtnSelectSupplier.UseVisualStyleBackColor = true;
+            this.BtnSelectSupplier.Click += new System.EventHandler(this.BtnSelectSupplier_Click);
             // 
-            // dtProduct
+            // DtProduct
             // 
-            this.dtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtProduct.Location = new System.Drawing.Point(283, 234);
-            this.dtProduct.Name = "dtProduct";
-            this.dtProduct.Size = new System.Drawing.Size(362, 179);
-            this.dtProduct.TabIndex = 51;
+            this.DtProduct.AllowUserToAddRows = false;
+            this.DtProduct.AllowUserToDeleteRows = false;
+            this.DtProduct.AllowUserToOrderColumns = true;
+            this.DtProduct.AllowUserToResizeColumns = false;
+            this.DtProduct.AllowUserToResizeRows = false;
+            this.DtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DtProduct.Location = new System.Drawing.Point(349, 231);
+            this.DtProduct.MultiSelect = false;
+            this.DtProduct.Name = "DtProduct";
+            this.DtProduct.ReadOnly = true;
+            this.DtProduct.RowHeadersVisible = false;
+            this.DtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DtProduct.Size = new System.Drawing.Size(362, 179);
+            this.DtProduct.TabIndex = 51;
             // 
             // lblQuantity
             // 
             this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(12, 267);
+            this.lblQuantity.Location = new System.Drawing.Point(78, 264);
             this.lblQuantity.Name = "lblQuantity";
             this.lblQuantity.Size = new System.Drawing.Size(62, 13);
             this.lblQuantity.TabIndex = 57;
@@ -277,7 +290,7 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(15, 283);
+            this.txtQuantity.Location = new System.Drawing.Point(81, 280);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.ReadOnly = true;
             this.txtQuantity.Size = new System.Drawing.Size(73, 20);
@@ -286,7 +299,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(12, 317);
+            this.lblDescription.Location = new System.Drawing.Point(78, 314);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(55, 13);
             this.lblDescription.TabIndex = 55;
@@ -294,7 +307,7 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(15, 333);
+            this.txtDescription.Location = new System.Drawing.Point(81, 330);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
@@ -304,7 +317,7 @@
             // lblProdName
             // 
             this.lblProdName.AutoSize = true;
-            this.lblProdName.Location = new System.Drawing.Point(12, 218);
+            this.lblProdName.Location = new System.Drawing.Point(78, 215);
             this.lblProdName.Name = "lblProdName";
             this.lblProdName.Size = new System.Drawing.Size(35, 13);
             this.lblProdName.TabIndex = 53;
@@ -312,25 +325,36 @@
             // 
             // txtProdName
             // 
-            this.txtProdName.Location = new System.Drawing.Point(15, 234);
+            this.txtProdName.Location = new System.Drawing.Point(81, 231);
             this.txtProdName.Name = "txtProdName";
             this.txtProdName.ReadOnly = true;
             this.txtProdName.Size = new System.Drawing.Size(142, 20);
             this.txtProdName.TabIndex = 52;
             // 
+            // BtnSelectProducts
+            // 
+            this.BtnSelectProducts.Location = new System.Drawing.Point(356, 167);
+            this.BtnSelectProducts.Name = "BtnSelectProducts";
+            this.BtnSelectProducts.Size = new System.Drawing.Size(140, 23);
+            this.BtnSelectProducts.TabIndex = 58;
+            this.BtnSelectProducts.Text = "Selecionar produtos";
+            this.BtnSelectProducts.UseVisualStyleBackColor = true;
+            this.BtnSelectProducts.Click += new System.EventHandler(this.BtnSelectProducts_Click);
+            // 
             // SupplyMovementMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 450);
+            this.ClientSize = new System.Drawing.Size(858, 474);
+            this.Controls.Add(this.BtnSelectProducts);
             this.Controls.Add(this.lblQuantity);
             this.Controls.Add(this.txtQuantity);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.lblProdName);
             this.Controls.Add(this.txtProdName);
-            this.Controls.Add(this.dtProduct);
-            this.Controls.Add(this.btnSelectSupplier);
+            this.Controls.Add(this.DtProduct);
+            this.Controls.Add(this.BtnSelectSupplier);
             this.Controls.Add(this.txtState);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.txtEmail);
@@ -352,10 +376,10 @@
             this.Controls.Add(this.lblSupName);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblType);
-            this.Controls.Add(this.cmbType);
+            this.Controls.Add(this.CmbType);
             this.Name = "SupplyMovementMenu";
             this.Text = "Movimentação";
-            ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -364,7 +388,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.ComboBox cmbType;
+        private System.Windows.Forms.ComboBox CmbType;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label lblPhone;
@@ -385,13 +409,14 @@
         private System.Windows.Forms.Label lblSupName;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtState;
-        private System.Windows.Forms.Button btnSelectSupplier;
-        private System.Windows.Forms.DataGridView dtProduct;
+        private System.Windows.Forms.Button BtnSelectSupplier;
+        private System.Windows.Forms.DataGridView DtProduct;
         private System.Windows.Forms.Label lblQuantity;
         private System.Windows.Forms.TextBox txtQuantity;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label lblProdName;
         private System.Windows.Forms.TextBox txtProdName;
+        private System.Windows.Forms.Button BtnSelectProducts;
     }
 }
