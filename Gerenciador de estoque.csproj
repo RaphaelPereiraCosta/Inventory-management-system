@@ -100,10 +100,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Connection\DbConnect.cs" />
+    <Compile Include="src\Controller\ProdMovController.cs" />
     <Compile Include="src\Controller\SupplierController.cs" />
     <Compile Include="src\Controller\ProductController.cs" />
     <Compile Include="src\Models\SelectedProd.cs" />
     <Compile Include="src\Repository\ProdMovRepository.cs" />
+    <Compile Include="src\Service\ProdMovService.cs" />
     <Compile Include="src\Service\SupplierService.cs" />
     <Compile Include="src\Service\ProductService.cs" />
     <Compile Include="src\UI\ProductSelect.cs">
