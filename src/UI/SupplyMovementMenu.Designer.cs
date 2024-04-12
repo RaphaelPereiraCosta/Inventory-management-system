@@ -377,6 +377,7 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.CmbType);
+            this.MaximizeBox = false;
             this.Name = "SupplyMovementMenu";
             this.Text = "Movimentação";
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).EndInit();

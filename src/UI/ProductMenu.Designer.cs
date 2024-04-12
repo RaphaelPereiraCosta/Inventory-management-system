@@ -100,11 +100,12 @@
             // 
             this.dtProduct.AllowUserToAddRows = false;
             this.dtProduct.AllowUserToDeleteRows = false;
-            this.dtProduct.AllowUserToResizeColumns = false;
+            this.dtProduct.AllowUserToOrderColumns = true;
             this.dtProduct.AllowUserToResizeRows = false;
             this.dtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtProduct.Location = new System.Drawing.Point(360, 67);
+            this.dtProduct.MultiSelect = false;
             this.dtProduct.Name = "dtProduct";
             this.dtProduct.ReadOnly = true;
             this.dtProduct.RowHeadersVisible = false;
@@ -211,6 +212,7 @@
             this.Controls.Add(this.TxtDescription);
             this.Controls.Add(this.LblName);
             this.Controls.Add(this.TxtName);
+            this.MaximizeBox = false;
             this.Name = "ProductMenu";
             this.Text = "Menu de produtos";
             ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).EndInit();

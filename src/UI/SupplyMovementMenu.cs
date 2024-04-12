@@ -11,7 +11,7 @@ namespace Gerenciador_de_estoque.src.UI
     {
         private Fornecedor _fornecedor = new Fornecedor();
         private readonly Produto _produto = new Produto();
-        private List<Produto> _produtos = new List<Produto>();
+        private List<ProdutoSelecionado> _produtos = new List<ProdutoSelecionado>();
         private int movement;
 
         private SupplierMenu supplierMenu;
@@ -26,8 +26,7 @@ namespace Gerenciador_de_estoque.src.UI
         private void InitializeForm()
         {
             FillTypes();
-            CreateNewSupplierMenu(true);
-            CreateNewProductSelect(movement, _produtos);
+
             AddColumnsToProductList();
         }
 
@@ -43,11 +42,27 @@ namespace Gerenciador_de_estoque.src.UI
                 }
                 CmbType.DisplayMember = "Text";
                 CmbType.ValueMember = "Value";
-                CmbType.SelectedIndex = 0;
+                CmbType.SelectedItem = 0;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao preencher tipos: {ex.Message}");
+            }
+        }
+
+        private void CmbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int tipo)) ;
+                {
+                    movement = tipo;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar tipo de movimentação: {ex.Message}");
             }
         }
 
@@ -58,7 +73,7 @@ namespace Gerenciador_de_estoque.src.UI
             supplierMenu.SupplierSelected += SupplierSelectForm_SupplierSelected;
         }
 
-        private void CreateNewProductSelect(int type, List<Produto> produtos)
+        private void CreateNewProductSelect(int type, List<ProdutoSelecionado> produtos)
         {
             productSelect = new ProductSelect(type, produtos);
             productSelect.FormClosed += ProductSelect_FormClosed;
@@ -84,7 +99,7 @@ namespace Gerenciador_de_estoque.src.UI
             UpdateSupFields(_fornecedor);
         }
 
-        private void ProductSelectForm_ProductSelected(List<Produto> produtos)
+        private void ProductSelectForm_ProductSelected(List<ProdutoSelecionado> produtos)
         {
             _produtos = produtos;
             UpdateProdList(_produtos);
@@ -92,11 +107,16 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnSelectSupplier_Click(object sender, EventArgs e)
         {
+            if (supplierMenu == null || supplierMenu.IsDisposed)
+                CreateNewSupplierMenu(true);
             ShowSupplierMenu();
         }
 
         private void BtnSelectProducts_Click(object sender, EventArgs e)
         {
+            if (productSelect == null || productSelect.IsDisposed)
+                CreateNewProductSelect(movement, _produtos);
+
             ShowProductSelect();
         }
 
@@ -105,10 +125,6 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 Hide();
-                if (productSelect == null) 
-                    CreateNewProductSelect(movement, _produtos);
-                else
-                    productSelect.UpdateSelectedProducts(_produtos); 
                 productSelect.Show();
             }
             catch (Exception ex)
@@ -116,7 +132,6 @@ namespace Gerenciador_de_estoque.src.UI
                 MessageBox.Show($"Erro ao mostrar o menu de produtos: {ex.Message}");
             }
         }
-
 
         private void ShowSupplierMenu()
         {
@@ -185,7 +200,7 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void UpdateProdList(List<Produto> produtoList)
+        private void UpdateProdList(List<ProdutoSelecionado> produtoList)
         {
             DtProduct.Rows.Clear();
 
@@ -208,10 +223,17 @@ namespace Gerenciador_de_estoque.src.UI
                 {
                     int index = DtProduct.CurrentRow.Index;
 
-                    _produto.NomeProduto = DtProduct.Rows[index].Cells["NomeProduto"].Value.ToString();
-                    _produto.QuantidadeEstoque = Convert.ToInt32(DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value);
+                    _produto.NomeProduto = DtProduct
+                        .Rows[index]
+                        .Cells["NomeProduto"]
+                        .Value.ToString();
+                    _produto.QuantidadeEstoque = Convert.ToInt32(
+                        DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
+                    );
                     _produto.Descricao = DtProduct.Rows[index].Cells["Descricao"].Value.ToString();
-                    _produto.IdProduto = Convert.ToInt32(DtProduct.Rows[index].Cells["IdProduto"].Value);
+                    _produto.IdProduto = Convert.ToInt32(
+                        DtProduct.Rows[index].Cells["IdProduto"].Value
+                    );
 
                     txtProdName.Text = _produto.NomeProduto;
                     txtQuantity.Text = _produto.QuantidadeEstoque.ToString();
@@ -224,19 +246,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void CmbType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (int.TryParse((string)CmbType.SelectedValue, out int quantidade))
-                {
-                    movement = quantidade;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar tipo de movimentação: {ex.Message}");
-            }
-        }
+        
     }
 }

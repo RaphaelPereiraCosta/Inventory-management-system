@@ -291,7 +291,6 @@
             this.dtSupplier.AllowUserToAddRows = false;
             this.dtSupplier.AllowUserToDeleteRows = false;
             this.dtSupplier.AllowUserToOrderColumns = true;
-            this.dtSupplier.AllowUserToResizeColumns = false;
             this.dtSupplier.AllowUserToResizeRows = false;
             this.dtSupplier.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -367,6 +366,7 @@
             this.Controls.Add(this.txtStreet);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtName);
+            this.MaximizeBox = false;
             this.Name = "SupplierMenu";
             this.Text = "Menu de Fornecedor";
             ((System.ComponentModel.ISupportInitialize)(this.dtSupplier)).EndInit();

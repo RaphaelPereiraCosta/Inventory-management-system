@@ -14,102 +14,52 @@ namespace Gerenciador_de_estoque
         public Home()
         {
             InitializeComponent();
-            CreateNewProductMenu();
-            CreateNewSupplierMenu(false);
-            CreateNewSupplyMovementMenu();
         }
 
         private void BtnProductMenu_Click(object sender, EventArgs e)
         {
-            ShowProductMenu();
-        }
-
-        private void ShowProductMenu()
-        {
-            try
-            {
-                Hide();
-                productMenu.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao mostrar o menu do produto: {ex.Message}");
+            if (productMenu == null || productMenu.IsDisposed)
                 CreateNewProductMenu();
-            }
-        }
 
-        private void CreateNewProductMenu()
-        {
-            this.productMenu = new ProductMenu();
-            productMenu.FormClosed += ProductMenu_FormClosed;
-        }
-
-        private void ProductMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-            CreateNewProductMenu();
+            ShowForm(productMenu);
         }
 
         private void BtnSupplierMenu_Click(object sender, EventArgs e)
         {
-            ShowSupplierMenu();
-        }
-
-        private void ShowSupplierMenu()
-        {
-            try
-            {
-                Hide();
-                supplierMenu.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao mostrar o menu do fornecedor: {ex.Message}");
+            if (supplierMenu == null || supplierMenu.IsDisposed)
                 CreateNewSupplierMenu(false);
-            }
-        }
 
-        private void CreateNewSupplierMenu(bool isSelecting)
-        {
-            this.supplierMenu = new SupplierMenu(isSelecting);
-            supplierMenu.FormClosed += SupplierMenu_FormClosed;
-        }
-
-        private void SupplierMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-            CreateNewSupplierMenu(false);
-        }
-
-        private void ShowSupplyMovementMenu()
-        {
-            try
-            {
-                Hide();
-                supplyMovementMenu.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao mostrar o menu de movimentação de suprimentos: {ex.Message}");
-                CreateNewSupplyMovementMenu();
-            }
-        }
-
-        private void CreateNewSupplyMovementMenu()
-        {
-            this.supplyMovementMenu = new SupplyMovementMenu();
-            supplyMovementMenu.FormClosed += SupplyMovementMenu_FormClosed;
-        }
-
-        private void SupplyMovementMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-            CreateNewSupplyMovementMenu();
+            ShowForm(supplierMenu);
         }
 
         private void BtnSupplyMovementMenu_Click(object sender, EventArgs e)
         {
-            ShowSupplyMovementMenu();
+            if (supplyMovementMenu == null || supplyMovementMenu.IsDisposed)
+                CreateNewSupplyMovementMenu();
+
+            ShowForm(supplyMovementMenu);
+        }
+
+        private void ShowForm(Form form)
+        {
+            Hide();
+            form.FormClosed += (s, args) => Show();
+            form.Show();
+        }
+
+        private void CreateNewProductMenu()
+        {
+            productMenu = new ProductMenu();
+        }
+
+        private void CreateNewSupplierMenu(bool isSelecting)
+        {
+            supplierMenu = new SupplierMenu(isSelecting);
+        }
+
+        private void CreateNewSupplyMovementMenu()
+        {
+            supplyMovementMenu = new SupplyMovementMenu();
         }
     }
 }

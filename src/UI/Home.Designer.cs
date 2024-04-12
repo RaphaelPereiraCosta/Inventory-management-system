@@ -93,6 +93,7 @@
             this.Controls.Add(this.cmbType);
             this.Controls.Add(this.btnSupplierMenu);
             this.Controls.Add(this.ProductBtn);
+            this.MaximizeBox = false;
             this.Name = "Home";
             this.Text = "Movimentações";
             this.ResumeLayout(false);

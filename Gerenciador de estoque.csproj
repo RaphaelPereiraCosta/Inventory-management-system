@@ -102,6 +102,7 @@
     <Compile Include="src\Connection\DbConnect.cs" />
     <Compile Include="src\Controller\FornecedorController.cs" />
     <Compile Include="src\Controller\ProdutoController.cs" />
+    <Compile Include="src\Models\ProdutoSelecionado.cs" />
     <Compile Include="src\Service\FornecedorService.cs" />
     <Compile Include="src\Service\ProdutoService.cs" />
     <Compile Include="src\UI\ProductSelect.cs">
