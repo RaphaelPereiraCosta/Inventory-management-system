@@ -6,9 +6,9 @@ using Gerenciador_de_estoque.src.Services;
 
 namespace Gerenciador_de_estoque.src.Controllers
 {
-    public class ProdutoController
+    public class ProductController
     {
-        readonly ProdutoService produtoService = new ProdutoService();
+        readonly ProductService produtoService = new ProductService();
 
         public List<Product> GatherProdutos(string nome)
         {

@@ -11,7 +11,7 @@ namespace Gerenciador_de_estoque.src.UI
     {
         
         private readonly SelectedProd _selectedProduct = new SelectedProd();
-        private readonly ProdutoController _controller = new ProdutoController();
+        private readonly ProductController _controller = new ProductController();
         private List<SelectedProd> added = new List<SelectedProd>();
         public event Action<List<SelectedProd>> ProdutoSelected;
         private readonly int type;

@@ -100,11 +100,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Connection\DbConnect.cs" />
-    <Compile Include="src\Controller\FornecedorController.cs" />
-    <Compile Include="src\Controller\ProdutoController.cs" />
-    <Compile Include="src\Models\ProdutoSelecionado.cs" />
-    <Compile Include="src\Service\FornecedorService.cs" />
-    <Compile Include="src\Service\ProdutoService.cs" />
+    <Compile Include="src\Controller\SupplierController.cs" />
+    <Compile Include="src\Controller\ProductController.cs" />
+    <Compile Include="src\Models\SelectedProd.cs" />
+    <Compile Include="src\Repository\ProdMovRepository.cs" />
+    <Compile Include="src\Service\SupplierService.cs" />
+    <Compile Include="src\Service\ProductService.cs" />
     <Compile Include="src\UI\ProductSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,13 +124,13 @@
     <Compile Include="src\UI\Home.Designer.cs">
       <DependentUpon>Home.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Models\Fornecedor.cs" />
-    <Compile Include="src\Models\Produto.cs" />
-    <Compile Include="src\Models\Movimentacao.cs" />
+    <Compile Include="src\Models\Supplier.cs" />
+    <Compile Include="src\Models\Product.cs" />
+    <Compile Include="src\Models\ProductMovement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Repository\FornecedorRepository.cs" />
-    <Compile Include="src\Repository\ProdutoRepository.cs" />
+    <Compile Include="src\Repository\SupplierRepository.cs" />
+    <Compile Include="src\Repository\ProductRepository.cs" />
     <Compile Include="src\UI\ProductMenu.cs">
       <SubType>Form</SubType>
     </Compile>

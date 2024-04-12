@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace Gerenciador_de_estoque.src.Repositories
 {
-    public class FornecedorRepository : IDisposable
+    public class SupplierRepository : IDisposable
     {
         readonly DbConnect _connection = new DbConnect();
 

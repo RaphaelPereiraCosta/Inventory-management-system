@@ -6,9 +6,9 @@ using Gerenciador_de_estoque.src.Services;
 
 namespace Gerenciador_de_estoque.src.Controllers
 {
-    public class FornecedorController
+    public class SupplierController
     {
-        readonly FornecedorService fornecedorService = new FornecedorService();
+        readonly SupplierService fornecedorService = new SupplierService();
 
         public List<Supplier> GatherFornecedores(string nome)
         {

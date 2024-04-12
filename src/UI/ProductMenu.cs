@@ -9,7 +9,7 @@ namespace Gerenciador_de_estoque.UI
     public partial class ProductMenu : Form
     {
         Product _produto = new Product();
-        readonly ProdutoController _controller = new ProdutoController();
+        readonly ProductController _controller = new ProductController();
 
         public ProductMenu()
         {

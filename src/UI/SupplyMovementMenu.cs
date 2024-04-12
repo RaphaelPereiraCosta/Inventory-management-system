@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Utils;
 using Gerenciador_de_estoque.UI;
@@ -11,22 +12,27 @@ namespace Gerenciador_de_estoque.src.UI
     {
         private Supplier _fornecedor = new Supplier();
         private readonly SelectedProd _produto = new SelectedProd();
-        private List<SelectedProd> _produtos = new List<SelectedProd>();
+        private List<SelectedProd> _products = new List<SelectedProd>();
         private int movement;
 
         private SupplierMenu supplierMenu;
         private ProductSelect productSelect;
 
-        // Ajuste na inicialização do formulário
         public SupplyMovementMenu()
         {
             InitializeComponent();
             InitializeForm();
-            // Inicializa o fornecedor corretamente
+
             _fornecedor = new Supplier();
         }
 
-        // Ajuste na função UpdateSupFields
+        private void InitializeForm()
+        {
+            FillTypes();
+
+            AddColumnsToProductList();
+        }
+
         private void UpdateSupFields(Supplier fornecedor)
         {
             try
@@ -46,7 +52,6 @@ namespace Gerenciador_de_estoque.src.UI
                 }
                 else
                 {
-                    // Limpa os campos se não houver fornecedor selecionado
                     txtName.Text = "";
                     txtCity.Text = "";
                     txtCEP.Text = "";
@@ -65,7 +70,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        // Ajuste na função AddColumnsToProductList
         private void AddColumnsToProductList()
         {
             try
@@ -73,8 +77,8 @@ namespace Gerenciador_de_estoque.src.UI
                 DtProduct.Columns.Clear();
                 DtProduct.Columns.Add("IdProduto", "Id");
                 DtProduct.Columns["IdProduto"].Visible = false;
-                DtProduct.Columns.Add("NomeProduto", "Nome do Produto"); // Ajuste no nome da coluna
-                DtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque"); // Ajuste no nome da coluna
+                DtProduct.Columns.Add("NomeProduto", "Nome do Produto");
+                DtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque");
                 DtProduct.Columns.Add("Descricao", "Descrição");
             }
             catch (Exception ex)
@@ -83,7 +87,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        // Ajuste na função DtProduct_SelectionChanged
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
             try
@@ -93,9 +96,16 @@ namespace Gerenciador_de_estoque.src.UI
                     int index = DtProduct.CurrentRow.Index;
 
                     _produto.Name = DtProduct.Rows[index].Cells["NomeProduto"].Value.ToString(); // Ajuste no nome da coluna
-                    _produto.AvaliableAmount = Convert.ToInt32(DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value); // Ajuste no nome da coluna
-                    _produto.Description = DtProduct.Rows[index].Cells["Descricao"].Value.ToString();
-                    _produto.IdProduct = Convert.ToInt32(DtProduct.Rows[index].Cells["IdProduto"].Value);
+                    _produto.AvaliableAmount = Convert.ToInt32(
+                        DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
+                    ); // Ajuste no nome da coluna
+                    _produto.Description = DtProduct
+                        .Rows[index]
+                        .Cells["Descricao"]
+                        .Value.ToString();
+                    _produto.IdProduct = Convert.ToInt32(
+                        DtProduct.Rows[index].Cells["IdProduto"].Value
+                    );
 
                     txtProdName.Text = _produto.Name;
                     txtQuantity.Text = _produto.AvaliableAmount.ToString();
@@ -106,14 +116,6 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
             }
-        }
-
-
-        private void InitializeForm()
-        {
-            FillTypes();
-
-            AddColumnsToProductList();
         }
 
         private void FillTypes()
@@ -128,7 +130,7 @@ namespace Gerenciador_de_estoque.src.UI
                 }
                 CmbType.DisplayMember = "Text";
                 CmbType.ValueMember = "Value";
-                CmbType.SelectedItem = 0;
+                CmbType.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -140,10 +142,11 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-
                 if (int.TryParse(CmbType.SelectedIndex.ToString(), out int tipo))
                 {
                     movement = tipo;
+
+                    BtnConfirm.Text = "Confirmar " + CmbType.Text;
                 }
             }
             catch (Exception ex)
@@ -170,7 +173,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             Show();
 
-            CreateNewProductSelect(movement, _produtos);
+            CreateNewProductSelect(movement, _products);
         }
 
         private void SupplierMenu_FormClosed(object sender, FormClosedEventArgs e)
@@ -185,10 +188,10 @@ namespace Gerenciador_de_estoque.src.UI
             UpdateSupFields(_fornecedor);
         }
 
-        private void ProductSelectForm_ProductSelected(List<SelectedProd> produtos)
+        private void ProductSelectForm_ProductSelected(List<SelectedProd> products)
         {
-            _produtos = produtos;
-            UpdateProdList(_produtos);
+            _products = products;
+            UpdateProdList(_products);
         }
 
         private void BtnSelectSupplier_Click(object sender, EventArgs e)
@@ -201,7 +204,7 @@ namespace Gerenciador_de_estoque.src.UI
         private void BtnSelectProducts_Click(object sender, EventArgs e)
         {
             if (productSelect == null || productSelect.IsDisposed)
-                CreateNewProductSelect(movement, _produtos);
+                CreateNewProductSelect(movement, _products);
 
             ShowProductSelect();
         }
@@ -232,7 +235,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-
         private void UpdateProdList(List<SelectedProd> productList)
         {
             DtProduct.Rows.Clear();
@@ -248,7 +250,26 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        private void BtnConfirm_Click(object sender, EventArgs e)
+        {
+            ProdMovController controller = new ProdMovController();
 
-        
+            ProductMovement movement = new ProductMovement
+            {
+                IdSupplier = _fornecedor.IdSupplier,
+                Type = CmbType.Text,
+
+                Date = DateTime.Now.ToString("dd-MM-yyyy")
+            };
+
+            foreach (SelectedProd product in _products)
+            {
+                movement.ProductsList.Add(product.IdProduct);
+                movement.Amount.Add(product.AmountChange);
+            }
+
+            controller.AddProductMovement(movement);
+        }
+
     }
 }

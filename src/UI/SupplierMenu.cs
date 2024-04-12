@@ -11,7 +11,7 @@ namespace Gerenciador_de_estoque.UI
     public partial class SupplierMenu : Form
     {
         private Supplier _fornecedor = new Supplier();
-        private readonly FornecedorController _controller = new FornecedorController();
+        private readonly SupplierController _controller = new SupplierController();
         private List<string> states = new List<string>();
         private readonly bool _isSelecting;
 

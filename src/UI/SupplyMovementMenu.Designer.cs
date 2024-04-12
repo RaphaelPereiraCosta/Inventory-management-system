@@ -59,13 +59,14 @@
             this.lblProdName = new System.Windows.Forms.Label();
             this.txtProdName = new System.Windows.Forms.TextBox();
             this.BtnSelectProducts = new System.Windows.Forms.Button();
+            this.BtnConfirm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(417, 205);
+            this.lblType.Location = new System.Drawing.Point(28, 177);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(98, 13);
             this.lblType.TabIndex = 5;
@@ -75,7 +76,7 @@
             // 
             this.CmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbType.FormattingEnabled = true;
-            this.CmbType.Location = new System.Drawing.Point(521, 202);
+            this.CmbType.Location = new System.Drawing.Point(132, 174);
             this.CmbType.Name = "CmbType";
             this.CmbType.Size = new System.Drawing.Size(121, 21);
             this.CmbType.TabIndex = 4;
@@ -270,19 +271,19 @@
             this.DtProduct.AllowUserToResizeRows = false;
             this.DtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtProduct.Location = new System.Drawing.Point(349, 231);
+            this.DtProduct.Location = new System.Drawing.Point(414, 210);
             this.DtProduct.MultiSelect = false;
             this.DtProduct.Name = "DtProduct";
             this.DtProduct.ReadOnly = true;
             this.DtProduct.RowHeadersVisible = false;
             this.DtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DtProduct.Size = new System.Drawing.Size(362, 179);
+            this.DtProduct.Size = new System.Drawing.Size(387, 164);
             this.DtProduct.TabIndex = 51;
             // 
             // lblQuantity
             // 
             this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(78, 264);
+            this.lblQuantity.Location = new System.Drawing.Point(184, 210);
             this.lblQuantity.Name = "lblQuantity";
             this.lblQuantity.Size = new System.Drawing.Size(62, 13);
             this.lblQuantity.TabIndex = 57;
@@ -290,7 +291,7 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(81, 280);
+            this.txtQuantity.Location = new System.Drawing.Point(187, 226);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.ReadOnly = true;
             this.txtQuantity.Size = new System.Drawing.Size(73, 20);
@@ -299,7 +300,7 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(78, 314);
+            this.lblDescription.Location = new System.Drawing.Point(22, 258);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(55, 13);
             this.lblDescription.TabIndex = 55;
@@ -307,17 +308,17 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(81, 330);
+            this.txtDescription.Location = new System.Drawing.Point(25, 274);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
-            this.txtDescription.Size = new System.Drawing.Size(237, 81);
+            this.txtDescription.Size = new System.Drawing.Size(300, 100);
             this.txtDescription.TabIndex = 54;
             // 
             // lblProdName
             // 
             this.lblProdName.AutoSize = true;
-            this.lblProdName.Location = new System.Drawing.Point(78, 215);
+            this.lblProdName.Location = new System.Drawing.Point(22, 209);
             this.lblProdName.Name = "lblProdName";
             this.lblProdName.Size = new System.Drawing.Size(35, 13);
             this.lblProdName.TabIndex = 53;
@@ -325,7 +326,7 @@
             // 
             // txtProdName
             // 
-            this.txtProdName.Location = new System.Drawing.Point(81, 231);
+            this.txtProdName.Location = new System.Drawing.Point(25, 225);
             this.txtProdName.Name = "txtProdName";
             this.txtProdName.ReadOnly = true;
             this.txtProdName.Size = new System.Drawing.Size(142, 20);
@@ -333,7 +334,7 @@
             // 
             // BtnSelectProducts
             // 
-            this.BtnSelectProducts.Location = new System.Drawing.Point(356, 167);
+            this.BtnSelectProducts.Location = new System.Drawing.Point(546, 172);
             this.BtnSelectProducts.Name = "BtnSelectProducts";
             this.BtnSelectProducts.Size = new System.Drawing.Size(140, 23);
             this.BtnSelectProducts.TabIndex = 58;
@@ -341,11 +342,22 @@
             this.BtnSelectProducts.UseVisualStyleBackColor = true;
             this.BtnSelectProducts.Click += new System.EventHandler(this.BtnSelectProducts_Click);
             // 
+            // BtnConfirm
+            // 
+            this.BtnConfirm.Location = new System.Drawing.Point(288, 402);
+            this.BtnConfirm.Name = "BtnConfirm";
+            this.BtnConfirm.Size = new System.Drawing.Size(228, 60);
+            this.BtnConfirm.TabIndex = 59;
+            this.BtnConfirm.Text = "Confirmar";
+            this.BtnConfirm.UseVisualStyleBackColor = true;
+            this.BtnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
+            // 
             // SupplyMovementMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 474);
+            this.Controls.Add(this.BtnConfirm);
             this.Controls.Add(this.BtnSelectProducts);
             this.Controls.Add(this.lblQuantity);
             this.Controls.Add(this.txtQuantity);
@@ -419,5 +431,6 @@
         private System.Windows.Forms.Label lblProdName;
         private System.Windows.Forms.TextBox txtProdName;
         private System.Windows.Forms.Button BtnSelectProducts;
+        private System.Windows.Forms.Button BtnConfirm;
     }
 }
