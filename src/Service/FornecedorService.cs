@@ -8,22 +8,22 @@ namespace Gerenciador_de_estoque.src.Services
     {
         readonly FornecedorRepository fornecedorRepository = new FornecedorRepository();
 
-        public List<Fornecedor> GatherFornecedores(string nome)
+        public List<Supplier> GatherFornecedores(string nome)
         {
             return fornecedorRepository.GatherFornecedores(nome);
         }
 
-        public Fornecedor GetOneFornecedor(int id)
+        public Supplier GetOneFornecedor(int id)
         {
             return fornecedorRepository.GetOneFornecedor(id);
         }
 
-        public void AddFornecedor(Fornecedor fornecedor)
+        public void AddFornecedor(Supplier fornecedor)
         {
             fornecedorRepository.AddFornecedor(fornecedor);
         }
 
-        public void UpdateFornecedor(Fornecedor fornecedor)
+        public void UpdateFornecedor(Supplier fornecedor)
         {
             fornecedorRepository.UpdateFornecedor(fornecedor);
         }

@@ -10,12 +10,12 @@ namespace Gerenciador_de_estoque.UI
 {
     public partial class SupplierMenu : Form
     {
-        private Fornecedor _fornecedor = new Fornecedor();
+        private Supplier _fornecedor = new Supplier();
         private readonly FornecedorController _controller = new FornecedorController();
         private List<string> states = new List<string>();
         private readonly bool _isSelecting;
 
-        public event Action<Fornecedor> SupplierSelected;
+        public event Action<Supplier> SupplierSelected;
 
         public SupplierMenu(bool isSelecting)
         {
@@ -122,7 +122,7 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 HandleFields(_isSelecting, false, null);
-                _fornecedor = new Fornecedor();
+                _fornecedor = new Supplier();
             }
             catch (Exception ex)
             {
@@ -160,7 +160,7 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 HandleFields(_isSelecting, true, _fornecedor);
-                _fornecedor = new Fornecedor();
+                _fornecedor = new Supplier();
             }
             catch (Exception ex)
             {
@@ -184,11 +184,11 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                if (_fornecedor.IdFornecedor > 0)
+                if (_fornecedor.IdSupplier > 0)
                 {
                     if (ConfirmDeletion())
                     {
-                        DeleteSupplier(_fornecedor.IdFornecedor);
+                        DeleteSupplier(_fornecedor.IdSupplier);
                         FillSupplierList(txtSearch.Text);
                     }
                 }
@@ -224,31 +224,31 @@ namespace Gerenciador_de_estoque.UI
 
         private void UpdateFornecedorFromGridRow(int index)
         {
-            _fornecedor.IdFornecedor = Convert.ToInt32(dtSupplier.Rows[index].Cells["IdFornecedor"].Value);
-            _fornecedor.NomeFornecedor = dtSupplier.Rows[index].Cells["NomeFornecedor"].Value.ToString();
-            _fornecedor.Cidade = dtSupplier.Rows[index].Cells["Cidade"].Value.ToString();
+            _fornecedor.IdSupplier = Convert.ToInt32(dtSupplier.Rows[index].Cells["IdFornecedor"].Value);
+            _fornecedor.Name = dtSupplier.Rows[index].Cells["NomeFornecedor"].Value.ToString();
+            _fornecedor.City = dtSupplier.Rows[index].Cells["Cidade"].Value.ToString();
             _fornecedor.CEP = dtSupplier.Rows[index].Cells["CEP"].Value.ToString();
-            _fornecedor.Bairro = dtSupplier.Rows[index].Cells["Bairro"].Value.ToString();
-            _fornecedor.Telefone = dtSupplier.Rows[index].Cells["Telefone"].Value.ToString();
-            _fornecedor.Rua = dtSupplier.Rows[index].Cells["Rua"].Value.ToString();
+            _fornecedor.Neighborhood = dtSupplier.Rows[index].Cells["Bairro"].Value.ToString();
+            _fornecedor.Phone = dtSupplier.Rows[index].Cells["Telefone"].Value.ToString();
+            _fornecedor.Street = dtSupplier.Rows[index].Cells["Rua"].Value.ToString();
             _fornecedor.Email = dtSupplier.Rows[index].Cells["Email"].Value.ToString();
-            _fornecedor.Numero = dtSupplier.Rows[index].Cells["Numero"].Value.ToString();
-            _fornecedor.Complemento = dtSupplier.Rows[index].Cells["Complemento"].Value.ToString();
-            _fornecedor.Estado = dtSupplier.Rows[index].Cells["Estado"].Value.ToString();
+            _fornecedor.Number = dtSupplier.Rows[index].Cells["Numero"].Value.ToString();
+            _fornecedor.Complement = dtSupplier.Rows[index].Cells["Complemento"].Value.ToString();
+            _fornecedor.State = dtSupplier.Rows[index].Cells["Estado"].Value.ToString();
         }
 
         private void UpdateUIFromFornecedor()
         {
-            txtName.Text = _fornecedor.NomeFornecedor;
-            txtCity.Text = _fornecedor.Cidade;
+            txtName.Text = _fornecedor.Name;
+            txtCity.Text = _fornecedor.City;
             txtCEP.Text = _fornecedor.CEP;
-            txtNeigh.Text = _fornecedor.Bairro;
-            txtPhone.Text = _fornecedor.Telefone;
-            txtStreet.Text = _fornecedor.Rua;
+            txtNeigh.Text = _fornecedor.Neighborhood;
+            txtPhone.Text = _fornecedor.Phone;
+            txtStreet.Text = _fornecedor.Street;
             txtEmail.Text = _fornecedor.Email;
-            txtNumber.Text = _fornecedor.Numero;
-            txtComplement.Text = _fornecedor.Complemento;
-            cmbStates.SelectedItem = _fornecedor.Estado;
+            txtNumber.Text = _fornecedor.Number;
+            txtComplement.Text = _fornecedor.Complement;
+            cmbStates.SelectedItem = _fornecedor.State;
         }
 
         private bool ConfirmDeletion()
@@ -306,17 +306,17 @@ namespace Gerenciador_de_estoque.UI
             foreach (var fornecedor in fornecedores)
             {
                 dtSupplier.Rows.Add(
-                    fornecedor.IdFornecedor,
-                    fornecedor.NomeFornecedor,
-                    fornecedor.Telefone,
+                    fornecedor.IdSupplier,
+                    fornecedor.Name,
+                    fornecedor.Phone,
                     fornecedor.CEP,
-                    fornecedor.Bairro,
-                    fornecedor.Rua,
+                    fornecedor.Neighborhood,
+                    fornecedor.Street,
                     fornecedor.Email,
-                    fornecedor.Numero,
-                    fornecedor.Complemento,
-                    fornecedor.Cidade,
-                    fornecedor.Estado
+                    fornecedor.Number,
+                    fornecedor.Complement,
+                    fornecedor.City,
+                    fornecedor.State
                 );
             }
         }
@@ -330,15 +330,15 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void HandleFields(bool isSelecting, bool isReadOnly, Fornecedor fornecedor)
+        private void HandleFields(bool isSelecting, bool isReadOnly, Supplier fornecedor)
         {
             UpdateFields(isReadOnly, fornecedor);
             UpdateButtons(isSelecting, isReadOnly);
         }
 
-        private void UpdateFields(bool isReadOnly, Fornecedor fornecedor)
+        private void UpdateFields(bool isReadOnly, Supplier fornecedor)
         {
-            if (fornecedor != null && fornecedor.IdFornecedor > 0)
+            if (fornecedor != null && fornecedor.IdSupplier > 0)
             {
                 UpdateUIFromFornecedor();
             }
@@ -428,16 +428,16 @@ namespace Gerenciador_de_estoque.UI
 
         private void UpdateFornecedorFromUI()
         {
-            _fornecedor.NomeFornecedor = txtName.Text;
-            _fornecedor.Cidade = txtCity.Text;
+            _fornecedor.Name = txtName.Text;
+            _fornecedor.City = txtCity.Text;
             _fornecedor.CEP = txtCEP.Text;
-            _fornecedor.Bairro = txtNeigh.Text;
-            _fornecedor.Telefone = txtPhone.Text;
-            _fornecedor.Rua = txtStreet.Text;
+            _fornecedor.Neighborhood = txtNeigh.Text;
+            _fornecedor.Phone = txtPhone.Text;
+            _fornecedor.Street = txtStreet.Text;
             _fornecedor.Email = txtEmail.Text;
-            _fornecedor.Numero = txtNumber.Text;
-            _fornecedor.Complemento = txtComplement.Text;
-            _fornecedor.Estado = cmbStates.SelectedItem?.ToString();
+            _fornecedor.Number = txtNumber.Text;
+            _fornecedor.Complement = txtComplement.Text;
+            _fornecedor.State = cmbStates.SelectedItem?.ToString();
         }
 
     }

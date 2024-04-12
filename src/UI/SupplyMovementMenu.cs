@@ -9,7 +9,7 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplyMovementMenu : Form
     {
-        private Fornecedor _fornecedor = new Fornecedor();
+        private Supplier _fornecedor = new Supplier();
         private readonly SelectedProd _produto = new SelectedProd();
         private List<SelectedProd> _produtos = new List<SelectedProd>();
         private int movement;
@@ -17,11 +17,97 @@ namespace Gerenciador_de_estoque.src.UI
         private SupplierMenu supplierMenu;
         private ProductSelect productSelect;
 
+        // Ajuste na inicialização do formulário
         public SupplyMovementMenu()
         {
             InitializeComponent();
             InitializeForm();
+            // Inicializa o fornecedor corretamente
+            _fornecedor = new Supplier();
         }
+
+        // Ajuste na função UpdateSupFields
+        private void UpdateSupFields(Supplier fornecedor)
+        {
+            try
+            {
+                if (fornecedor != null && fornecedor.IdSupplier > 0)
+                {
+                    txtName.Text = fornecedor.Name;
+                    txtCity.Text = fornecedor.City;
+                    txtCEP.Text = fornecedor.CEP;
+                    txtNeigh.Text = fornecedor.Neighborhood;
+                    txtPhone.Text = fornecedor.Phone;
+                    txtStreet.Text = fornecedor.Street;
+                    txtEmail.Text = fornecedor.Email;
+                    txtNumber.Text = fornecedor.Number;
+                    txtComplement.Text = fornecedor.Complement;
+                    txtState.Text = fornecedor.State;
+                }
+                else
+                {
+                    // Limpa os campos se não houver fornecedor selecionado
+                    txtName.Text = "";
+                    txtCity.Text = "";
+                    txtCEP.Text = "";
+                    txtNeigh.Text = "";
+                    txtPhone.Text = "";
+                    txtStreet.Text = "";
+                    txtEmail.Text = "";
+                    txtNumber.Text = "";
+                    txtComplement.Text = "";
+                    txtState.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
+            }
+        }
+
+        // Ajuste na função AddColumnsToProductList
+        private void AddColumnsToProductList()
+        {
+            try
+            {
+                DtProduct.Columns.Clear();
+                DtProduct.Columns.Add("IdProduto", "Id");
+                DtProduct.Columns["IdProduto"].Visible = false;
+                DtProduct.Columns.Add("NomeProduto", "Nome do Produto"); // Ajuste no nome da coluna
+                DtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque"); // Ajuste no nome da coluna
+                DtProduct.Columns.Add("Descricao", "Descrição");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
+            }
+        }
+
+        // Ajuste na função DtProduct_SelectionChanged
+        private void DtProduct_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (DtProduct.CurrentRow != null)
+                {
+                    int index = DtProduct.CurrentRow.Index;
+
+                    _produto.Name = DtProduct.Rows[index].Cells["NomeProduto"].Value.ToString(); // Ajuste no nome da coluna
+                    _produto.AvaliableAmount = Convert.ToInt32(DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value); // Ajuste no nome da coluna
+                    _produto.Description = DtProduct.Rows[index].Cells["Descricao"].Value.ToString();
+                    _produto.IdProduct = Convert.ToInt32(DtProduct.Rows[index].Cells["IdProduto"].Value);
+
+                    txtProdName.Text = _produto.Name;
+                    txtQuantity.Text = _produto.AvaliableAmount.ToString();
+                    txtDescription.Text = _produto.Description;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
 
         private void InitializeForm()
         {
@@ -93,7 +179,7 @@ namespace Gerenciador_de_estoque.src.UI
             CreateNewSupplierMenu(true);
         }
 
-        private void SupplierSelectForm_SupplierSelected(Fornecedor fornecedor)
+        private void SupplierSelectForm_SupplierSelected(Supplier fornecedor)
         {
             _fornecedor = fornecedor;
             UpdateSupFields(_fornecedor);
@@ -146,59 +232,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void AddColumnsToProductList()
-        {
-            try
-            {
-                DtProduct.Columns.Clear();
-                DtProduct.Columns.Add("IdProduto", "Id");
-                DtProduct.Columns["IdProduto"].Visible = false;
-                DtProduct.Columns.Add("NomeProduto", "Nome do Produto");
-                DtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque");
-                DtProduct.Columns.Add("Descricao", "Descrição");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
-            }
-        }
-
-        private void UpdateSupFields(Fornecedor fornecedor)
-        {
-            try
-            {
-                if (fornecedor != null && fornecedor.IdFornecedor > 0)
-                {
-                    txtName.Text = fornecedor.NomeFornecedor;
-                    txtCity.Text = fornecedor.Cidade;
-                    txtCEP.Text = fornecedor.CEP;
-                    txtNeigh.Text = fornecedor.Bairro;
-                    txtPhone.Text = fornecedor.Telefone;
-                    txtStreet.Text = fornecedor.Rua;
-                    txtEmail.Text = fornecedor.Email;
-                    txtNumber.Text = fornecedor.Numero;
-                    txtComplement.Text = fornecedor.Complemento;
-                    txtState.Text = fornecedor.Estado;
-                }
-                else
-                {
-                    txtName.Text = "";
-                    txtCity.Text = "";
-                    txtCEP.Text = "";
-                    txtNeigh.Text = "";
-                    txtPhone.Text = "";
-                    txtStreet.Text = "";
-                    txtEmail.Text = "";
-                    txtNumber.Text = "";
-                    txtComplement.Text = "";
-                    txtState.Text = "";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
-            }
-        }
 
         private void UpdateProdList(List<SelectedProd> productList)
         {
@@ -215,36 +248,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void DtProduct_SelectionChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (DtProduct.CurrentRow != null)
-                {
-                    int index = DtProduct.CurrentRow.Index;
-
-                    _produto.Name = DtProduct
-                        .Rows[index]
-                        .Cells["Name"]
-                        .Value.ToString();
-                    _produto.AvaliableAmount = Convert.ToInt32(
-                        DtProduct.Rows[index].Cells["AvaliableAmount"].Value
-                    );
-                    _produto.Description = DtProduct.Rows[index].Cells["Description"].Value.ToString();
-                    _produto.IdProduct = Convert.ToInt32(
-                        DtProduct.Rows[index].Cells["IdProduct"].Value
-                    );
-
-                    txtProdName.Text = _produto.Name;
-                    txtQuantity.Text = _produto.AvaliableAmount.ToString();
-                    txtDescription.Text = _produto.Description;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
-            }
-        }
 
         
     }

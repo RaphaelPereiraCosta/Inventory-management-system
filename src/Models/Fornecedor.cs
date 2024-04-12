@@ -1,17 +1,17 @@
 ﻿namespace Gerenciador_de_estoque.src.Models
 {
-    public class Fornecedor
+    public class Supplier
     {
-        public int IdFornecedor { get; set; }
-        public string NomeFornecedor { get; set; }
-        public string Rua { get; set; }
-        public string Numero { get; set; }
-        public string Complemento { get; set; }
-        public string Bairro { get; set; }
-        public string Cidade { get; set; }
-        public string Estado { get; set; }
+        public int IdSupplier { get; set; }
+        public string Name { get; set; }
+        public string Street { get; set; }
+        public string Number { get; set; }
+        public string Complement { get; set; }
+        public string Neighborhood { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
         public string CEP { get; set; }
-        public string Telefone { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
     }
 }

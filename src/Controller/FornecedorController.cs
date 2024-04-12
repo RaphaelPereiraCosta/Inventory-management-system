@@ -10,7 +10,7 @@ namespace Gerenciador_de_estoque.src.Controllers
     {
         readonly FornecedorService fornecedorService = new FornecedorService();
 
-        public List<Fornecedor> GatherFornecedores(string nome)
+        public List<Supplier> GatherFornecedores(string nome)
         {
             try
             {
@@ -31,8 +31,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-
-        public Fornecedor GetOneFornecedor(int id)
+        public Supplier GetOneFornecedor(int id)
         {
             try
             {
@@ -46,13 +45,13 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void AddFornecedor(Fornecedor fornecedor)
+        public void AddFornecedor(Supplier fornecedor)
         {
             try
             {
                 CheckForEmptyFields(fornecedor);
 
-                if (fornecedor.IdFornecedor <= 0)
+                if (fornecedor.IdSupplier <= 0)
                 {
                     fornecedorService.AddFornecedor(fornecedor);
                     MessageBox.Show("Fornecedor adicionado com sucesso!");
@@ -69,7 +68,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        private void CheckForEmptyFields(Fornecedor fornecedor)
+        private void CheckForEmptyFields(Supplier fornecedor)
         {
             List<string> emptyFields = GetEmptyFields(fornecedor);
 
@@ -82,21 +81,21 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        private List<string> GetEmptyFields(Fornecedor fornecedor)
+        private List<string> GetEmptyFields(Supplier fornecedor)
         {
             List<string> emptyFields = new List<string>();
 
-            if (string.IsNullOrEmpty(fornecedor.NomeFornecedor))
+            if (string.IsNullOrEmpty(fornecedor.Name))
                 emptyFields.Add("Nome");
-            if (string.IsNullOrEmpty(fornecedor.Rua))
+            if (string.IsNullOrEmpty(fornecedor.Street))
                 emptyFields.Add("Rua");
-            if (string.IsNullOrEmpty(fornecedor.Numero))
+            if (string.IsNullOrEmpty(fornecedor.Number))
                 emptyFields.Add("Numero");
-            if (string.IsNullOrEmpty(fornecedor.Bairro))
+            if (string.IsNullOrEmpty(fornecedor.Neighborhood))
                 emptyFields.Add("Bairro");
-            if (string.IsNullOrEmpty(fornecedor.Cidade))
+            if (string.IsNullOrEmpty(fornecedor.City))
                 emptyFields.Add("Cidade");
-            if (string.IsNullOrEmpty(fornecedor.Estado))
+            if (string.IsNullOrEmpty(fornecedor.State))
                 emptyFields.Add("Estado");
             if (string.IsNullOrEmpty(fornecedor.CEP))
                 emptyFields.Add("CEP");

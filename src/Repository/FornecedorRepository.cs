@@ -10,9 +10,9 @@ namespace Gerenciador_de_estoque.src.Repositories
     {
         readonly DbConnect _connection = new DbConnect();
 
-        public List<Fornecedor> GatherFornecedores(string nome)
+        public List<Supplier> GatherFornecedores(string nome)
         {
-            var fornecedores = new List<Fornecedor>();
+            var fornecedores = new List<Supplier>();
 
             string query;
 
@@ -22,7 +22,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             else
             {
-                query = "SELECT * FROM Fornecedor WHERE NomeFornecedor LIKE @nome";
+                query = "SELECT * FROM Fornecedor WHERE Nome LIKE @nome";
             }
 
             try
@@ -41,18 +41,18 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var fornecedor = new Fornecedor
+                                var fornecedor = new Supplier
                                 {
-                                    IdFornecedor = reader.GetInt32("IdFornecedor"),
-                                    NomeFornecedor = reader.GetString("NomeFornecedor"),
-                                    Rua = reader.GetString("Rua"),
-                                    Numero = reader.GetString("Numero"),
-                                    Complemento = reader.GetString("Complemento"),
-                                    Bairro = reader.GetString("Bairro"),
-                                    Cidade = reader.GetString("Cidade"),
-                                    Estado = reader.GetString("Estado"),
+                                    IdSupplier = reader.GetInt32("IdFornecedor"),
+                                    Name = reader.GetString("NomeFornecedor"),
+                                    Street = reader.GetString("Rua"),
+                                    Number = reader.GetString("Numero"),
+                                    Complement = reader.GetString("Complemento"),
+                                    Neighborhood = reader.GetString("Bairro"),
+                                    City = reader.GetString("Cidade"),
+                                    State = reader.GetString("Estado"),
                                     CEP = reader.GetString("CEP"),
-                                    Telefone = reader.GetString("Telefone"),
+                                    Phone = reader.GetString("Telefone"),
                                     Email = reader.GetString("Email")
                                 };
 
@@ -70,9 +70,9 @@ namespace Gerenciador_de_estoque.src.Repositories
             return fornecedores;
         }
 
-        public Fornecedor GetOneFornecedor(int id)
+        public Supplier GetOneFornecedor(int id)
         {
-            Fornecedor fornecedor = null;
+            Supplier fornecedor = null;
             var query = $"SELECT * FROM Fornecedor WHERE IdFornecedor = @id";
 
             try
@@ -88,18 +88,18 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             if (reader.Read())
                             {
-                                fornecedor = new Fornecedor
+                                fornecedor = new Supplier
                                 {
-                                    IdFornecedor = reader.GetInt32("IdFornecedor"),
-                                    NomeFornecedor = reader.GetString("NomeFornecedor"),
-                                    Rua = reader.GetString("Rua"),
-                                    Numero = reader.GetString("Numero"),
-                                    Complemento = reader.GetString("Complemento"),
-                                    Bairro = reader.GetString("Bairro"),
-                                    Cidade = reader.GetString("Cidade"),
-                                    Estado = reader.GetString("Estado"),
+                                    IdSupplier = reader.GetInt32("IdFornecedor"),
+                                    Name = reader.GetString("NomeFornecedor"),
+                                    Street = reader.GetString("Rua"),
+                                    Number = reader.GetString("Numero"),
+                                    Complement = reader.GetString("Complemento"),
+                                    Neighborhood = reader.GetString("Bairro"),
+                                    City = reader.GetString("Cidade"),
+                                    State = reader.GetString("Estado"),
                                     CEP = reader.GetString("CEP"),
-                                    Telefone = reader.GetString("Telefone"),
+                                    Phone = reader.GetString("Telefone"),
                                     Email = reader.GetString("Email")
                                 };
                             }
@@ -115,10 +115,10 @@ namespace Gerenciador_de_estoque.src.Repositories
             return fornecedor;
         }
 
-        public void AddFornecedor(Fornecedor fornecedor)
+        public void AddFornecedor(Supplier fornecedor)
         {
             var query =
-                "INSERT INTO Fornecedor (NomeFornecedor, Rua, Numero, Complemento, Bairro, Cidade, Estado, CEP, Email) VALUES (@nomeFornecedor, @rua, @numero, @complemento, @bairro, @cidade, @estado, @cep, @email)";
+                "INSERT INTO Fornecedor (NomeFornecedor, Rua, Numero, Complemento, Bairro, Cidade, Estado, CEP, Email, Telefone) VALUES (@nomeFornecedor, @rua, @numero, @complemento, @bairro, @cidade, @estado, @cep, @email)";
 
             try
             {
@@ -126,15 +126,16 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.NomeFornecedor);
-                        command.Parameters.AddWithValue("@rua", fornecedor.Rua);
-                        command.Parameters.AddWithValue("@numero", fornecedor.Numero);
-                        command.Parameters.AddWithValue("@complemento", fornecedor.Complemento);
-                        command.Parameters.AddWithValue("@bairro", fornecedor.Bairro);
-                        command.Parameters.AddWithValue("@cidade", fornecedor.Cidade);
-                        command.Parameters.AddWithValue("@estado", fornecedor.Estado);
+                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.Name);
+                        command.Parameters.AddWithValue("@rua", fornecedor.Street);
+                        command.Parameters.AddWithValue("@numero", fornecedor.Number);
+                        command.Parameters.AddWithValue("@complemento", fornecedor.Complement);
+                        command.Parameters.AddWithValue("@bairro", fornecedor.Neighborhood);
+                        command.Parameters.AddWithValue("@cidade", fornecedor.City);
+                        command.Parameters.AddWithValue("@estado", fornecedor.State);
                         command.Parameters.AddWithValue("@cep", fornecedor.CEP);
                         command.Parameters.AddWithValue("@email", fornecedor.Email);
+                        command.Parameters.AddWithValue("@telefone", fornecedor.Phone);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
@@ -147,10 +148,10 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void UpdateFornecedor(Fornecedor fornecedor)
+        public void UpdateFornecedor(Supplier fornecedor)
         {
             var query =
-                "UPDATE Fornecedor SET NomeFornecedor = @nomeFornecedor, Rua = @rua, Numero = @numero, Complemento = @complemento, Bairro = @bairro, Cidade = @cidade, Estado = @estado, CEP = @cep, Email = @email WHERE IdFornecedor = @idFornecedor";
+                "UPDATE Fornecedor SET NomeFornecedor = @nomeFornecedor, Rua = @rua, Numero = @numero, Complemento = @complemento, Bairro = @bairro, Cidade = @cidade, Estado = @estado, CEP = @cep, Email = @email, Telefone = @telefone WHERE IdFornecedor = @idFornecedor";
 
             try
             {
@@ -158,16 +159,17 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.NomeFornecedor);
-                        command.Parameters.AddWithValue("@rua", fornecedor.Rua);
-                        command.Parameters.AddWithValue("@numero", fornecedor.Numero);
-                        command.Parameters.AddWithValue("@complemento", fornecedor.Complemento);
-                        command.Parameters.AddWithValue("@bairro", fornecedor.Bairro);
-                        command.Parameters.AddWithValue("@cidade", fornecedor.Cidade);
-                        command.Parameters.AddWithValue("@estado", fornecedor.Estado);
+                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.Name);
+                        command.Parameters.AddWithValue("@rua", fornecedor.Street);
+                        command.Parameters.AddWithValue("@numero", fornecedor.Number);
+                        command.Parameters.AddWithValue("@complemento", fornecedor.Complement);
+                        command.Parameters.AddWithValue("@bairro", fornecedor.Neighborhood);
+                        command.Parameters.AddWithValue("@cidade", fornecedor.Street);
+                        command.Parameters.AddWithValue("@estado", fornecedor.State);
                         command.Parameters.AddWithValue("@cep", fornecedor.CEP);
                         command.Parameters.AddWithValue("@email", fornecedor.Email);
-                        command.Parameters.AddWithValue("@idFornecedor", fornecedor.IdFornecedor);
+                        command.Parameters.AddWithValue("@telefone", fornecedor.Phone);
+                        command.Parameters.AddWithValue("@idFornecedor", fornecedor.IdSupplier);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
