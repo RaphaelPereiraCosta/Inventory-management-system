@@ -1,7 +1,7 @@
 ﻿namespace Gerenciador_de_estoque.src.Models
 {
-    public class ProdutoSelecionado : Produto
+    public class SelectedProd : Product
     {
-        public int QuantidadeDisponivel { get; set; }
+        public int AmountChange { get; set; }
     }
 }

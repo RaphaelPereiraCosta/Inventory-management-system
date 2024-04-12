@@ -10,8 +10,8 @@ namespace Gerenciador_de_estoque.src.UI
     public partial class SupplyMovementMenu : Form
     {
         private Fornecedor _fornecedor = new Fornecedor();
-        private readonly Produto _produto = new Produto();
-        private List<ProdutoSelecionado> _produtos = new List<ProdutoSelecionado>();
+        private readonly SelectedProd _produto = new SelectedProd();
+        private List<SelectedProd> _produtos = new List<SelectedProd>();
         private int movement;
 
         private SupplierMenu supplierMenu;
@@ -55,7 +55,7 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
 
-                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int tipo)) ;
+                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int tipo))
                 {
                     movement = tipo;
                 }
@@ -73,7 +73,7 @@ namespace Gerenciador_de_estoque.src.UI
             supplierMenu.SupplierSelected += SupplierSelectForm_SupplierSelected;
         }
 
-        private void CreateNewProductSelect(int type, List<ProdutoSelecionado> produtos)
+        private void CreateNewProductSelect(int type, List<SelectedProd> produtos)
         {
             productSelect = new ProductSelect(type, produtos);
             productSelect.FormClosed += ProductSelect_FormClosed;
@@ -99,7 +99,7 @@ namespace Gerenciador_de_estoque.src.UI
             UpdateSupFields(_fornecedor);
         }
 
-        private void ProductSelectForm_ProductSelected(List<ProdutoSelecionado> produtos)
+        private void ProductSelectForm_ProductSelected(List<SelectedProd> produtos)
         {
             _produtos = produtos;
             UpdateProdList(_produtos);
@@ -200,17 +200,17 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void UpdateProdList(List<ProdutoSelecionado> produtoList)
+        private void UpdateProdList(List<SelectedProd> productList)
         {
             DtProduct.Rows.Clear();
 
-            foreach (var produto in produtoList)
+            foreach (var produto in productList)
             {
                 DtProduct.Rows.Add(
-                    produto.IdProduto,
-                    produto.NomeProduto,
-                    produto.QuantidadeEstoque,
-                    produto.Descricao
+                    produto.IdProduct,
+                    produto.Name,
+                    produto.AvaliableAmount,
+                    produto.Description
                 );
             }
         }
@@ -223,21 +223,21 @@ namespace Gerenciador_de_estoque.src.UI
                 {
                     int index = DtProduct.CurrentRow.Index;
 
-                    _produto.NomeProduto = DtProduct
+                    _produto.Name = DtProduct
                         .Rows[index]
-                        .Cells["NomeProduto"]
+                        .Cells["Name"]
                         .Value.ToString();
-                    _produto.QuantidadeEstoque = Convert.ToInt32(
-                        DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
+                    _produto.AvaliableAmount = Convert.ToInt32(
+                        DtProduct.Rows[index].Cells["AvaliableAmount"].Value
                     );
-                    _produto.Descricao = DtProduct.Rows[index].Cells["Descricao"].Value.ToString();
-                    _produto.IdProduto = Convert.ToInt32(
-                        DtProduct.Rows[index].Cells["IdProduto"].Value
+                    _produto.Description = DtProduct.Rows[index].Cells["Description"].Value.ToString();
+                    _produto.IdProduct = Convert.ToInt32(
+                        DtProduct.Rows[index].Cells["IdProduct"].Value
                     );
 
-                    txtProdName.Text = _produto.NomeProduto;
-                    txtQuantity.Text = _produto.QuantidadeEstoque.ToString();
-                    txtDescription.Text = _produto.Descricao;
+                    txtProdName.Text = _produto.Name;
+                    txtQuantity.Text = _produto.AvaliableAmount.ToString();
+                    txtDescription.Text = _produto.Description;
                 }
             }
             catch (Exception ex)

@@ -8,7 +8,7 @@ namespace Gerenciador_de_estoque.UI
 {
     public partial class ProductMenu : Form
     {
-        Produto _produto = new Produto();
+        Product _produto = new Product();
         readonly ProdutoController _controller = new ProdutoController();
 
         public ProductMenu()
@@ -69,21 +69,21 @@ namespace Gerenciador_de_estoque.UI
                 {
                     int index = dtProduct.CurrentRow.Index;
 
-                    _produto.NomeProduto = dtProduct
+                    _produto.Name = dtProduct
                         .Rows[index]
-                        .Cells["NomeProduto"]
+                        .Cells["Name"]
                         .Value.ToString();
-                    _produto.QuantidadeEstoque = Convert.ToInt32(
-                        dtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
+                    _produto.AvaliableAmount = Convert.ToInt32(
+                        dtProduct.Rows[index].Cells["AvaliableAmount"].Value
                     );
-                    _produto.Descricao = dtProduct.Rows[index].Cells["Descricao"].Value.ToString();
-                    _produto.IdProduto = Convert.ToInt32(
-                        dtProduct.Rows[index].Cells["IdProduto"].Value
+                    _produto.Description = dtProduct.Rows[index].Cells["Description"].Value.ToString();
+                    _produto.IdProduct = Convert.ToInt32(
+                        dtProduct.Rows[index].Cells["IdProduct"].Value
                     );
 
-                    TxtName.Text = _produto.NomeProduto;
-                    TxtQuantity.Text = _produto.QuantidadeEstoque.ToString();
-                    TxtDescription.Text = _produto.Descricao;
+                    TxtName.Text = _produto.Name;
+                    TxtQuantity.Text = _produto.AvaliableAmount.ToString();
+                    TxtDescription.Text = _produto.Description;
                 }
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 HandleFields(false, null);
-                _produto = new Produto();
+                _produto = new Product();
             }
             catch (Exception ex)
             {
@@ -109,11 +109,11 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                _produto.NomeProduto = TxtName.Text;
+                _produto.Name = TxtName.Text;
 
                 if (int.TryParse(TxtQuantity.Text, out int quantidade))
                 {
-                    _produto.QuantidadeEstoque = quantidade;
+                    _produto.AvaliableAmount = quantidade;
                 }
                 else
                 {
@@ -121,7 +121,7 @@ namespace Gerenciador_de_estoque.UI
                     return;
                 }
 
-                _produto.Descricao = TxtDescription.Text;
+                _produto.Description = TxtDescription.Text;
                 SaveProduct();
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 HandleFields(true, _produto);
-                _produto = new Produto();
+                _produto = new Product();
             }
             catch (Exception ex)
             {
@@ -171,7 +171,7 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                DeleteProduct(_produto.IdProduto);
+                DeleteProduct(_produto.IdProduct);
                 FillProductList(TxtSearch.Text);
             }
             catch (Exception ex)
@@ -180,7 +180,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void HandleFields(bool isReadOnly, Produto produto)
+        private void HandleFields(bool isReadOnly, Product produto)
         {
             try
             {
@@ -193,15 +193,15 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void UpdateFields(bool isReadOnly, Produto produto)
+        private void UpdateFields(bool isReadOnly, Product produto)
         {
             try
             {
                 if (produto != null)
                 {
-                    TxtName.Text = produto.NomeProduto;
-                    TxtQuantity.Text = Convert.ToString(produto.QuantidadeEstoque);
-                    TxtDescription.Text = produto.Descricao;
+                    TxtName.Text = produto.Name;
+                    TxtQuantity.Text = Convert.ToString(produto.AvaliableAmount);
+                    TxtDescription.Text = produto.Description;
                 }
                 else
                 {
@@ -246,11 +246,11 @@ namespace Gerenciador_de_estoque.UI
             try
             {
                 dtProduct.Columns.Clear();
-                dtProduct.Columns.Add("IdProduto", "Id");
-                dtProduct.Columns["IdProduto"].Visible = false;
-                dtProduct.Columns.Add("NomeProduto", "Nome do Produto");
-                dtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque");
-                dtProduct.Columns.Add("Descricao", "Descrição");
+                dtProduct.Columns.Add("IdProduct", "Id");
+                dtProduct.Columns["IdProduct"].Visible = false;
+                dtProduct.Columns.Add("Name", "Nome do Produto");
+                dtProduct.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
+                dtProduct.Columns.Add("Description", "Descrição");
             }
             catch (Exception ex)
             {
@@ -268,10 +268,10 @@ namespace Gerenciador_de_estoque.UI
                 foreach (var produto in produtos)
                 {
                     dtProduct.Rows.Add(
-                        produto.IdProduto,
-                        produto.NomeProduto,
-                        produto.QuantidadeEstoque,
-                        produto.Descricao
+                        produto.IdProduct,
+                        produto.Name,
+                        produto.AvaliableAmount,
+                        produto.Description
                     );
                 }
             }

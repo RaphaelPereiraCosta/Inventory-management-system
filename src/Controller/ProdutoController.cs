@@ -10,7 +10,7 @@ namespace Gerenciador_de_estoque.src.Controllers
     {
         readonly ProdutoService produtoService = new ProdutoService();
 
-        public List<Produto> GatherProdutos(string nome)
+        public List<Product> GatherProdutos(string nome)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public Produto GetOneProduto(int id)
+        public Product GetOneProduto(int id)
         {
             try
             {
@@ -38,11 +38,11 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void AddProduto(Produto produto)
+        public void AddProduto(Product produto)
         {
             try
             {
-                if (string.IsNullOrEmpty(produto.NomeProduto) || produto.QuantidadeEstoque < 0)
+                if (string.IsNullOrEmpty(produto.Name) || produto.AvaliableAmount < 0)
                 {
                     throw new ArgumentException(
                         "Nome, Descrição, Preço e Quantidade em Estoque do produto não podem estar vazios ou negativos"
@@ -50,7 +50,7 @@ namespace Gerenciador_de_estoque.src.Controllers
                 }
                 else
                 {
-                    if (produto.IdProduto <= 0)
+                    if (produto.IdProduct <= 0)
                     {
                         produtoService.AddProduto(produto);
                         MessageBox.Show("Produto adicionado com sucesso!");

@@ -1,10 +1,10 @@
 ﻿namespace Gerenciador_de_estoque.src.Models
 {
-    public class Produto
+    public class Product
     {
-        public int IdProduto { get; set; }
-        public string NomeProduto { get; set; }
-        public string Descricao { get; set; }
-        public int QuantidadeEstoque { get; set; }
+        public int IdProduct { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int AvaliableAmount { get; set; }
     }
 }

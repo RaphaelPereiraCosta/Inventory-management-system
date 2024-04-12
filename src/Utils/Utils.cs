@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using Gerenciador_de_estoque.src.Models;
 
 namespace Gerenciador_de_estoque.src.Utils
 {
@@ -55,7 +56,6 @@ namespace Gerenciador_de_estoque.src.Utils
 
         public string ValidateNonNegativeNumber(string text)
         {
-
             if (string.IsNullOrEmpty(text))
             {
                 text = "0";
@@ -70,6 +70,20 @@ namespace Gerenciador_de_estoque.src.Utils
             }
 
             return text;
+        }
+
+        public SelectedProd ConvertProdToSelected(Product prod)
+        {
+            SelectedProd selected = new SelectedProd
+            {
+                IdProduct = prod.IdProduct,
+                Name = prod.Name,
+                Description = prod.Description,
+                AvaliableAmount = prod.AvaliableAmount,
+                AmountChange = 0
+            };
+
+            return selected;
         }
     }
 }

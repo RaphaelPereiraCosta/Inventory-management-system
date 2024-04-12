@@ -10,9 +10,9 @@ namespace Gerenciador_de_estoque.src.Repositories
     {
         readonly DbConnect _connection = new DbConnect();
 
-        public List<Produto> GatherProdutos(string nome)
+        public List<Product> GatherProdutos(string nome)
         {
-            var produtos = new List<Produto>();
+            var produtos = new List<Product>();
 
             string query;
 
@@ -41,12 +41,12 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var produto = new Produto
+                                var produto = new Product
                                 {
-                                    IdProduto = reader.GetInt32("IdProduto"),
-                                    NomeProduto = reader.GetString("NomeProduto"),
-                                    Descricao = reader.GetString("Descricao"),
-                                    QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
+                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Name = reader.GetString("Name"),
+                                    Description = reader.GetString("Description"),
+                                    AvaliableAmount = reader.GetInt32("AvaliableAmount")
                                 };
 
                                 produtos.Add(produto);
@@ -63,9 +63,9 @@ namespace Gerenciador_de_estoque.src.Repositories
             return produtos;
         }
 
-        public Produto GetOneProduto(int id)
+        public Product GetOneProduto(int id)
         {
-            Produto produto = null;
+            Product produto = null;
             var query = $"SELECT * FROM Produto WHERE IdProduto = @id";
 
             try
@@ -81,12 +81,12 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             if (reader.Read())
                             {
-                                produto = new Produto
+                                produto = new Product
                                 {
-                                    IdProduto = reader.GetInt32("IdProduto"),
-                                    NomeProduto = reader.GetString("NomeProduto"),
-                                    Descricao = reader.GetString("Descricao"),
-                                    QuantidadeEstoque = reader.GetInt32("QuantidadeEstoque")
+                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Name = reader.GetString("Name"),
+                                    Description = reader.GetString("Description"),
+                                    AvaliableAmount = reader.GetInt32("AvaliableAmount")
                                 };
                             }
                         }
@@ -101,7 +101,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             return produto;
         }
 
-        public void AddProduto(Produto produto)
+        public void AddProduto(Product produto)
         {
             var query =
                 "INSERT INTO Produto (NomeProduto, Descricao, QuantidadeEstoque) VALUES (@nomeProduto, @descricao, @quantidadeEstoque)";
@@ -112,11 +112,11 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeProduto", produto.NomeProduto);
-                        command.Parameters.AddWithValue("@descricao", produto.Descricao);
+                        command.Parameters.AddWithValue("@nomeProduto", produto.Name);
+                        command.Parameters.AddWithValue("@descricao", produto.Description);
                         command.Parameters.AddWithValue(
                             "@quantidadeEstoque",
-                            produto.QuantidadeEstoque
+                            produto.AvaliableAmount.ToString()
                         );
 
                         connectDb.Open();
@@ -130,7 +130,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void UpdateProduto(Produto produto)
+        public void UpdateProduto(Product produto)
         {
             var query =
                 "UPDATE Produto SET NomeProduto = @nomeProduto, Descricao = @descricao, QuantidadeEstoque = @quantidadeEstoque WHERE IdProduto = @idProduto";
@@ -141,13 +141,13 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeProduto", produto.NomeProduto);
-                        command.Parameters.AddWithValue("@descricao", produto.Descricao);
+                        command.Parameters.AddWithValue("@nomeProduto", produto.Name);
+                        command.Parameters.AddWithValue("@descricao", produto.Description);
                         command.Parameters.AddWithValue(
                             "@quantidadeEstoque",
-                            produto.QuantidadeEstoque
+                            produto.AvaliableAmount
                         );
-                        command.Parameters.AddWithValue("@idProduto", produto.IdProduto);
+                        command.Parameters.AddWithValue("@idProduto", produto.IdProduct);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
