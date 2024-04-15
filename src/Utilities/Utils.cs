@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Gerenciador_de_estoque.src.Models;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Gerenciador_de_estoque.src.Utils
+namespace Gerenciador_de_estoque.src.Utilities
 {
-    public class Utilities
+    public class Utils
     {
         public List<string> FillStates(List<string> states)
         {
@@ -69,6 +70,18 @@ namespace Gerenciador_de_estoque.src.Utils
             }
 
             return text;
+        }
+
+        public Product ConvertSelectedToProduct(SelectedProd selected)
+        {
+            Product product = new Product
+            {
+                IdProduct = selected.IdProduct,
+                Name = selected.Name,
+                AvaliableAmount = selected.AvaliableAmount,
+                Description = selected.Description
+            };
+            return product;
         }
 
     }

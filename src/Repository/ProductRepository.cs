@@ -10,13 +10,13 @@ namespace Gerenciador_de_estoque.src.Repositories
     {
         readonly DbConnect _connection = new DbConnect();
 
-        public List<Product> GatherProdutos(string nome)
+        public List<Product> GatherProducts(string name)
         {
-            var produtos = new List<Product>();
+            var products = new List<Product>();
 
             string query;
 
-            if (string.IsNullOrEmpty(nome))
+            if (string.IsNullOrEmpty(name))
             {
                 query = "SELECT * FROM Produto";
             }
@@ -31,9 +31,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        if (!string.IsNullOrEmpty(nome))
+                        if (!string.IsNullOrEmpty(name))
                         {
-                            command.Parameters.AddWithValue("@nome", "%" + nome + "%");
+                            command.Parameters.AddWithValue("@nome", "%" + name + "%");
                         }
 
                         connectDb.Open();
@@ -49,7 +49,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     AvaliableAmount = reader.GetInt32("AvaliableAmount")
                                 };
 
-                                produtos.Add(produto);
+                                products.Add(produto);
                             }
                         }
                     }
@@ -60,10 +60,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                 Console.WriteLine($"Erro ao recuperar produtos: {ex.Message}");
             }
 
-            return produtos;
+            return products;
         }
 
-        public Product GetOneProduto(int id)
+        public Product GetOneProduct(int id)
         {
             Product produto = null;
             var query = $"SELECT * FROM Produto WHERE IdProduto = @id";
@@ -101,7 +101,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             return produto;
         }
 
-        public void AddProduto(Product produto)
+        public void AddProduct(Product produto)
         {
             var query =
                 "INSERT INTO Produto (NomeProduto, Descricao, QuantidadeEstoque) VALUES (@nomeProduto, @descricao, @quantidadeEstoque)";
@@ -130,7 +130,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void UpdateProduto(Product produto)
+        public void UpdateProduct(Product produto)
         {
             var query =
                 "UPDATE Produto SET NomeProduto = @nomeProduto, Descricao = @descricao, QuantidadeEstoque = @quantidadeEstoque WHERE IdProduto = @idProduto";
@@ -160,7 +160,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void DeleteProduto(int id)
+        public void DeleteProduct(int id)
         {
             var query = "DELETE FROM Produto WHERE IdProduto = @id";
 
@@ -181,6 +181,51 @@ namespace Gerenciador_de_estoque.src.Repositories
             {
                 Console.WriteLine($"Erro ao excluir produto: {ex.Message}");
             }
+        }
+
+        public List<Product> GetProductsByMovementId(int movementId)
+        {
+            var products = new List<Product>();
+            var query = @"
+        SELECT p.*
+        FROM Produto p
+        INNER JOIN movement_has_product mhp ON p.IdProduto = mhp.ProductId
+        WHERE mhp.MovementId = @movementId
+    ";
+
+            try
+            {
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+                {
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@movementId", movementId);
+                        connectDb.Open();
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var produto = new Product
+                                {
+                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Name = reader.GetString("Name"),
+                                    Description = reader.GetString("Description"),
+                                    AvaliableAmount = reader.GetInt32("AvaliableAmount")
+                                };
+
+                                products.Add(produto);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao recuperar produtos do movimento: {ex.Message}");
+            }
+
+            return products;
         }
 
         public void Dispose()

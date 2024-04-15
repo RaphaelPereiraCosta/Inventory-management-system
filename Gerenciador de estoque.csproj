@@ -104,7 +104,9 @@
     <Compile Include="src\Controller\SupplierController.cs" />
     <Compile Include="src\Controller\ProductController.cs" />
     <Compile Include="src\Models\SelectedProd.cs" />
+    <Compile Include="src\Repository\Mov_Has_ProdRepository.cs" />
     <Compile Include="src\Repository\ProdMovRepository.cs" />
+    <Compile Include="src\Service\Mov_Has_ProdService.cs" />
     <Compile Include="src\Service\ProdMovService.cs" />
     <Compile Include="src\Service\SupplierService.cs" />
     <Compile Include="src\Service\ProductService.cs" />
@@ -145,7 +147,7 @@
     <Compile Include="src\UI\SupplyMovementMenu.Designer.cs">
       <DependentUpon>SupplyMovementMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Utils\Utils.cs" />
+    <Compile Include="src\Utilities\Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

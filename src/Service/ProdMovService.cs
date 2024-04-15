@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Repository;
 
@@ -13,28 +14,19 @@ namespace Gerenciador_de_estoque.src.Services
             _prodMovRepository = new ProdMovRepository();
         }
 
-        public void AddProductMovement(ProductMovement productMovement)
+        public int AddProductMovement(ProductMovement productMovement)
         {
-            try
-            {
-                _prodMovRepository.Add(productMovement);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao adicionar movimento de produto: {ex.Message}");
-            }
+           
+                return _prodMovRepository.AddMovement(productMovement);
+            
+           
         }
 
-        public void AddMovementHasProduct(int idMovement, int idProduct, int movedAmount)
+        public List<ProductMovement> GatherMovement()
         {
-            try
-            {
-                _prodMovRepository.AddMovementHasProduct(idMovement, idProduct, movedAmount);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao adicionar movimento de produto: {ex.Message}");
-            }
+            return _prodMovRepository.GatherMovement();
         }
+
+
     }
 }

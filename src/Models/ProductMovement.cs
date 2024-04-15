@@ -8,8 +8,7 @@ namespace Gerenciador_de_estoque.src.Models
         public int IdMovement { get; set; }
         public int IdSupplier { get; set; }
         public string Type { get; set; }
-        public List<int> ProductsList { get; set; }
-        public List<int> Amount { get; set; }
+        public List<SelectedProd> ProductsList { get; set; }
         public string Date { get; set; }
 
     }

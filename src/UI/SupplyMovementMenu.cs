@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
-using Gerenciador_de_estoque.src.Utils;
+using Gerenciador_de_estoque.src.Utilities;
 using Gerenciador_de_estoque.UI;
 
 namespace Gerenciador_de_estoque.src.UI
@@ -122,7 +122,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                Utilities utils = new Utilities();
+                Utils utils = new Utils();
                 Dictionary<string, int> types = utils.FillType();
                 foreach (var type in types)
                 {
@@ -258,18 +258,12 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 IdSupplier = _fornecedor.IdSupplier,
                 Type = CmbType.Text,
+                ProductsList = _products,
 
                 Date = DateTime.Now.ToString("dd-MM-yyyy")
             };
 
-            foreach (SelectedProd product in _products)
-            {
-                movement.ProductsList.Add(product.IdProduct);
-                movement.Amount.Add(product.AmountChange);
-            }
-
             controller.AddProductMovement(movement);
         }
-
     }
 }
