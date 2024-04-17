@@ -28,348 +28,348 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblNumber = new System.Windows.Forms.Label();
-            this.txtNumber = new System.Windows.Forms.TextBox();
-            this.lblStreet = new System.Windows.Forms.Label();
-            this.txtStreet = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblComplement = new System.Windows.Forms.Label();
-            this.txtComplement = new System.Windows.Forms.TextBox();
-            this.lblNeigh = new System.Windows.Forms.Label();
-            this.txtNeigh = new System.Windows.Forms.TextBox();
-            this.lblCity = new System.Windows.Forms.Label();
-            this.txtCity = new System.Windows.Forms.TextBox();
-            this.lblState = new System.Windows.Forms.Label();
-            this.lblCEP = new System.Windows.Forms.Label();
-            this.txtCEP = new System.Windows.Forms.TextBox();
-            this.lblPhone = new System.Windows.Forms.Label();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.cmbStates = new System.Windows.Forms.ComboBox();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnGoBack = new System.Windows.Forms.Button();
-            this.btnNew = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.dtSupplier = new System.Windows.Forms.DataGridView();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSelect = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dtSupplier)).BeginInit();
+            this.LblNumber = new System.Windows.Forms.Label();
+            this.TxtNumber = new System.Windows.Forms.TextBox();
+            this.LblStreet = new System.Windows.Forms.Label();
+            this.TxtStreet = new System.Windows.Forms.TextBox();
+            this.LblName = new System.Windows.Forms.Label();
+            this.TxtName = new System.Windows.Forms.TextBox();
+            this.LblComplement = new System.Windows.Forms.Label();
+            this.TxtComplement = new System.Windows.Forms.TextBox();
+            this.LblNeigh = new System.Windows.Forms.Label();
+            this.TxtNeigh = new System.Windows.Forms.TextBox();
+            this.LblCity = new System.Windows.Forms.Label();
+            this.TxtCity = new System.Windows.Forms.TextBox();
+            this.LblState = new System.Windows.Forms.Label();
+            this.LblCEP = new System.Windows.Forms.Label();
+            this.TxtCEP = new System.Windows.Forms.TextBox();
+            this.LblPhone = new System.Windows.Forms.Label();
+            this.TxtPhone = new System.Windows.Forms.TextBox();
+            this.LblEmail = new System.Windows.Forms.Label();
+            this.TxtEmail = new System.Windows.Forms.TextBox();
+            this.CmbStates = new System.Windows.Forms.ComboBox();
+            this.BtnDelete = new System.Windows.Forms.Button();
+            this.BtnEdit = new System.Windows.Forms.Button();
+            this.BtnGoBack = new System.Windows.Forms.Button();
+            this.BtnNew = new System.Windows.Forms.Button();
+            this.BtnCancel = new System.Windows.Forms.Button();
+            this.BtnSave = new System.Windows.Forms.Button();
+            this.DtSupplier = new System.Windows.Forms.DataGridView();
+            this.LblSearch = new System.Windows.Forms.Label();
+            this.TxtSearch = new System.Windows.Forms.TextBox();
+            this.BtnSelect = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.DtSupplier)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblNumber
+            // LblNumber
             // 
-            this.lblNumber.AutoSize = true;
-            this.lblNumber.Location = new System.Drawing.Point(241, 83);
-            this.lblNumber.Name = "lblNumber";
-            this.lblNumber.Size = new System.Drawing.Size(44, 13);
-            this.lblNumber.TabIndex = 14;
-            this.lblNumber.Text = "Numero";
+            this.LblNumber.AutoSize = true;
+            this.LblNumber.Location = new System.Drawing.Point(241, 83);
+            this.LblNumber.Name = "LblNumber";
+            this.LblNumber.Size = new System.Drawing.Size(44, 13);
+            this.LblNumber.TabIndex = 14;
+            this.LblNumber.Text = "Numero";
             // 
-            // txtNumber
+            // TxtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(244, 99);
-            this.txtNumber.Name = "txtNumber";
-            this.txtNumber.Size = new System.Drawing.Size(59, 20);
-            this.txtNumber.TabIndex = 13;
-            this.txtNumber.TextChanged += new System.EventHandler(this.TxtNumber_TextChanged);
+            this.TxtNumber.Location = new System.Drawing.Point(244, 99);
+            this.TxtNumber.Name = "TxtNumber";
+            this.TxtNumber.Size = new System.Drawing.Size(59, 20);
+            this.TxtNumber.TabIndex = 13;
+            this.TxtNumber.TextChanged += new System.EventHandler(this.TxtNumber_TextChanged);
             // 
-            // lblStreet
+            // LblStreet
             // 
-            this.lblStreet.AutoSize = true;
-            this.lblStreet.Location = new System.Drawing.Point(23, 83);
-            this.lblStreet.Name = "lblStreet";
-            this.lblStreet.Size = new System.Drawing.Size(27, 13);
-            this.lblStreet.TabIndex = 12;
-            this.lblStreet.Text = "Rua";
+            this.LblStreet.AutoSize = true;
+            this.LblStreet.Location = new System.Drawing.Point(23, 83);
+            this.LblStreet.Name = "LblStreet";
+            this.LblStreet.Size = new System.Drawing.Size(27, 13);
+            this.LblStreet.TabIndex = 12;
+            this.LblStreet.Text = "Rua";
             // 
-            // txtStreet
+            // TxtStreet
             // 
-            this.txtStreet.Location = new System.Drawing.Point(26, 99);
-            this.txtStreet.Name = "txtStreet";
-            this.txtStreet.Size = new System.Drawing.Size(212, 20);
-            this.txtStreet.TabIndex = 11;
+            this.TxtStreet.Location = new System.Drawing.Point(26, 99);
+            this.TxtStreet.Name = "TxtStreet";
+            this.TxtStreet.Size = new System.Drawing.Size(212, 20);
+            this.TxtStreet.TabIndex = 11;
             // 
-            // lblName
+            // LblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(23, 41);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(35, 13);
-            this.lblName.TabIndex = 10;
-            this.lblName.Text = "Nome";
+            this.LblName.AutoSize = true;
+            this.LblName.Location = new System.Drawing.Point(23, 41);
+            this.LblName.Name = "LblName";
+            this.LblName.Size = new System.Drawing.Size(35, 13);
+            this.LblName.TabIndex = 10;
+            this.LblName.Text = "Nome";
             // 
-            // txtName
+            // TxtName
             // 
-            this.txtName.Location = new System.Drawing.Point(26, 57);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(319, 20);
-            this.txtName.TabIndex = 9;
+            this.TxtName.Location = new System.Drawing.Point(26, 57);
+            this.TxtName.Name = "TxtName";
+            this.TxtName.Size = new System.Drawing.Size(319, 20);
+            this.TxtName.TabIndex = 9;
             // 
-            // lblComplement
+            // LblComplement
             // 
-            this.lblComplement.AutoSize = true;
-            this.lblComplement.Location = new System.Drawing.Point(23, 134);
-            this.lblComplement.Name = "lblComplement";
-            this.lblComplement.Size = new System.Drawing.Size(71, 13);
-            this.lblComplement.TabIndex = 16;
-            this.lblComplement.Text = "Complemento";
+            this.LblComplement.AutoSize = true;
+            this.LblComplement.Location = new System.Drawing.Point(23, 134);
+            this.LblComplement.Name = "LblComplement";
+            this.LblComplement.Size = new System.Drawing.Size(71, 13);
+            this.LblComplement.TabIndex = 16;
+            this.LblComplement.Text = "Complemento";
             // 
-            // txtComplement
+            // TxtComplement
             // 
-            this.txtComplement.Location = new System.Drawing.Point(26, 150);
-            this.txtComplement.Name = "txtComplement";
-            this.txtComplement.Size = new System.Drawing.Size(149, 20);
-            this.txtComplement.TabIndex = 15;
+            this.TxtComplement.Location = new System.Drawing.Point(26, 150);
+            this.TxtComplement.Name = "TxtComplement";
+            this.TxtComplement.Size = new System.Drawing.Size(149, 20);
+            this.TxtComplement.TabIndex = 15;
             // 
-            // lblNeigh
+            // LblNeigh
             // 
-            this.lblNeigh.AutoSize = true;
-            this.lblNeigh.Location = new System.Drawing.Point(189, 134);
-            this.lblNeigh.Name = "lblNeigh";
-            this.lblNeigh.Size = new System.Drawing.Size(34, 13);
-            this.lblNeigh.TabIndex = 18;
-            this.lblNeigh.Text = "Bairro";
+            this.LblNeigh.AutoSize = true;
+            this.LblNeigh.Location = new System.Drawing.Point(189, 134);
+            this.LblNeigh.Name = "LblNeigh";
+            this.LblNeigh.Size = new System.Drawing.Size(34, 13);
+            this.LblNeigh.TabIndex = 18;
+            this.LblNeigh.Text = "Bairro";
             // 
-            // txtNeigh
+            // TxtNeigh
             // 
-            this.txtNeigh.Location = new System.Drawing.Point(192, 150);
-            this.txtNeigh.Name = "txtNeigh";
-            this.txtNeigh.Size = new System.Drawing.Size(153, 20);
-            this.txtNeigh.TabIndex = 17;
+            this.TxtNeigh.Location = new System.Drawing.Point(192, 150);
+            this.TxtNeigh.Name = "TxtNeigh";
+            this.TxtNeigh.Size = new System.Drawing.Size(153, 20);
+            this.TxtNeigh.TabIndex = 17;
             // 
-            // lblCity
+            // LblCity
             // 
-            this.lblCity.AutoSize = true;
-            this.lblCity.Location = new System.Drawing.Point(23, 185);
-            this.lblCity.Name = "lblCity";
-            this.lblCity.Size = new System.Drawing.Size(40, 13);
-            this.lblCity.TabIndex = 20;
-            this.lblCity.Text = "Cidade";
+            this.LblCity.AutoSize = true;
+            this.LblCity.Location = new System.Drawing.Point(23, 185);
+            this.LblCity.Name = "LblCity";
+            this.LblCity.Size = new System.Drawing.Size(40, 13);
+            this.LblCity.TabIndex = 20;
+            this.LblCity.Text = "Cidade";
             // 
-            // txtCity
+            // TxtCity
             // 
-            this.txtCity.Location = new System.Drawing.Point(26, 201);
-            this.txtCity.Name = "txtCity";
-            this.txtCity.Size = new System.Drawing.Size(134, 20);
-            this.txtCity.TabIndex = 19;
+            this.TxtCity.Location = new System.Drawing.Point(26, 201);
+            this.TxtCity.Name = "TxtCity";
+            this.TxtCity.Size = new System.Drawing.Size(134, 20);
+            this.TxtCity.TabIndex = 19;
             // 
-            // lblState
+            // LblState
             // 
-            this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(176, 185);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(40, 13);
-            this.lblState.TabIndex = 22;
-            this.lblState.Text = "Estado";
+            this.LblState.AutoSize = true;
+            this.LblState.Location = new System.Drawing.Point(176, 185);
+            this.LblState.Name = "LblState";
+            this.LblState.Size = new System.Drawing.Size(40, 13);
+            this.LblState.TabIndex = 22;
+            this.LblState.Text = "Estado";
             // 
-            // lblCEP
+            // LblCEP
             // 
-            this.lblCEP.AutoSize = true;
-            this.lblCEP.Location = new System.Drawing.Point(23, 244);
-            this.lblCEP.Name = "lblCEP";
-            this.lblCEP.Size = new System.Drawing.Size(28, 13);
-            this.lblCEP.TabIndex = 24;
-            this.lblCEP.Text = "CEP";
+            this.LblCEP.AutoSize = true;
+            this.LblCEP.Location = new System.Drawing.Point(23, 244);
+            this.LblCEP.Name = "LblCEP";
+            this.LblCEP.Size = new System.Drawing.Size(28, 13);
+            this.LblCEP.TabIndex = 24;
+            this.LblCEP.Text = "CEP";
             // 
-            // txtCEP
+            // TxtCEP
             // 
-            this.txtCEP.Location = new System.Drawing.Point(26, 260);
-            this.txtCEP.Name = "txtCEP";
-            this.txtCEP.Size = new System.Drawing.Size(140, 20);
-            this.txtCEP.TabIndex = 23;
-            this.txtCEP.TextChanged += new System.EventHandler(this.TxtCEP_TextChanged);
+            this.TxtCEP.Location = new System.Drawing.Point(26, 260);
+            this.TxtCEP.Name = "TxtCEP";
+            this.TxtCEP.Size = new System.Drawing.Size(140, 20);
+            this.TxtCEP.TabIndex = 23;
+            this.TxtCEP.TextChanged += new System.EventHandler(this.TxtCEP_TextChanged);
             // 
-            // lblPhone
+            // LblPhone
             // 
-            this.lblPhone.AutoSize = true;
-            this.lblPhone.Location = new System.Drawing.Point(189, 244);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(49, 13);
-            this.lblPhone.TabIndex = 26;
-            this.lblPhone.Text = "Telefone";
+            this.LblPhone.AutoSize = true;
+            this.LblPhone.Location = new System.Drawing.Point(189, 244);
+            this.LblPhone.Name = "LblPhone";
+            this.LblPhone.Size = new System.Drawing.Size(49, 13);
+            this.LblPhone.TabIndex = 26;
+            this.LblPhone.Text = "Telefone";
             // 
-            // txtPhone
+            // TxtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(192, 260);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(134, 20);
-            this.txtPhone.TabIndex = 25;
-            this.txtPhone.TextChanged += new System.EventHandler(this.TxtPhone_TextChanged);
+            this.TxtPhone.Location = new System.Drawing.Point(192, 260);
+            this.TxtPhone.Name = "TxtPhone";
+            this.TxtPhone.Size = new System.Drawing.Size(134, 20);
+            this.TxtPhone.TabIndex = 25;
+            this.TxtPhone.TextChanged += new System.EventHandler(this.TxtPhone_TextChanged);
             // 
-            // lblEmail
+            // LblEmail
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(23, 296);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(35, 13);
-            this.lblEmail.TabIndex = 28;
-            this.lblEmail.Text = "E-mail";
+            this.LblEmail.AutoSize = true;
+            this.LblEmail.Location = new System.Drawing.Point(23, 296);
+            this.LblEmail.Name = "LblEmail";
+            this.LblEmail.Size = new System.Drawing.Size(35, 13);
+            this.LblEmail.TabIndex = 28;
+            this.LblEmail.Text = "E-mail";
             // 
-            // txtEmail
+            // TxtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(26, 312);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(190, 20);
-            this.txtEmail.TabIndex = 27;
+            this.TxtEmail.Location = new System.Drawing.Point(26, 312);
+            this.TxtEmail.Name = "TxtEmail";
+            this.TxtEmail.Size = new System.Drawing.Size(190, 20);
+            this.TxtEmail.TabIndex = 27;
             // 
-            // cmbStates
+            // CmbStates
             // 
-            this.cmbStates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbStates.FormattingEnabled = true;
-            this.cmbStates.Location = new System.Drawing.Point(179, 199);
-            this.cmbStates.Name = "cmbStates";
-            this.cmbStates.Size = new System.Drawing.Size(124, 21);
-            this.cmbStates.TabIndex = 29;
+            this.CmbStates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbStates.FormattingEnabled = true;
+            this.CmbStates.Location = new System.Drawing.Point(179, 199);
+            this.CmbStates.Name = "CmbStates";
+            this.CmbStates.Size = new System.Drawing.Size(124, 21);
+            this.CmbStates.TabIndex = 29;
             // 
-            // btnDelete
+            // BtnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(172, 357);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 35;
-            this.btnDelete.Text = "Deletar";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            this.BtnDelete.Location = new System.Drawing.Point(172, 357);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(75, 23);
+            this.BtnDelete.TabIndex = 35;
+            this.BtnDelete.Text = "Deletar";
+            this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
-            // btnEdit
+            // BtnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(91, 357);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 34;
-            this.btnEdit.Text = "Editar";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
+            this.BtnEdit.Location = new System.Drawing.Point(91, 357);
+            this.BtnEdit.Name = "BtnEdit";
+            this.BtnEdit.Size = new System.Drawing.Size(75, 23);
+            this.BtnEdit.TabIndex = 34;
+            this.BtnEdit.Text = "Editar";
+            this.BtnEdit.UseVisualStyleBackColor = true;
+            this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
-            // btnGoBack
+            // BtnGoBack
             // 
-            this.btnGoBack.Location = new System.Drawing.Point(46, 386);
-            this.btnGoBack.Name = "btnGoBack";
-            this.btnGoBack.Size = new System.Drawing.Size(156, 23);
-            this.btnGoBack.TabIndex = 33;
-            this.btnGoBack.Text = "Voltar";
-            this.btnGoBack.UseVisualStyleBackColor = true;
-            this.btnGoBack.Click += new System.EventHandler(this.BtnGoBack_Click);
+            this.BtnGoBack.Location = new System.Drawing.Point(46, 386);
+            this.BtnGoBack.Name = "BtnGoBack";
+            this.BtnGoBack.Size = new System.Drawing.Size(156, 23);
+            this.BtnGoBack.TabIndex = 33;
+            this.BtnGoBack.Text = "Voltar";
+            this.BtnGoBack.UseVisualStyleBackColor = true;
+            this.BtnGoBack.Click += new System.EventHandler(this.BtnGoBack_Click);
             // 
-            // btnNew
+            // BtnNew
             // 
-            this.btnNew.Location = new System.Drawing.Point(10, 357);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(75, 23);
-            this.btnNew.TabIndex = 32;
-            this.btnNew.Text = "Novo";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.BtnNew_Click);
+            this.BtnNew.Location = new System.Drawing.Point(10, 357);
+            this.BtnNew.Name = "BtnNew";
+            this.BtnNew.Size = new System.Drawing.Size(75, 23);
+            this.BtnNew.TabIndex = 32;
+            this.BtnNew.Text = "Novo";
+            this.BtnNew.UseVisualStyleBackColor = true;
+            this.BtnNew.Click += new System.EventHandler(this.BtnNew_Click);
             // 
-            // btnCancel
+            // BtnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(172, 357);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 31;
-            this.btnCancel.Text = "Cancelar";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            this.BtnCancel.Location = new System.Drawing.Point(172, 357);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancel.TabIndex = 31;
+            this.BtnCancel.Text = "Cancelar";
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
-            // btnSave
+            // BtnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(10, 357);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 30;
-            this.btnSave.Text = "Salvar";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            this.BtnSave.Location = new System.Drawing.Point(10, 357);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(75, 23);
+            this.BtnSave.TabIndex = 30;
+            this.BtnSave.Text = "Salvar";
+            this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // dtSupplier
+            // DtSupplier
             // 
-            this.dtSupplier.AllowUserToAddRows = false;
-            this.dtSupplier.AllowUserToDeleteRows = false;
-            this.dtSupplier.AllowUserToOrderColumns = true;
-            this.dtSupplier.AllowUserToResizeRows = false;
-            this.dtSupplier.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtSupplier.Location = new System.Drawing.Point(392, 83);
-            this.dtSupplier.MultiSelect = false;
-            this.dtSupplier.Name = "dtSupplier";
-            this.dtSupplier.ReadOnly = true;
-            this.dtSupplier.RowHeadersVisible = false;
-            this.dtSupplier.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtSupplier.Size = new System.Drawing.Size(362, 326);
-            this.dtSupplier.TabIndex = 36;
-            this.dtSupplier.SelectionChanged += new System.EventHandler(this.DtSupplier_SelectionChanged);
+            this.DtSupplier.AllowUserToAddRows = false;
+            this.DtSupplier.AllowUserToDeleteRows = false;
+            this.DtSupplier.AllowUserToOrderColumns = true;
+            this.DtSupplier.AllowUserToResizeRows = false;
+            this.DtSupplier.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DtSupplier.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DtSupplier.Location = new System.Drawing.Point(392, 83);
+            this.DtSupplier.MultiSelect = false;
+            this.DtSupplier.Name = "DtSupplier";
+            this.DtSupplier.ReadOnly = true;
+            this.DtSupplier.RowHeadersVisible = false;
+            this.DtSupplier.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DtSupplier.Size = new System.Drawing.Size(362, 326);
+            this.DtSupplier.TabIndex = 36;
+            this.DtSupplier.SelectionChanged += new System.EventHandler(this.DtSupplier_SelectionChanged);
             // 
-            // lblSearch
+            // LblSearch
             // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Location = new System.Drawing.Point(389, 41);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(144, 13);
-            this.lblSearch.TabIndex = 38;
-            this.lblSearch.Text = "Buscar (nome do fornecedor)";
+            this.LblSearch.AutoSize = true;
+            this.LblSearch.Location = new System.Drawing.Point(389, 41);
+            this.LblSearch.Name = "LblSearch";
+            this.LblSearch.Size = new System.Drawing.Size(144, 13);
+            this.LblSearch.TabIndex = 38;
+            this.LblSearch.Text = "Buscar (nome do fornecedor)";
             // 
-            // txtSearch
+            // TxtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(392, 57);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(244, 20);
-            this.txtSearch.TabIndex = 37;
-            this.txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
+            this.TxtSearch.Location = new System.Drawing.Point(392, 57);
+            this.TxtSearch.Name = "TxtSearch";
+            this.TxtSearch.Size = new System.Drawing.Size(244, 20);
+            this.TxtSearch.TabIndex = 37;
+            this.TxtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             // 
-            // btnSelect
+            // BtnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(91, 364);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(180, 45);
-            this.btnSelect.TabIndex = 64;
-            this.btnSelect.Text = "Selecionar";
-            this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.BtnSelect_Click);
+            this.BtnSelect.Location = new System.Drawing.Point(105, 357);
+            this.BtnSelect.Name = "BtnSelect";
+            this.BtnSelect.Size = new System.Drawing.Size(180, 45);
+            this.BtnSelect.TabIndex = 64;
+            this.BtnSelect.Text = "Selecionar";
+            this.BtnSelect.UseVisualStyleBackColor = true;
+            this.BtnSelect.Click += new System.EventHandler(this.BtnSelect_Click);
             // 
             // SupplierMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnSelect);
-            this.Controls.Add(this.lblSearch);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.dtSupplier);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnEdit);
-            this.Controls.Add(this.btnGoBack);
-            this.Controls.Add(this.btnNew);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cmbStates);
-            this.Controls.Add(this.lblEmail);
-            this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.lblPhone);
-            this.Controls.Add(this.txtPhone);
-            this.Controls.Add(this.lblCEP);
-            this.Controls.Add(this.txtCEP);
-            this.Controls.Add(this.lblState);
-            this.Controls.Add(this.lblCity);
-            this.Controls.Add(this.txtCity);
-            this.Controls.Add(this.lblNeigh);
-            this.Controls.Add(this.txtNeigh);
-            this.Controls.Add(this.lblComplement);
-            this.Controls.Add(this.txtComplement);
-            this.Controls.Add(this.lblNumber);
-            this.Controls.Add(this.txtNumber);
-            this.Controls.Add(this.lblStreet);
-            this.Controls.Add(this.txtStreet);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.BtnSelect);
+            this.Controls.Add(this.LblSearch);
+            this.Controls.Add(this.TxtSearch);
+            this.Controls.Add(this.DtSupplier);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.BtnEdit);
+            this.Controls.Add(this.BtnGoBack);
+            this.Controls.Add(this.BtnNew);
+            this.Controls.Add(this.BtnCancel);
+            this.Controls.Add(this.BtnSave);
+            this.Controls.Add(this.CmbStates);
+            this.Controls.Add(this.LblEmail);
+            this.Controls.Add(this.TxtEmail);
+            this.Controls.Add(this.LblPhone);
+            this.Controls.Add(this.TxtPhone);
+            this.Controls.Add(this.LblCEP);
+            this.Controls.Add(this.TxtCEP);
+            this.Controls.Add(this.LblState);
+            this.Controls.Add(this.LblCity);
+            this.Controls.Add(this.TxtCity);
+            this.Controls.Add(this.LblNeigh);
+            this.Controls.Add(this.TxtNeigh);
+            this.Controls.Add(this.LblComplement);
+            this.Controls.Add(this.TxtComplement);
+            this.Controls.Add(this.LblNumber);
+            this.Controls.Add(this.TxtNumber);
+            this.Controls.Add(this.LblStreet);
+            this.Controls.Add(this.TxtStreet);
+            this.Controls.Add(this.LblName);
+            this.Controls.Add(this.TxtName);
             this.MaximizeBox = false;
             this.Name = "SupplierMenu";
             this.Text = "Menu de Fornecedor";
-            ((System.ComponentModel.ISupportInitialize)(this.dtSupplier)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DtSupplier)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,35 +377,35 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblNumber;
-        private System.Windows.Forms.TextBox txtNumber;
-        private System.Windows.Forms.Label lblStreet;
-        private System.Windows.Forms.TextBox txtStreet;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Label lblComplement;
-        private System.Windows.Forms.TextBox txtComplement;
-        private System.Windows.Forms.Label lblNeigh;
-        private System.Windows.Forms.TextBox txtNeigh;
-        private System.Windows.Forms.Label lblCity;
-        private System.Windows.Forms.TextBox txtCity;
-        private System.Windows.Forms.Label lblState;
-        private System.Windows.Forms.Label lblCEP;
-        private System.Windows.Forms.TextBox txtCEP;
-        private System.Windows.Forms.Label lblPhone;
-        private System.Windows.Forms.TextBox txtPhone;
-        private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.ComboBox cmbStates;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnGoBack;
-        private System.Windows.Forms.Button btnNew;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridView dtSupplier;
-        private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Button btnSelect;
+        private System.Windows.Forms.Label LblNumber;
+        private System.Windows.Forms.TextBox TxtNumber;
+        private System.Windows.Forms.Label LblStreet;
+        private System.Windows.Forms.TextBox TxtStreet;
+        private System.Windows.Forms.Label LblName;
+        private System.Windows.Forms.TextBox TxtName;
+        private System.Windows.Forms.Label LblComplement;
+        private System.Windows.Forms.TextBox TxtComplement;
+        private System.Windows.Forms.Label LblNeigh;
+        private System.Windows.Forms.TextBox TxtNeigh;
+        private System.Windows.Forms.Label LblCity;
+        private System.Windows.Forms.TextBox TxtCity;
+        private System.Windows.Forms.Label LblState;
+        private System.Windows.Forms.Label LblCEP;
+        private System.Windows.Forms.TextBox TxtCEP;
+        private System.Windows.Forms.Label LblPhone;
+        private System.Windows.Forms.TextBox TxtPhone;
+        private System.Windows.Forms.Label LblEmail;
+        private System.Windows.Forms.TextBox TxtEmail;
+        private System.Windows.Forms.ComboBox CmbStates;
+        private System.Windows.Forms.Button BtnDelete;
+        private System.Windows.Forms.Button BtnEdit;
+        private System.Windows.Forms.Button BtnGoBack;
+        private System.Windows.Forms.Button BtnNew;
+        private System.Windows.Forms.Button BtnCancel;
+        private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.DataGridView DtSupplier;
+        private System.Windows.Forms.Label LblSearch;
+        private System.Windows.Forms.TextBox TxtSearch;
+        private System.Windows.Forms.Button BtnSelect;
     }
 }

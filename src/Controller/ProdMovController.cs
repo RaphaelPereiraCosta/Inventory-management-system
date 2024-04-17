@@ -37,14 +37,14 @@ namespace Gerenciador_de_estoque.src.Controllers
                 {
                     foreach (var product in productMovement.ProductsList)
                     {
-                        product.AvaliableAmount += product.AmountChange;
+                        product.AvailableAmount += product.AmountChange;
                     }
                 }
                 else
                 {
                     foreach (var product in productMovement.ProductsList)
                     {
-                        product.AvaliableAmount -= product.AmountChange;
+                        product.AvailableAmount -= product.AmountChange;
                     }
                 }
 
@@ -54,11 +54,11 @@ namespace Gerenciador_de_estoque.src.Controllers
 
                     registproduct = utils.ConvertSelectedToProduct(selected);
 
-                    _productController.AddProduto(registproduct);
+                    _productController.AddProduct(registproduct);
 
                     _movHas_ProdService.AddMov_has_Prod(
                         productMovement.IdMovement,
-                        registproduct.IdProduct,
+                        registproduct.Id,
                         selected.AmountChange
                     );
                 }

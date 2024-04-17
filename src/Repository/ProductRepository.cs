@@ -18,11 +18,11 @@ namespace Gerenciador_de_estoque.src.Repositories
 
             if (string.IsNullOrEmpty(name))
             {
-                query = "SELECT * FROM Produto";
+                query = "SELECT * FROM product";
             }
             else
             {
-                query = "SELECT * FROM Produto WHERE NomeProduto LIKE @nome";
+                query = "SELECT * FROM product WHERE Name LIKE @name";
             }
 
             try
@@ -33,7 +33,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         if (!string.IsNullOrEmpty(name))
                         {
-                            command.Parameters.AddWithValue("@nome", "%" + name + "%");
+                            command.Parameters.AddWithValue("@name", "%" + name + "%");
                         }
 
                         connectDb.Open();
@@ -41,15 +41,15 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var produto = new Product
+                                var product = new Product
                                 {
-                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
-                                    Description = reader.GetString("Description"),
-                                    AvaliableAmount = reader.GetInt32("AvaliableAmount")
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
+                                    AvailableAmount = reader.GetInt32("AvailableAmount")
                                 };
 
-                                products.Add(produto);
+                                products.Add(product);
                             }
                         }
                     }
@@ -65,8 +65,8 @@ namespace Gerenciador_de_estoque.src.Repositories
 
         public Product GetOneProduct(int id)
         {
-            Product produto = null;
-            var query = $"SELECT * FROM Produto WHERE IdProduto = @id";
+            Product product = null;
+            var query = $"SELECT * FROM product WHERE Id = @id";
 
             try
             {
@@ -81,12 +81,12 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             if (reader.Read())
                             {
-                                produto = new Product
+                                product = new Product
                                 {
-                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
-                                    Description = reader.GetString("Description"),
-                                    AvaliableAmount = reader.GetInt32("AvaliableAmount")
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
+                                    AvailableAmount = reader.GetInt32("AvailableAmount")
                                 };
                             }
                         }
@@ -98,13 +98,13 @@ namespace Gerenciador_de_estoque.src.Repositories
                 Console.WriteLine($"Erro ao recuperar produto: {ex.Message}");
             }
 
-            return produto;
+            return product;
         }
 
-        public void AddProduct(Product produto)
+        public void AddProduct(Product product)
         {
             var query =
-                "INSERT INTO Produto (NomeProduto, Descricao, QuantidadeEstoque) VALUES (@nomeProduto, @descricao, @quantidadeEstoque)";
+                "INSERT INTO product (Name, Description, AvailableAmount) VALUES (@Name, @Description, @AvailableAmount)";
 
             try
             {
@@ -112,12 +112,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeProduto", produto.Name);
-                        command.Parameters.AddWithValue("@descricao", produto.Description);
-                        command.Parameters.AddWithValue(
-                            "@quantidadeEstoque",
-                            produto.AvaliableAmount.ToString()
-                        );
+                        command.Parameters.AddWithValue("@Name", product.Name);
+                        command.Parameters.AddWithValue("@Description", product.Description);
+                        command.Parameters.AddWithValue("@AvailableAmount", product.AvailableAmount);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
@@ -130,10 +127,10 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void UpdateProduct(Product produto)
+        public void UpdateProduct(Product product)
         {
             var query =
-                "UPDATE Produto SET NomeProduto = @nomeProduto, Descricao = @descricao, QuantidadeEstoque = @quantidadeEstoque WHERE IdProduto = @idProduto";
+                "UPDATE product SET Name = @Name, Description = @Description, AvailableAmount = @AvailableAmount WHERE Id = @Id";
 
             try
             {
@@ -141,13 +138,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeProduto", produto.Name);
-                        command.Parameters.AddWithValue("@descricao", produto.Description);
-                        command.Parameters.AddWithValue(
-                            "@quantidadeEstoque",
-                            produto.AvaliableAmount
-                        );
-                        command.Parameters.AddWithValue("@idProduto", produto.IdProduct);
+                        command.Parameters.AddWithValue("@Name", product.Name);
+                        command.Parameters.AddWithValue("@Description", product.Description);
+                        command.Parameters.AddWithValue("@AvailableAmount", product.AvailableAmount);
+                        command.Parameters.AddWithValue("@Id", product.Id);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
@@ -162,7 +156,7 @@ namespace Gerenciador_de_estoque.src.Repositories
 
         public void DeleteProduct(int id)
         {
-            var query = "DELETE FROM Produto WHERE IdProduto = @id";
+            var query = "DELETE FROM product WHERE Id = @id";
 
             try
             {
@@ -186,12 +180,10 @@ namespace Gerenciador_de_estoque.src.Repositories
         public List<Product> GetProductsByMovementId(int movementId)
         {
             var products = new List<Product>();
-            var query = @"
-        SELECT p.*
-        FROM Produto p
-        INNER JOIN movement_has_product mhp ON p.IdProduto = mhp.ProductId
-        WHERE mhp.MovementId = @movementId
-    ";
+            var query =
+                @"SELECT p.* FROM product p INNER JOIN movement_has_product mhp 
+                 ON p.Id = mhp.product_Id
+                 WHERE mhp.movement_Id = @movementId";
 
             try
             {
@@ -206,15 +198,15 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var produto = new Product
+                                var product = new Product
                                 {
-                                    IdProduct = reader.GetInt32("IdProduct"),
+                                    Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
-                                    Description = reader.GetString("Description"),
-                                    AvaliableAmount = reader.GetInt32("AvaliableAmount")
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
+                                    AvailableAmount = reader.GetInt32("AvailableAmount")
                                 };
 
-                                products.Add(produto);
+                                products.Add(product);
                             }
                         }
                     }

@@ -20,7 +20,7 @@ namespace Gerenciador_de_estoque.src.Repository
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "INSERT INTO movement_has_product (IdMovement, IdProduct, MovedAmount) VALUES (@IdMovement, @IdProduct, @MovedAmount)";
+                            "INSERT INTO movement_has_product (movement_Id, product_Id, MovedAmount) VALUES (@IdMovement, @IdProduct, @MovedAmount)";
                         command.Parameters.AddWithValue("@IdMovement", idMovement);
                         command.Parameters.AddWithValue("@IdProduct", idProduct);
                         command.Parameters.AddWithValue("@MovedAmount", movedAmount);
@@ -47,7 +47,7 @@ namespace Gerenciador_de_estoque.src.Repository
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "DELETE FROM movement_has_product WHERE IdMovement = @IdMovement AND IdProduct = @IdProduct";
+                            "DELETE FROM movement_has_product WHERE movement_Id = @IdMovement AND product_Id = @IdProduct";
                         command.Parameters.AddWithValue("@IdMovement", idMovement);
                         command.Parameters.AddWithValue("@IdProduct", idProduct);
 
@@ -58,6 +58,65 @@ namespace Gerenciador_de_estoque.src.Repository
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao deletar movimento de produto: {ex.Message}");
+            }
+        }
+
+        public int GetMovedAmount(int idMovement, int idProduct)
+        {
+            int movedAmount = 0;
+            try
+            {
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+                {
+                    connectDb.Open();
+
+                    using (var command = new MySqlCommand())
+                    {
+                        command.Connection = connectDb;
+                        command.CommandText =
+                            "SELECT MovedAmount FROM movement_has_product WHERE movement_Id = @IdMovement AND product_Id = @IdProduct";
+                        command.Parameters.AddWithValue("@IdMovement", idMovement);
+                        command.Parameters.AddWithValue("@IdProduct", idProduct);
+
+                        var result = command.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            movedAmount = Convert.ToInt32(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao obter quantidade movida: {ex.Message}");
+            }
+            return movedAmount;
+        }
+
+        public void UpdateMovedAmount(int idMovement, int idProduct, int newMovedAmount)
+        {
+            try
+            {
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+                {
+                    connectDb.Open();
+
+                    using (var command = new MySqlCommand())
+                    {
+                        command.Connection = connectDb;
+                        command.CommandText =
+                            "UPDATE movement_has_product SET MovedAmount = @MovedAmount WHERE movement_Id = @IdMovement AND product_Id = @IdProduct";
+                        command.Parameters.AddWithValue("@IdMovement", idMovement);
+                        command.Parameters.AddWithValue("@IdProduct", idProduct);
+                        command.Parameters.AddWithValue("@MovedAmount", newMovedAmount);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao atualizar quantidade movida: {ex.Message}");
             }
         }
     }

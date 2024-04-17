@@ -10,19 +10,19 @@ namespace Gerenciador_de_estoque.src.Repositories
     {
         readonly DbConnect _connection = new DbConnect();
 
-        public List<Supplier> GatherFornecedores(string nome)
+        public List<Supplier> GatherSuppliers(string name)
         {
-            var fornecedores = new List<Supplier>();
+            var suppliers = new List<Supplier>();
 
             string query;
 
-            if (string.IsNullOrEmpty(nome))
+            if (string.IsNullOrEmpty(name))
             {
-                query = "SELECT * FROM Fornecedor";
+                query = "SELECT * FROM supplier";
             }
             else
             {
-                query = "SELECT * FROM Fornecedor WHERE Nome LIKE @nome";
+                query = "SELECT * FROM supplier WHERE Name LIKE @name";
             }
 
             try
@@ -31,9 +31,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        if (!string.IsNullOrEmpty(nome))
+                        if (!string.IsNullOrEmpty(name))
                         {
-                            command.Parameters.AddWithValue("@nome", "%" + nome + "%");
+                            command.Parameters.AddWithValue("@name", "%" + name + "%");
                         }
 
                         connectDb.Open();
@@ -41,22 +41,22 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var fornecedor = new Supplier
+                                var supplier = new Supplier
                                 {
-                                    IdSupplier = reader.GetInt32("IdFornecedor"),
-                                    Name = reader.GetString("NomeFornecedor"),
-                                    Street = reader.GetString("Rua"),
-                                    Number = reader.GetString("Numero"),
-                                    Complement = reader.GetString("Complemento"),
-                                    Neighborhood = reader.GetString("Bairro"),
-                                    City = reader.GetString("Cidade"),
+                                    IdSupplier = reader.GetInt32("Id"),
+                                    Name = reader.GetString("Name"),
+                                    Street = reader.GetString("Street"),
+                                    Number = reader.GetString("Number"),
+                                    Complement = reader.GetString("Complement"),
+                                    Neighborhood = reader.GetString("Neighborhood"),
+                                    City = reader.GetString("City"),
                                     State = reader.GetString("Estado"),
                                     CEP = reader.GetString("CEP"),
-                                    Phone = reader.GetString("Telefone"),
+                                    Phone = reader.GetString("Phone"),
                                     Email = reader.GetString("Email")
                                 };
 
-                                fornecedores.Add(fornecedor);
+                                suppliers.Add(supplier);
                             }
                         }
                     }
@@ -67,13 +67,13 @@ namespace Gerenciador_de_estoque.src.Repositories
                 Console.WriteLine($"Erro ao recuperar fornecedores: {ex.Message}");
             }
 
-            return fornecedores;
+            return suppliers;
         }
 
-        public Supplier GetOneFornecedor(int id)
+        public Supplier GetOneSupplier(int id)
         {
-            Supplier fornecedor = null;
-            var query = $"SELECT * FROM Fornecedor WHERE IdFornecedor = @id";
+            Supplier supplier = null;
+            var query = $"SELECT * FROM supplier WHERE Id = @id";
 
             try
             {
@@ -88,18 +88,18 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             if (reader.Read())
                             {
-                                fornecedor = new Supplier
+                                supplier = new Supplier
                                 {
-                                    IdSupplier = reader.GetInt32("IdFornecedor"),
-                                    Name = reader.GetString("NomeFornecedor"),
-                                    Street = reader.GetString("Rua"),
-                                    Number = reader.GetString("Numero"),
-                                    Complement = reader.GetString("Complemento"),
-                                    Neighborhood = reader.GetString("Bairro"),
-                                    City = reader.GetString("Cidade"),
+                                    IdSupplier = reader.GetInt32("Id"),
+                                    Name = reader.GetString("Name"),
+                                    Street = reader.GetString("Street"),
+                                    Number = reader.GetString("Number"),
+                                    Complement = reader.GetString("Complement"),
+                                    Neighborhood = reader.GetString("Neighborhood"),
+                                    City = reader.GetString("City"),
                                     State = reader.GetString("Estado"),
                                     CEP = reader.GetString("CEP"),
-                                    Phone = reader.GetString("Telefone"),
+                                    Phone = reader.GetString("Phone"),
                                     Email = reader.GetString("Email")
                                 };
                             }
@@ -112,13 +112,13 @@ namespace Gerenciador_de_estoque.src.Repositories
                 Console.WriteLine($"Erro ao recuperar fornecedor: {ex.Message}");
             }
 
-            return fornecedor;
+            return supplier;
         }
 
-        public void AddFornecedor(Supplier fornecedor)
+        public void AddSupplier(Supplier supplier)
         {
             var query =
-                "INSERT INTO Fornecedor (NomeFornecedor, Rua, Numero, Complemento, Bairro, Cidade, Estado, CEP, Email, Telefone) VALUES (@nomeFornecedor, @rua, @numero, @complemento, @bairro, @cidade, @estado, @cep, @email)";
+                "INSERT INTO supplier (Name, Street, Number, Complement, Neighborhood, City, Estado, CEP, Phone, Email) VALUES (@name, @street, @number, @complement, @neighborhood, @city, @estado, @cep, @phone, @email)";
 
             try
             {
@@ -126,16 +126,16 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.Name);
-                        command.Parameters.AddWithValue("@rua", fornecedor.Street);
-                        command.Parameters.AddWithValue("@numero", fornecedor.Number);
-                        command.Parameters.AddWithValue("@complemento", fornecedor.Complement);
-                        command.Parameters.AddWithValue("@bairro", fornecedor.Neighborhood);
-                        command.Parameters.AddWithValue("@cidade", fornecedor.City);
-                        command.Parameters.AddWithValue("@estado", fornecedor.State);
-                        command.Parameters.AddWithValue("@cep", fornecedor.CEP);
-                        command.Parameters.AddWithValue("@email", fornecedor.Email);
-                        command.Parameters.AddWithValue("@telefone", fornecedor.Phone);
+                        command.Parameters.AddWithValue("@name", supplier.Name);
+                        command.Parameters.AddWithValue("@street", supplier.Street);
+                        command.Parameters.AddWithValue("@number", supplier.Number);
+                        command.Parameters.AddWithValue("@complement", supplier.Complement);
+                        command.Parameters.AddWithValue("@neighborhood", supplier.Neighborhood);
+                        command.Parameters.AddWithValue("@city", supplier.City);
+                        command.Parameters.AddWithValue("@estado", supplier.State);
+                        command.Parameters.AddWithValue("@cep", supplier.CEP);
+                        command.Parameters.AddWithValue("@phone", supplier.Phone);
+                        command.Parameters.AddWithValue("@email", supplier.Email);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
@@ -148,10 +148,10 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void UpdateFornecedor(Supplier fornecedor)
+        public void UpdateSupplier(Supplier supplier)
         {
             var query =
-                "UPDATE Fornecedor SET NomeFornecedor = @nomeFornecedor, Rua = @rua, Numero = @numero, Complemento = @complemento, Bairro = @bairro, Cidade = @cidade, Estado = @estado, CEP = @cep, Email = @email, Telefone = @telefone WHERE IdFornecedor = @idFornecedor";
+                "UPDATE supplier SET Name = @name, Street = @street, Number = @number, Complement = @complement, Neighborhood = @neighborhood, City = @city, Estado = @estado, CEP = @cep, Phone = @phone, Email = @email WHERE Id = @id";
 
             try
             {
@@ -159,17 +159,17 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        command.Parameters.AddWithValue("@nomeFornecedor", fornecedor.Name);
-                        command.Parameters.AddWithValue("@rua", fornecedor.Street);
-                        command.Parameters.AddWithValue("@numero", fornecedor.Number);
-                        command.Parameters.AddWithValue("@complemento", fornecedor.Complement);
-                        command.Parameters.AddWithValue("@bairro", fornecedor.Neighborhood);
-                        command.Parameters.AddWithValue("@cidade", fornecedor.Street);
-                        command.Parameters.AddWithValue("@estado", fornecedor.State);
-                        command.Parameters.AddWithValue("@cep", fornecedor.CEP);
-                        command.Parameters.AddWithValue("@email", fornecedor.Email);
-                        command.Parameters.AddWithValue("@telefone", fornecedor.Phone);
-                        command.Parameters.AddWithValue("@idFornecedor", fornecedor.IdSupplier);
+                        command.Parameters.AddWithValue("@name", supplier.Name);
+                        command.Parameters.AddWithValue("@street", supplier.Street);
+                        command.Parameters.AddWithValue("@number", supplier.Number);
+                        command.Parameters.AddWithValue("@complement", supplier.Complement);
+                        command.Parameters.AddWithValue("@neighborhood", supplier.Neighborhood);
+                        command.Parameters.AddWithValue("@city", supplier.City);
+                        command.Parameters.AddWithValue("@estado", supplier.State);
+                        command.Parameters.AddWithValue("@cep", supplier.CEP);
+                        command.Parameters.AddWithValue("@phone", supplier.Phone);
+                        command.Parameters.AddWithValue("@email", supplier.Email);
+                        command.Parameters.AddWithValue("@id", supplier.IdSupplier);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
@@ -182,9 +182,9 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public void DeleteFornecedor(int id)
+        public void DeleteSupplier(int id)
         {
-            var query = "DELETE FROM Fornecedor WHERE IdFornecedor = @id";
+            var query = "DELETE FROM supplier WHERE Id = @id";
 
             try
             {

@@ -11,9 +11,10 @@ namespace Gerenciador_de_estoque.src.UI
     public partial class SupplyMovementMenu : Form
     {
         private Supplier _fornecedor = new Supplier();
-        private readonly SelectedProd _produto = new SelectedProd();
+        private SelectedProd selectedProduct = new SelectedProd();
         private List<SelectedProd> _products = new List<SelectedProd>();
         private int movement;
+        readonly Utils utils = new Utils();
 
         private SupplierMenu supplierMenu;
         private ProductSelect productSelect;
@@ -28,6 +29,7 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void InitializeForm()
         {
+            TxtDate.Text = DateTime.Now.ToString("dd-MM-yyyy").ToString();
             FillTypes();
 
             AddColumnsToProductList();
@@ -39,29 +41,29 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 if (fornecedor != null && fornecedor.IdSupplier > 0)
                 {
-                    txtName.Text = fornecedor.Name;
-                    txtCity.Text = fornecedor.City;
-                    txtCEP.Text = fornecedor.CEP;
-                    txtNeigh.Text = fornecedor.Neighborhood;
-                    txtPhone.Text = fornecedor.Phone;
-                    txtStreet.Text = fornecedor.Street;
-                    txtEmail.Text = fornecedor.Email;
-                    txtNumber.Text = fornecedor.Number;
-                    txtComplement.Text = fornecedor.Complement;
-                    txtState.Text = fornecedor.State;
+                    TxtName.Text = fornecedor.Name;
+                    TxtCity.Text = fornecedor.City;
+                    TxtCEP.Text = fornecedor.CEP;
+                    TxtNeigh.Text = fornecedor.Neighborhood;
+                    TxtPhone.Text = fornecedor.Phone;
+                    TxtStreet.Text = fornecedor.Street;
+                    TxtEmail.Text = fornecedor.Email;
+                    TxtNumber.Text = fornecedor.Number;
+                    TxtComplement.Text = fornecedor.Complement;
+                    TxtState.Text = fornecedor.State;
                 }
                 else
                 {
-                    txtName.Text = "";
-                    txtCity.Text = "";
-                    txtCEP.Text = "";
-                    txtNeigh.Text = "";
-                    txtPhone.Text = "";
-                    txtStreet.Text = "";
-                    txtEmail.Text = "";
-                    txtNumber.Text = "";
-                    txtComplement.Text = "";
-                    txtState.Text = "";
+                    TxtName.Text = "";
+                    TxtCity.Text = "";
+                    TxtCEP.Text = "";
+                    TxtNeigh.Text = "";
+                    TxtPhone.Text = "";
+                    TxtStreet.Text = "";
+                    TxtEmail.Text = "";
+                    TxtNumber.Text = "";
+                    TxtComplement.Text = "";
+                    TxtState.Text = "";
                 }
             }
             catch (Exception ex)
@@ -75,11 +77,7 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 DtProduct.Columns.Clear();
-                DtProduct.Columns.Add("IdProduto", "Id");
-                DtProduct.Columns["IdProduto"].Visible = false;
-                DtProduct.Columns.Add("NomeProduto", "Nome do Produto");
-                DtProduct.Columns.Add("QuantidadeEstoque", "Quantidade em Estoque");
-                DtProduct.Columns.Add("Descricao", "Descrição");
+                utils.AddProductColumns(DtProduct);
             }
             catch (Exception ex)
             {
@@ -95,21 +93,24 @@ namespace Gerenciador_de_estoque.src.UI
                 {
                     int index = DtProduct.CurrentRow.Index;
 
-                    _produto.Name = DtProduct.Rows[index].Cells["NomeProduto"].Value.ToString(); // Ajuste no nome da coluna
-                    _produto.AvaliableAmount = Convert.ToInt32(
+                    selectedProduct.Name = DtProduct
+                        .Rows[index]
+                        .Cells["NomeProduto"]
+                        .Value.ToString();
+                    selectedProduct.AvailableAmount = Convert.ToInt32(
                         DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
-                    ); // Ajuste no nome da coluna
-                    _produto.Description = DtProduct
+                    );
+                    selectedProduct.Description = DtProduct
                         .Rows[index]
                         .Cells["Descricao"]
                         .Value.ToString();
-                    _produto.IdProduct = Convert.ToInt32(
+                    selectedProduct.Id = Convert.ToInt32(
                         DtProduct.Rows[index].Cells["IdProduto"].Value
                     );
 
-                    txtProdName.Text = _produto.Name;
-                    txtQuantity.Text = _produto.AvaliableAmount.ToString();
-                    txtDescription.Text = _produto.Description;
+                    TxtProdName.Text = selectedProduct.Name;
+                    TxtAmount.Text = selectedProduct.AvailableAmount.ToString();
+                    TxtDescription.Text = selectedProduct.Description;
                 }
             }
             catch (Exception ex)
@@ -142,12 +143,15 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int tipo))
+                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int type))
                 {
-                    movement = tipo;
+                    movement = type;
+
+                     LblAmountChanged.Text = type == 0 ? "Quantidade adicionada" : "Quantidade retirada";
 
                     BtnConfirm.Text = "Confirmar " + CmbType.Text;
                 }
+
             }
             catch (Exception ex)
             {
@@ -242,9 +246,9 @@ namespace Gerenciador_de_estoque.src.UI
             foreach (var produto in productList)
             {
                 DtProduct.Rows.Add(
-                    produto.IdProduct,
+                    produto.Id,
                     produto.Name,
-                    produto.AvaliableAmount,
+                    produto.AvailableAmount,
                     produto.Description
                 );
             }
@@ -256,14 +260,108 @@ namespace Gerenciador_de_estoque.src.UI
 
             ProductMovement movement = new ProductMovement
             {
-                IdSupplier = _fornecedor.IdSupplier,
+                Supplier = new Supplier() { IdSupplier = _fornecedor.IdSupplier },
                 Type = CmbType.Text,
                 ProductsList = _products,
-
-                Date = DateTime.Now.ToString("dd-MM-yyyy")
+                Date = null
             };
 
+            if (ChkToday.Checked)
+            {
+                movement.Date = DateTime.Now.ToString("dd-MM-yyyy");
+            }
+            else
+            {
+                movement.Date = TxtDate.Text;
+            }
+
             controller.AddProductMovement(movement);
+        }
+
+        private void TxtDate_TextChanged(object sender, EventArgs e)
+        {
+            if (TxtDate.Text.Length > 0)
+            {
+                bool isValid = DateTime.TryParseExact(
+                    TxtDate.Text,
+                    "dd/MM/yyyy",
+                    null,
+                    System.Globalization.DateTimeStyles.None,
+                    out _
+                );
+
+                if (!isValid)
+                {
+                    MessageBox.Show(
+                        "Data inválida. Por favor, insira a data no formato dd/MM/yyyy"
+                    );
+                    TxtDate.Focus();
+                }
+            }
+        }
+
+        private void ChkToday_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkToday.Checked)
+            {
+                TxtDate.ReadOnly = true;
+                TxtDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
+            }
+            else
+            {
+                TxtDate.ReadOnly = false;
+            }
+        }
+
+        private void SelectRow(DataGridView table)
+        {
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    selectedProduct = utils.SelectRowProduct(table);
+
+                    HandleFields(selectedProduct);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
+        private void HandleFields(SelectedProd selected)
+        {
+            try
+            {
+                if (selected != null)
+                {
+                    TxtName.Text = selected.Name;
+                    TxtDescription.Text = selected.Description;
+                    TxtAmount.Text = Convert.ToString(selected.AvailableAmount);
+                    if (selected.AmountChange >= 0)
+                    {
+                        TxtAmount.Text = Convert.ToString(selected.AmountChange);
+                    }
+                }
+                else
+                {
+                    TxtName.Text = "";
+                    TxtAmount.Text = "";
+
+                    TxtDescription.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
+            }
+        }
+
+        private void DtProduct_SelectionChanged_1(object sender, EventArgs e)
+        {
+            SelectRow(DtProduct);
+            HandleFields(selectedProduct);
         }
     }
 }

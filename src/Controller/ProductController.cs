@@ -10,11 +10,11 @@ namespace Gerenciador_de_estoque.src.Controllers
     {
         readonly ProductService produtoService = new ProductService();
 
-        public List<Product> GatherProdutos(string nome)
+        public List<Product> GatherProducts(string nome)
         {
             try
             {
-                var produtos = produtoService.GatherProdutos(nome);
+                var produtos = produtoService.GatherProducts(nome);
                 return produtos;
             }
             catch (Exception ex)
@@ -24,11 +24,11 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public Product GetOneProduto(int id)
+        public Product GetOneProduct(int id)
         {
             try
             {
-                var produto = produtoService.GetOneProduto(id);
+                var produto = produtoService.GetOneProduct(id);
                 return produto;
             }
             catch (Exception ex)
@@ -38,26 +38,26 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void AddProduto(Product produto)
+        public void AddProduct(Product product)
         {
             try
             {
-                if (string.IsNullOrEmpty(produto.Name) || produto.AvaliableAmount < 0)
+                if (string.IsNullOrEmpty(product.Name) || product.AvailableAmount < 0)
                 {
                     throw new ArgumentException(
-                        "Nome, Descrição, Preço e Quantidade em Estoque do produto não podem estar vazios ou negativos"
+                        "Nome e Quantidade do produto não podem estar vazios ou negativos"
                     );
                 }
                 else
                 {
-                    if (produto.IdProduct <= 0)
+                    if (product.Id <= 0)
                     {
-                        produtoService.AddProduto(produto);
+                        produtoService.AddProduct(product);
                         MessageBox.Show("Produto adicionado com sucesso!");
                     }
                     else
                     {
-                        produtoService.UpdateProduto(produto);
+                        produtoService.UpdateProduct(product);
                         MessageBox.Show("Produto editado com sucesso!");
                     }
                 }
@@ -68,11 +68,11 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void DeleteProduto(int id)
+        public void DeleteProduct(int id)
         {
             try
             {
-                produtoService.DeleteProduto(id);
+                produtoService.DeleteProduct(id);
                 MessageBox.Show("Produto deletado com sucesso!");
             }
             catch (Exception ex)

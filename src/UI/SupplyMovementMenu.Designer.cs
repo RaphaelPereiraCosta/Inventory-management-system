@@ -28,233 +28,241 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblType = new System.Windows.Forms.Label();
+            this.LblType = new System.Windows.Forms.Label();
             this.CmbType = new System.Windows.Forms.ComboBox();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblPhone = new System.Windows.Forms.Label();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.lblCEP = new System.Windows.Forms.Label();
-            this.txtCEP = new System.Windows.Forms.TextBox();
-            this.lblState = new System.Windows.Forms.Label();
-            this.lblCity = new System.Windows.Forms.Label();
-            this.txtCity = new System.Windows.Forms.TextBox();
-            this.lblNeigh = new System.Windows.Forms.Label();
-            this.txtNeigh = new System.Windows.Forms.TextBox();
-            this.lblComplement = new System.Windows.Forms.Label();
-            this.txtComplement = new System.Windows.Forms.TextBox();
-            this.lblNumber = new System.Windows.Forms.Label();
-            this.txtNumber = new System.Windows.Forms.TextBox();
-            this.lblStreet = new System.Windows.Forms.Label();
-            this.txtStreet = new System.Windows.Forms.TextBox();
-            this.lblSupName = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.txtState = new System.Windows.Forms.TextBox();
+            this.LblEmail = new System.Windows.Forms.Label();
+            this.TxtEmail = new System.Windows.Forms.TextBox();
+            this.LblPhone = new System.Windows.Forms.Label();
+            this.TxtPhone = new System.Windows.Forms.TextBox();
+            this.LblCEP = new System.Windows.Forms.Label();
+            this.TxtCEP = new System.Windows.Forms.TextBox();
+            this.LblState = new System.Windows.Forms.Label();
+            this.LblCity = new System.Windows.Forms.Label();
+            this.TxtCity = new System.Windows.Forms.TextBox();
+            this.LblNeigh = new System.Windows.Forms.Label();
+            this.TxtNeigh = new System.Windows.Forms.TextBox();
+            this.LblComplement = new System.Windows.Forms.Label();
+            this.TxtComplement = new System.Windows.Forms.TextBox();
+            this.LblNumber = new System.Windows.Forms.Label();
+            this.TxtNumber = new System.Windows.Forms.TextBox();
+            this.LblStreet = new System.Windows.Forms.Label();
+            this.TxtStreet = new System.Windows.Forms.TextBox();
+            this.LblSupName = new System.Windows.Forms.Label();
+            this.TxtName = new System.Windows.Forms.TextBox();
+            this.TxtState = new System.Windows.Forms.TextBox();
             this.BtnSelectSupplier = new System.Windows.Forms.Button();
             this.DtProduct = new System.Windows.Forms.DataGridView();
             this.lblQuantity = new System.Windows.Forms.Label();
-            this.txtQuantity = new System.Windows.Forms.TextBox();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.TxtAmount = new System.Windows.Forms.TextBox();
+            this.LblDescription = new System.Windows.Forms.Label();
+            this.TxtDescription = new System.Windows.Forms.TextBox();
             this.lblProdName = new System.Windows.Forms.Label();
-            this.txtProdName = new System.Windows.Forms.TextBox();
+            this.TxtProdName = new System.Windows.Forms.TextBox();
             this.BtnSelectProducts = new System.Windows.Forms.Button();
             this.BtnConfirm = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.TxtDate = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ChkToday = new System.Windows.Forms.CheckBox();
+            this.LblAmountChanged = new System.Windows.Forms.Label();
+            this.TxtAmountChanged = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblType
+            // LblType
             // 
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(28, 177);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(98, 13);
-            this.lblType.TabIndex = 5;
-            this.lblType.Text = "Movimentação de: ";
+            this.LblType.AutoSize = true;
+            this.LblType.Location = new System.Drawing.Point(22, 31);
+            this.LblType.Name = "LblType";
+            this.LblType.Size = new System.Drawing.Size(98, 13);
+            this.LblType.TabIndex = 5;
+            this.LblType.Text = "Movimentação de: ";
             // 
             // CmbType
             // 
             this.CmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbType.FormattingEnabled = true;
-            this.CmbType.Location = new System.Drawing.Point(132, 174);
+            this.CmbType.Location = new System.Drawing.Point(126, 28);
             this.CmbType.Name = "CmbType";
             this.CmbType.Size = new System.Drawing.Size(121, 21);
             this.CmbType.TabIndex = 4;
             this.CmbType.SelectedIndexChanged += new System.EventHandler(this.CmbType_SelectedIndexChanged);
             // 
-            // lblEmail
+            // LblEmail
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(347, 60);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(35, 13);
-            this.lblEmail.TabIndex = 48;
-            this.lblEmail.Text = "E-mail";
+            this.LblEmail.AutoSize = true;
+            this.LblEmail.Location = new System.Drawing.Point(342, 34);
+            this.LblEmail.Name = "LblEmail";
+            this.LblEmail.Size = new System.Drawing.Size(35, 13);
+            this.LblEmail.TabIndex = 48;
+            this.LblEmail.Text = "E-mail";
             // 
-            // txtEmail
+            // TxtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(350, 76);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.ReadOnly = true;
-            this.txtEmail.Size = new System.Drawing.Size(190, 20);
-            this.txtEmail.TabIndex = 47;
+            this.TxtEmail.Location = new System.Drawing.Point(345, 50);
+            this.TxtEmail.Name = "TxtEmail";
+            this.TxtEmail.ReadOnly = true;
+            this.TxtEmail.Size = new System.Drawing.Size(190, 20);
+            this.TxtEmail.TabIndex = 47;
             // 
-            // lblPhone
+            // LblPhone
             // 
-            this.lblPhone.AutoSize = true;
-            this.lblPhone.Location = new System.Drawing.Point(543, 60);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(49, 13);
-            this.lblPhone.TabIndex = 46;
-            this.lblPhone.Text = "Telefone";
+            this.LblPhone.AutoSize = true;
+            this.LblPhone.Location = new System.Drawing.Point(538, 34);
+            this.LblPhone.Name = "LblPhone";
+            this.LblPhone.Size = new System.Drawing.Size(49, 13);
+            this.LblPhone.TabIndex = 46;
+            this.LblPhone.Text = "Telefone";
             // 
-            // txtPhone
+            // TxtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(546, 76);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.ReadOnly = true;
-            this.txtPhone.Size = new System.Drawing.Size(134, 20);
-            this.txtPhone.TabIndex = 45;
+            this.TxtPhone.Location = new System.Drawing.Point(541, 50);
+            this.TxtPhone.Name = "TxtPhone";
+            this.TxtPhone.ReadOnly = true;
+            this.TxtPhone.Size = new System.Drawing.Size(134, 20);
+            this.TxtPhone.TabIndex = 45;
             // 
-            // lblCEP
+            // LblCEP
             // 
-            this.lblCEP.AutoSize = true;
-            this.lblCEP.Location = new System.Drawing.Point(683, 60);
-            this.lblCEP.Name = "lblCEP";
-            this.lblCEP.Size = new System.Drawing.Size(28, 13);
-            this.lblCEP.TabIndex = 44;
-            this.lblCEP.Text = "CEP";
+            this.LblCEP.AutoSize = true;
+            this.LblCEP.Location = new System.Drawing.Point(678, 34);
+            this.LblCEP.Name = "LblCEP";
+            this.LblCEP.Size = new System.Drawing.Size(28, 13);
+            this.LblCEP.TabIndex = 44;
+            this.LblCEP.Text = "CEP";
             // 
-            // txtCEP
+            // TxtCEP
             // 
-            this.txtCEP.Location = new System.Drawing.Point(686, 76);
-            this.txtCEP.Name = "txtCEP";
-            this.txtCEP.ReadOnly = true;
-            this.txtCEP.Size = new System.Drawing.Size(140, 20);
-            this.txtCEP.TabIndex = 43;
+            this.TxtCEP.Location = new System.Drawing.Point(681, 50);
+            this.TxtCEP.Name = "TxtCEP";
+            this.TxtCEP.ReadOnly = true;
+            this.TxtCEP.Size = new System.Drawing.Size(140, 20);
+            this.TxtCEP.TabIndex = 43;
             // 
-            // lblState
+            // LblState
             // 
-            this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(761, 111);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(40, 13);
-            this.lblState.TabIndex = 42;
-            this.lblState.Text = "Estado";
+            this.LblState.AutoSize = true;
+            this.LblState.Location = new System.Drawing.Point(756, 85);
+            this.LblState.Name = "LblState";
+            this.LblState.Size = new System.Drawing.Size(40, 13);
+            this.LblState.TabIndex = 42;
+            this.LblState.Text = "Estado";
             // 
-            // lblCity
+            // LblCity
             // 
-            this.lblCity.AutoSize = true;
-            this.lblCity.Location = new System.Drawing.Point(621, 111);
-            this.lblCity.Name = "lblCity";
-            this.lblCity.Size = new System.Drawing.Size(40, 13);
-            this.lblCity.TabIndex = 41;
-            this.lblCity.Text = "Cidade";
+            this.LblCity.AutoSize = true;
+            this.LblCity.Location = new System.Drawing.Point(616, 85);
+            this.LblCity.Name = "LblCity";
+            this.LblCity.Size = new System.Drawing.Size(40, 13);
+            this.LblCity.TabIndex = 41;
+            this.LblCity.Text = "Cidade";
             // 
-            // txtCity
+            // TxtCity
             // 
-            this.txtCity.Location = new System.Drawing.Point(624, 127);
-            this.txtCity.Name = "txtCity";
-            this.txtCity.ReadOnly = true;
-            this.txtCity.Size = new System.Drawing.Size(134, 20);
-            this.txtCity.TabIndex = 40;
+            this.TxtCity.Location = new System.Drawing.Point(619, 101);
+            this.TxtCity.Name = "TxtCity";
+            this.TxtCity.ReadOnly = true;
+            this.TxtCity.Size = new System.Drawing.Size(134, 20);
+            this.TxtCity.TabIndex = 40;
             // 
-            // lblNeigh
+            // LblNeigh
             // 
-            this.lblNeigh.AutoSize = true;
-            this.lblNeigh.Location = new System.Drawing.Point(462, 111);
-            this.lblNeigh.Name = "lblNeigh";
-            this.lblNeigh.Size = new System.Drawing.Size(34, 13);
-            this.lblNeigh.TabIndex = 39;
-            this.lblNeigh.Text = "Bairro";
+            this.LblNeigh.AutoSize = true;
+            this.LblNeigh.Location = new System.Drawing.Point(457, 85);
+            this.LblNeigh.Name = "LblNeigh";
+            this.LblNeigh.Size = new System.Drawing.Size(34, 13);
+            this.LblNeigh.TabIndex = 39;
+            this.LblNeigh.Text = "Bairro";
             // 
-            // txtNeigh
+            // TxtNeigh
             // 
-            this.txtNeigh.Location = new System.Drawing.Point(465, 127);
-            this.txtNeigh.Name = "txtNeigh";
-            this.txtNeigh.ReadOnly = true;
-            this.txtNeigh.Size = new System.Drawing.Size(153, 20);
-            this.txtNeigh.TabIndex = 38;
+            this.TxtNeigh.Location = new System.Drawing.Point(460, 101);
+            this.TxtNeigh.Name = "TxtNeigh";
+            this.TxtNeigh.ReadOnly = true;
+            this.TxtNeigh.Size = new System.Drawing.Size(153, 20);
+            this.TxtNeigh.TabIndex = 38;
             // 
-            // lblComplement
+            // LblComplement
             // 
-            this.lblComplement.AutoSize = true;
-            this.lblComplement.Location = new System.Drawing.Point(307, 111);
-            this.lblComplement.Name = "lblComplement";
-            this.lblComplement.Size = new System.Drawing.Size(71, 13);
-            this.lblComplement.TabIndex = 37;
-            this.lblComplement.Text = "Complemento";
+            this.LblComplement.AutoSize = true;
+            this.LblComplement.Location = new System.Drawing.Point(302, 85);
+            this.LblComplement.Name = "LblComplement";
+            this.LblComplement.Size = new System.Drawing.Size(71, 13);
+            this.LblComplement.TabIndex = 37;
+            this.LblComplement.Text = "Complemento";
             // 
-            // txtComplement
+            // TxtComplement
             // 
-            this.txtComplement.Location = new System.Drawing.Point(310, 127);
-            this.txtComplement.Name = "txtComplement";
-            this.txtComplement.ReadOnly = true;
-            this.txtComplement.Size = new System.Drawing.Size(149, 20);
-            this.txtComplement.TabIndex = 36;
+            this.TxtComplement.Location = new System.Drawing.Point(305, 101);
+            this.TxtComplement.Name = "TxtComplement";
+            this.TxtComplement.ReadOnly = true;
+            this.TxtComplement.Size = new System.Drawing.Size(149, 20);
+            this.TxtComplement.TabIndex = 36;
             // 
-            // lblNumber
+            // LblNumber
             // 
-            this.lblNumber.AutoSize = true;
-            this.lblNumber.Location = new System.Drawing.Point(240, 111);
-            this.lblNumber.Name = "lblNumber";
-            this.lblNumber.Size = new System.Drawing.Size(44, 13);
-            this.lblNumber.TabIndex = 35;
-            this.lblNumber.Text = "Numero";
+            this.LblNumber.AutoSize = true;
+            this.LblNumber.Location = new System.Drawing.Point(235, 85);
+            this.LblNumber.Name = "LblNumber";
+            this.LblNumber.Size = new System.Drawing.Size(44, 13);
+            this.LblNumber.TabIndex = 35;
+            this.LblNumber.Text = "Numero";
             // 
-            // txtNumber
+            // TxtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(243, 127);
-            this.txtNumber.Name = "txtNumber";
-            this.txtNumber.ReadOnly = true;
-            this.txtNumber.Size = new System.Drawing.Size(59, 20);
-            this.txtNumber.TabIndex = 34;
+            this.TxtNumber.Location = new System.Drawing.Point(238, 101);
+            this.TxtNumber.Name = "TxtNumber";
+            this.TxtNumber.ReadOnly = true;
+            this.TxtNumber.Size = new System.Drawing.Size(59, 20);
+            this.TxtNumber.TabIndex = 34;
             // 
-            // lblStreet
+            // LblStreet
             // 
-            this.lblStreet.AutoSize = true;
-            this.lblStreet.Location = new System.Drawing.Point(22, 111);
-            this.lblStreet.Name = "lblStreet";
-            this.lblStreet.Size = new System.Drawing.Size(27, 13);
-            this.lblStreet.TabIndex = 33;
-            this.lblStreet.Text = "Rua";
+            this.LblStreet.AutoSize = true;
+            this.LblStreet.Location = new System.Drawing.Point(17, 85);
+            this.LblStreet.Name = "LblStreet";
+            this.LblStreet.Size = new System.Drawing.Size(27, 13);
+            this.LblStreet.TabIndex = 33;
+            this.LblStreet.Text = "Rua";
             // 
-            // txtStreet
+            // TxtStreet
             // 
-            this.txtStreet.Location = new System.Drawing.Point(25, 127);
-            this.txtStreet.Name = "txtStreet";
-            this.txtStreet.ReadOnly = true;
-            this.txtStreet.Size = new System.Drawing.Size(212, 20);
-            this.txtStreet.TabIndex = 32;
+            this.TxtStreet.Location = new System.Drawing.Point(20, 101);
+            this.TxtStreet.Name = "TxtStreet";
+            this.TxtStreet.ReadOnly = true;
+            this.TxtStreet.Size = new System.Drawing.Size(212, 20);
+            this.TxtStreet.TabIndex = 32;
             // 
-            // lblSupName
+            // LblSupName
             // 
-            this.lblSupName.AutoSize = true;
-            this.lblSupName.Location = new System.Drawing.Point(22, 60);
-            this.lblSupName.Name = "lblSupName";
-            this.lblSupName.Size = new System.Drawing.Size(104, 13);
-            this.lblSupName.TabIndex = 31;
-            this.lblSupName.Text = "Nome do fornecedor";
+            this.LblSupName.AutoSize = true;
+            this.LblSupName.Location = new System.Drawing.Point(17, 34);
+            this.LblSupName.Name = "LblSupName";
+            this.LblSupName.Size = new System.Drawing.Size(104, 13);
+            this.LblSupName.TabIndex = 31;
+            this.LblSupName.Text = "Nome do fornecedor";
             // 
-            // txtName
+            // TxtName
             // 
-            this.txtName.Location = new System.Drawing.Point(25, 76);
-            this.txtName.Name = "txtName";
-            this.txtName.ReadOnly = true;
-            this.txtName.Size = new System.Drawing.Size(319, 20);
-            this.txtName.TabIndex = 30;
+            this.TxtName.Location = new System.Drawing.Point(20, 50);
+            this.TxtName.Name = "TxtName";
+            this.TxtName.ReadOnly = true;
+            this.TxtName.Size = new System.Drawing.Size(319, 20);
+            this.TxtName.TabIndex = 30;
             // 
-            // txtState
+            // TxtState
             // 
-            this.txtState.Location = new System.Drawing.Point(764, 127);
-            this.txtState.Name = "txtState";
-            this.txtState.ReadOnly = true;
-            this.txtState.Size = new System.Drawing.Size(80, 20);
-            this.txtState.TabIndex = 49;
+            this.TxtState.Location = new System.Drawing.Point(759, 101);
+            this.TxtState.Name = "TxtState";
+            this.TxtState.ReadOnly = true;
+            this.TxtState.Size = new System.Drawing.Size(80, 20);
+            this.TxtState.TabIndex = 49;
             // 
             // BtnSelectSupplier
             // 
-            this.BtnSelectSupplier.Location = new System.Drawing.Point(356, 22);
+            this.BtnSelectSupplier.Location = new System.Drawing.Point(376, 139);
             this.BtnSelectSupplier.Name = "BtnSelectSupplier";
             this.BtnSelectSupplier.Size = new System.Drawing.Size(140, 23);
             this.BtnSelectSupplier.TabIndex = 50;
@@ -271,7 +279,7 @@
             this.DtProduct.AllowUserToResizeRows = false;
             this.DtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtProduct.Location = new System.Drawing.Point(414, 210);
+            this.DtProduct.Location = new System.Drawing.Point(411, 64);
             this.DtProduct.MultiSelect = false;
             this.DtProduct.Name = "DtProduct";
             this.DtProduct.ReadOnly = true;
@@ -279,64 +287,65 @@
             this.DtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DtProduct.Size = new System.Drawing.Size(387, 164);
             this.DtProduct.TabIndex = 51;
+            this.DtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged_1);
             // 
             // lblQuantity
             // 
             this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(184, 210);
+            this.lblQuantity.Location = new System.Drawing.Point(164, 64);
             this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(62, 13);
+            this.lblQuantity.Size = new System.Drawing.Size(88, 13);
             this.lblQuantity.TabIndex = 57;
-            this.lblQuantity.Text = "Quantidade";
+            this.lblQuantity.Text = "Quantidade atual";
             // 
-            // txtQuantity
+            // TxtAmount
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(187, 226);
-            this.txtQuantity.Name = "txtQuantity";
-            this.txtQuantity.ReadOnly = true;
-            this.txtQuantity.Size = new System.Drawing.Size(73, 20);
-            this.txtQuantity.TabIndex = 56;
+            this.TxtAmount.Location = new System.Drawing.Point(167, 80);
+            this.TxtAmount.Name = "TxtAmount";
+            this.TxtAmount.ReadOnly = true;
+            this.TxtAmount.Size = new System.Drawing.Size(73, 20);
+            this.TxtAmount.TabIndex = 56;
             // 
-            // lblDescription
+            // LblDescription
             // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(22, 258);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(55, 13);
-            this.lblDescription.TabIndex = 55;
-            this.lblDescription.Text = "Descrição";
+            this.LblDescription.AutoSize = true;
+            this.LblDescription.Location = new System.Drawing.Point(16, 112);
+            this.LblDescription.Name = "LblDescription";
+            this.LblDescription.Size = new System.Drawing.Size(55, 13);
+            this.LblDescription.TabIndex = 55;
+            this.LblDescription.Text = "Descrição";
             // 
-            // txtDescription
+            // TxtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(25, 274);
-            this.txtDescription.Multiline = true;
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.ReadOnly = true;
-            this.txtDescription.Size = new System.Drawing.Size(300, 100);
-            this.txtDescription.TabIndex = 54;
+            this.TxtDescription.Location = new System.Drawing.Point(19, 128);
+            this.TxtDescription.Multiline = true;
+            this.TxtDescription.Name = "TxtDescription";
+            this.TxtDescription.ReadOnly = true;
+            this.TxtDescription.Size = new System.Drawing.Size(300, 100);
+            this.TxtDescription.TabIndex = 54;
             // 
             // lblProdName
             // 
             this.lblProdName.AutoSize = true;
-            this.lblProdName.Location = new System.Drawing.Point(22, 209);
+            this.lblProdName.Location = new System.Drawing.Point(16, 63);
             this.lblProdName.Name = "lblProdName";
             this.lblProdName.Size = new System.Drawing.Size(35, 13);
             this.lblProdName.TabIndex = 53;
             this.lblProdName.Text = "Nome";
             // 
-            // txtProdName
+            // TxtProdName
             // 
-            this.txtProdName.Location = new System.Drawing.Point(25, 225);
-            this.txtProdName.Name = "txtProdName";
-            this.txtProdName.ReadOnly = true;
-            this.txtProdName.Size = new System.Drawing.Size(142, 20);
-            this.txtProdName.TabIndex = 52;
+            this.TxtProdName.Location = new System.Drawing.Point(19, 79);
+            this.TxtProdName.Name = "TxtProdName";
+            this.TxtProdName.ReadOnly = true;
+            this.TxtProdName.Size = new System.Drawing.Size(142, 20);
+            this.TxtProdName.TabIndex = 52;
             // 
             // BtnSelectProducts
             // 
-            this.BtnSelectProducts.Location = new System.Drawing.Point(546, 172);
+            this.BtnSelectProducts.Location = new System.Drawing.Point(411, 21);
             this.BtnSelectProducts.Name = "BtnSelectProducts";
-            this.BtnSelectProducts.Size = new System.Drawing.Size(140, 23);
+            this.BtnSelectProducts.Size = new System.Drawing.Size(387, 23);
             this.BtnSelectProducts.TabIndex = 58;
             this.BtnSelectProducts.Text = "Selecionar produtos";
             this.BtnSelectProducts.UseVisualStyleBackColor = true;
@@ -344,55 +353,129 @@
             // 
             // BtnConfirm
             // 
-            this.BtnConfirm.Location = new System.Drawing.Point(288, 402);
+            this.BtnConfirm.Location = new System.Drawing.Point(316, 468);
             this.BtnConfirm.Name = "BtnConfirm";
-            this.BtnConfirm.Size = new System.Drawing.Size(228, 60);
+            this.BtnConfirm.Size = new System.Drawing.Size(228, 38);
             this.BtnConfirm.TabIndex = 59;
             this.BtnConfirm.Text = "Confirmar";
             this.BtnConfirm.UseVisualStyleBackColor = true;
             this.BtnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.LblAmountChanged);
+            this.panel1.Controls.Add(this.TxtAmountChanged);
+            this.panel1.Controls.Add(this.DtProduct);
+            this.panel1.Controls.Add(this.BtnSelectProducts);
+            this.panel1.Controls.Add(this.lblQuantity);
+            this.panel1.Controls.Add(this.TxtDescription);
+            this.panel1.Controls.Add(this.TxtAmount);
+            this.panel1.Controls.Add(this.CmbType);
+            this.panel1.Controls.Add(this.LblDescription);
+            this.panel1.Controls.Add(this.LblType);
+            this.panel1.Controls.Add(this.TxtProdName);
+            this.panel1.Controls.Add(this.lblProdName);
+            this.panel1.Location = new System.Drawing.Point(12, 168);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(832, 250);
+            this.panel1.TabIndex = 60;
+            // 
+            // TxtDate
+            // 
+            this.TxtDate.Location = new System.Drawing.Point(455, 442);
+            this.TxtDate.Name = "TxtDate";
+            this.TxtDate.ReadOnly = true;
+            this.TxtDate.Size = new System.Drawing.Size(80, 20);
+            this.TxtDate.TabIndex = 61;
+            this.TxtDate.TextChanged += new System.EventHandler(this.TxtDate_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(222, 445);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 13);
+            this.label1.TabIndex = 62;
+            this.label1.Text = "Data da movimentação:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(452, 426);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 64;
+            this.label2.Text = "Digite a data:";
+            // 
+            // ChkToday
+            // 
+            this.ChkToday.AutoSize = true;
+            this.ChkToday.Checked = true;
+            this.ChkToday.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkToday.Location = new System.Drawing.Point(345, 444);
+            this.ChkToday.Name = "ChkToday";
+            this.ChkToday.Size = new System.Drawing.Size(87, 17);
+            this.ChkToday.TabIndex = 65;
+            this.ChkToday.Text = "Data de hoje";
+            this.ChkToday.UseVisualStyleBackColor = true;
+            this.ChkToday.CheckedChanged += new System.EventHandler(this.ChkToday_CheckedChanged);
+            // 
+            // LblAmountChanged
+            // 
+            this.LblAmountChanged.AutoSize = true;
+            this.LblAmountChanged.Location = new System.Drawing.Point(255, 63);
+            this.LblAmountChanged.Name = "LblAmountChanged";
+            this.LblAmountChanged.Size = new System.Drawing.Size(62, 13);
+            this.LblAmountChanged.TabIndex = 60;
+            this.LblAmountChanged.Text = "Quantidade";
+            // 
+            // TxtAmountChanged
+            // 
+            this.TxtAmountChanged.Location = new System.Drawing.Point(258, 79);
+            this.TxtAmountChanged.Name = "TxtAmountChanged";
+            this.TxtAmountChanged.ReadOnly = true;
+            this.TxtAmountChanged.Size = new System.Drawing.Size(73, 20);
+            this.TxtAmountChanged.TabIndex = 59;
+            // 
             // SupplyMovementMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 474);
+            this.ClientSize = new System.Drawing.Size(858, 508);
+            this.Controls.Add(this.ChkToday);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.TxtDate);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.BtnConfirm);
-            this.Controls.Add(this.BtnSelectProducts);
-            this.Controls.Add(this.lblQuantity);
-            this.Controls.Add(this.txtQuantity);
-            this.Controls.Add(this.lblDescription);
-            this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.lblProdName);
-            this.Controls.Add(this.txtProdName);
-            this.Controls.Add(this.DtProduct);
             this.Controls.Add(this.BtnSelectSupplier);
-            this.Controls.Add(this.txtState);
-            this.Controls.Add(this.lblEmail);
-            this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.lblPhone);
-            this.Controls.Add(this.txtPhone);
-            this.Controls.Add(this.lblCEP);
-            this.Controls.Add(this.txtCEP);
-            this.Controls.Add(this.lblState);
-            this.Controls.Add(this.lblCity);
-            this.Controls.Add(this.txtCity);
-            this.Controls.Add(this.lblNeigh);
-            this.Controls.Add(this.txtNeigh);
-            this.Controls.Add(this.lblComplement);
-            this.Controls.Add(this.txtComplement);
-            this.Controls.Add(this.lblNumber);
-            this.Controls.Add(this.txtNumber);
-            this.Controls.Add(this.lblStreet);
-            this.Controls.Add(this.txtStreet);
-            this.Controls.Add(this.lblSupName);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.lblType);
-            this.Controls.Add(this.CmbType);
+            this.Controls.Add(this.TxtState);
+            this.Controls.Add(this.LblEmail);
+            this.Controls.Add(this.TxtEmail);
+            this.Controls.Add(this.LblPhone);
+            this.Controls.Add(this.TxtPhone);
+            this.Controls.Add(this.LblCEP);
+            this.Controls.Add(this.TxtCEP);
+            this.Controls.Add(this.LblState);
+            this.Controls.Add(this.LblCity);
+            this.Controls.Add(this.TxtCity);
+            this.Controls.Add(this.LblNeigh);
+            this.Controls.Add(this.TxtNeigh);
+            this.Controls.Add(this.LblComplement);
+            this.Controls.Add(this.TxtComplement);
+            this.Controls.Add(this.LblNumber);
+            this.Controls.Add(this.TxtNumber);
+            this.Controls.Add(this.LblStreet);
+            this.Controls.Add(this.TxtStreet);
+            this.Controls.Add(this.LblSupName);
+            this.Controls.Add(this.TxtName);
             this.MaximizeBox = false;
             this.Name = "SupplyMovementMenu";
-            this.Text = "Movimentação";
+            this.Text = "Realizar movimentação";
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,37 +483,44 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.Label LblType;
         private System.Windows.Forms.ComboBox CmbType;
-        private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label lblPhone;
-        private System.Windows.Forms.TextBox txtPhone;
-        private System.Windows.Forms.Label lblCEP;
-        private System.Windows.Forms.TextBox txtCEP;
-        private System.Windows.Forms.Label lblState;
-        private System.Windows.Forms.Label lblCity;
-        private System.Windows.Forms.TextBox txtCity;
-        private System.Windows.Forms.Label lblNeigh;
-        private System.Windows.Forms.TextBox txtNeigh;
-        private System.Windows.Forms.Label lblComplement;
-        private System.Windows.Forms.TextBox txtComplement;
-        private System.Windows.Forms.Label lblNumber;
-        private System.Windows.Forms.TextBox txtNumber;
-        private System.Windows.Forms.Label lblStreet;
-        private System.Windows.Forms.TextBox txtStreet;
-        private System.Windows.Forms.Label lblSupName;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.TextBox txtState;
+        private System.Windows.Forms.Label LblEmail;
+        private System.Windows.Forms.TextBox TxtEmail;
+        private System.Windows.Forms.Label LblPhone;
+        private System.Windows.Forms.TextBox TxtPhone;
+        private System.Windows.Forms.Label LblCEP;
+        private System.Windows.Forms.TextBox TxtCEP;
+        private System.Windows.Forms.Label LblState;
+        private System.Windows.Forms.Label LblCity;
+        private System.Windows.Forms.TextBox TxtCity;
+        private System.Windows.Forms.Label LblNeigh;
+        private System.Windows.Forms.TextBox TxtNeigh;
+        private System.Windows.Forms.Label LblComplement;
+        private System.Windows.Forms.TextBox TxtComplement;
+        private System.Windows.Forms.Label LblNumber;
+        private System.Windows.Forms.TextBox TxtNumber;
+        private System.Windows.Forms.Label LblStreet;
+        private System.Windows.Forms.TextBox TxtStreet;
+        private System.Windows.Forms.Label LblSupName;
+        private System.Windows.Forms.TextBox TxtName;
+        private System.Windows.Forms.TextBox TxtState;
         private System.Windows.Forms.Button BtnSelectSupplier;
         private System.Windows.Forms.DataGridView DtProduct;
         private System.Windows.Forms.Label lblQuantity;
-        private System.Windows.Forms.TextBox txtQuantity;
-        private System.Windows.Forms.Label lblDescription;
-        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.TextBox TxtAmount;
+        private System.Windows.Forms.Label LblDescription;
+        private System.Windows.Forms.TextBox TxtDescription;
         private System.Windows.Forms.Label lblProdName;
-        private System.Windows.Forms.TextBox txtProdName;
+        private System.Windows.Forms.TextBox TxtProdName;
         private System.Windows.Forms.Button BtnSelectProducts;
         private System.Windows.Forms.Button BtnConfirm;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox TxtDate;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox ChkToday;
+        private System.Windows.Forms.Label LblAmountChanged;
+        private System.Windows.Forms.TextBox TxtAmountChanged;
     }
 }

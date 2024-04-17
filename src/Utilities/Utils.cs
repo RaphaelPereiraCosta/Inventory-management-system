@@ -1,6 +1,7 @@
-﻿using Gerenciador_de_estoque.src.Models;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Gerenciador_de_estoque.src.Models;
 
 namespace Gerenciador_de_estoque.src.Utilities
 {
@@ -58,15 +59,15 @@ namespace Gerenciador_de_estoque.src.Utilities
         {
             if (string.IsNullOrEmpty(text))
             {
-                text = "0";
+                return text;
             }
 
             bool isNumber = int.TryParse(text, out int number);
 
             if (!isNumber || number < 0)
             {
-                MessageBox.Show("Por favor, insira um número não negativo");
-                text = "0";
+                MessageBox.Show("Por favor, insira um número maior ou igual a zero");
+                text = "";
             }
 
             return text;
@@ -76,13 +77,73 @@ namespace Gerenciador_de_estoque.src.Utilities
         {
             Product product = new Product
             {
-                IdProduct = selected.IdProduct,
+                Id = selected.Id,
                 Name = selected.Name,
-                AvaliableAmount = selected.AvaliableAmount,
+                AvailableAmount = selected.AvailableAmount,
                 Description = selected.Description
             };
             return product;
         }
 
+        public DataGridView AddProductColumns(DataGridView table)
+        {
+            try
+            {
+                table.Columns.Clear();
+                table.Columns.Add("IdProduct", "Id");
+                table.Columns["IdProduct"].Visible = false;
+                table.Columns.Add("Name", "Nome do Produto");
+                table.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
+                table.Columns.Add("Description", "Descrição");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
+            }
+
+            return table;
+        }
+
+        public SelectedProd SelectRowProduct(DataGridView table)
+        {
+            SelectedProd product = new SelectedProd();
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    int index = table.CurrentRow.Index;
+
+                    if (
+                        int.TryParse(
+                            table.Rows[index].Cells["IdProduct"].Value.ToString(),
+                            out int id
+                        )
+                    )
+                    {
+                        product.Id = id;
+                    }
+
+                    product.Name = table.Rows[index].Cells["Name"].Value as string;
+                    product.Description = table.Rows[index].Cells["Description"].Value as string;
+
+                    if (
+                        int.TryParse(
+                            table.Rows[index].Cells["AvaliableAmount"].Value.ToString(),
+                            out int availableAmount
+                        )
+                    )
+                    {
+                        product.AvailableAmount = availableAmount;
+                    }
+                }
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+                return product;
+            }
+        }
     }
 }

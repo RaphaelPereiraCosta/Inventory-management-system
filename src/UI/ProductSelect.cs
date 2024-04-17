@@ -4,24 +4,39 @@ using System.Linq;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
+using Gerenciador_de_estoque.src.Utilities;
 
 namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductSelect : Form
     {
-        
-        private readonly SelectedProd _selectedProduct = new SelectedProd();
+        private SelectedProd selectedProduct = new SelectedProd();
         private readonly ProductController _controller = new ProductController();
         private List<SelectedProd> added = new List<SelectedProd>();
         public event Action<List<SelectedProd>> ProdutoSelected;
         private readonly int type;
+        readonly Utils utils = new Utils();
 
         public ProductSelect(int type, List<SelectedProd> produtosSelecionados)
         {
             InitializeComponent();
+            InitializeComponents();
             InitializeForm();
             this.type = type;
             added = produtosSelecionados;
+        }
+
+        private void InitializeComponents()
+        {
+            try
+            {
+                SetBehavior();
+                AddColumnsToProductLists();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao inicializar os componentes: {ex.Message}");
+            }
         }
 
         private void InitializeForm()
@@ -32,7 +47,7 @@ namespace Gerenciador_de_estoque.src.UI
                 AddColumnsToProductLists();
                 FillProductList("");
                 FillDtAdded();
-                HandleFields(_selectedProduct);
+                HandleFields(selectedProduct);
             }
             catch (Exception ex)
             {
@@ -63,13 +78,11 @@ namespace Gerenciador_de_estoque.src.UI
                     return;
                 }
 
-                var existingProduct = added.FirstOrDefault(p =>
-                    p.IdProduct == productDTO.IdProduct
-                );
+                var existingProduct = added.FirstOrDefault(p => p.Id == productDTO.Id);
                 if (existingProduct != null)
                 {
                     existingProduct.AmountChange = Convert.ToInt32(TxtMovQuant.Text);
-                    existingProduct.AvaliableAmount = Convert.ToInt32(TxtAvaQuantity.Text);
+                    existingProduct.AvailableAmount = Convert.ToInt32(TxtAvaQuantity.Text);
                 }
                 else
                 {
@@ -77,7 +90,7 @@ namespace Gerenciador_de_estoque.src.UI
                 }
 
                 CleanProduct();
-                UpdateFields(_selectedProduct);
+                HandleFields(selectedProduct);
 
                 FillDtAdded();
                 FillProductList(TxtSearch.Text);
@@ -101,7 +114,7 @@ namespace Gerenciador_de_estoque.src.UI
                 return false;
             }
 
-            if (type == 1 && productDTO.AmountChange > productDTO.AvaliableAmount)
+            if (type == 1 && productDTO.AmountChange > productDTO.AvailableAmount)
             {
                 MessageBox.Show("Estoque insuficiente");
                 return false;
@@ -116,7 +129,7 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 foreach (SelectedProd produto in added.ToList())
                 {
-                    if (produto.IdProduct == _selectedProduct.IdProduct)
+                    if (produto.Id == selectedProduct.Id)
                     {
                         added.Remove(produto);
                     }
@@ -150,12 +163,13 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
-            if (_isClearingSelection) return;
+            if (_isClearingSelection)
+                return;
 
             if (DtProduct.SelectedRows.Count > 0)
             {
                 SelectRow(DtProduct);
-                UpdateFields(_selectedProduct);
+                HandleFields(selectedProduct);
                 BtnAdd.Text = "Selecionar";
             }
 
@@ -166,12 +180,13 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void DtAdded_SelectionChanged(object sender, EventArgs e)
         {
-            if (_isClearingSelection) return;
+            if (_isClearingSelection)
+                return;
 
             if (DtAdded.SelectedRows.Count > 0)
             {
                 SelectRow(DtAdded);
-                UpdateFields(_selectedProduct);
+                HandleFields(selectedProduct);
                 BtnAdd.Text = "Confirmar edição";
             }
 
@@ -184,22 +199,10 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                DtProduct.Columns.Clear();
-                DtProduct.Columns.Add("IdProduct", "Id");
-                DtProduct.Columns["IdProduct"].Visible = false;
-                DtProduct.Columns.Add("Name", "Nome do Produto");
-                DtProduct.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
-                DtProduct.Columns.Add("Description", "Descrição");
+                utils.AddProductColumns(DtProduct);
 
-                DtAdded.Columns.Clear();
-                DtAdded.Columns.Add("IdProduct", "Id");
-                DtAdded.Columns["IdProduct"].Visible = false;
-                DtAdded.Columns.Add("Name", "Nome do produto");
-
-                DtAdded.Columns.Add("Description", "Descrição");
-                DtAdded.Columns.Add("AvaliableAmount", "Quantidade Disponivel");
+                utils.AddProductColumns(DtAdded);
                 DtAdded.Columns.Add("AmountChange", type == 0 ? "Entrada" : "Saída");
-
             }
             catch (Exception ex)
             {
@@ -207,17 +210,17 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void UpdateFields(SelectedProd selected)
+        private void HandleFields(SelectedProd selected)
         {
             try
             {
-               if (selected != null)
+                if (selected != null)
                 {
                     TxtName.Text = selected.Name;
                     TxtDescription.Text = selected.Description;
                     TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
-                    TxtAvaQuantity.Text = Convert.ToString(selected.AvaliableAmount);
-                    if(selected.AmountChange >= 0)
+                    TxtAvaQuantity.Text = Convert.ToString(selected.AvailableAmount);
+                    if (selected.AmountChange >= 0)
                     {
                         TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
                     }
@@ -236,35 +239,23 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void HandleFields(SelectedProd selected)
-        {
-            try
-            {
-                UpdateFields(selected);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao manipular campos: {ex.Message}");
-            }
-        }
-
         private void FillProductList(string nome)
         {
             try
             {
-                var produtos = _controller.GatherProdutos(nome);
+                var produtos = _controller.GatherProducts(nome);
                 DtProduct.Rows.Clear();
 
                 foreach (var produto in produtos)
                 {
-                    bool existsInDtAdded = added.Any(p => p.IdProduct == produto.IdProduct);
+                    bool existsInDtAdded = added.Any(p => p.Id == produto.Id);
 
                     if (!existsInDtAdded)
                     {
                         DtProduct.Rows.Add(
-                            produto.IdProduct,
+                            produto.Id,
                             produto.Name,
-                            produto.AvaliableAmount,
+                            produto.AvailableAmount,
                             produto.Description
                         );
                     }
@@ -274,52 +265,6 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 MessageBox.Show($"Erro ao preencher a lista de produtos: {ex.Message}");
             }
-        }
-
-        private void SelectRow(DataGridView table)
-        {
-            try
-            {
-                if (table.CurrentRow != null)
-                {
-                    int index = table.CurrentRow.Index;
-                    
-                        _selectedProduct.IdProduct = Convert.ToInt32(table.Rows[index].Cells["IdProduct"].Value);
-                        _selectedProduct.Name = table.Rows[index].Cells["Name"].Value.ToString();
-                        _selectedProduct.Description = table.Rows[index].Cells["Description"].Value.ToString();
-                        _selectedProduct.AvaliableAmount = Convert.ToInt32(table.Rows[index].Cells["AvaliableAmount"].Value);
-                    
-                    if(table == DtProduct)
-                    {
-                        _selectedProduct.AmountChange = 0;
-                    }
-
-                    if (table == DtAdded)
-                    {
-                        _selectedProduct.AmountChange = Convert.ToInt32(table.Rows[index].Cells["AmountChange"].Value);
-                    }
-                        HandleFields(_selectedProduct);
-                    }
-
-                   
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
-            }
-        }
-
-        private SelectedProd CreateProductDTO()
-        {
-            return new SelectedProd
-            {
-                IdProduct = _selectedProduct.IdProduct,
-                Name = _selectedProduct.Name,
-                Description = _selectedProduct.Description,
-                AmountChange = Convert.ToInt32(TxtMovQuant.Text),
-                AvaliableAmount = Convert.ToInt32(TxtAvaQuantity.Text)
-            };
         }
 
         private void FillDtAdded()
@@ -338,15 +283,60 @@ namespace Gerenciador_de_estoque.src.UI
                 }
 
                 DtAdded.Rows.Add(
-                    product.IdProduct,
+                    product.Id,
                     product.Name,
+                    product.AvailableAmount,
                     product.Description,
-                    product.AvaliableAmount,
                     amountChangeDisplay
                 );
             }
         }
 
+        private void SelectRow(DataGridView table)
+        {
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    selectedProduct = utils.SelectRowProduct(table);
+
+                    if (table.Equals(DtProduct))
+                    {
+                        selectedProduct.AmountChange = 0;
+                    }
+
+                    if (table.Equals(DtAdded))
+                    {
+                        if (
+                            int.TryParse(
+                                table.CurrentRow.Cells["AmountChange"].Value.ToString(),
+                                out int amountChange
+                            )
+                        )
+                        {
+                            selectedProduct.AmountChange = amountChange;
+                        }
+                    }
+                    HandleFields(selectedProduct);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
+        private SelectedProd CreateProductDTO()
+        {
+            return new SelectedProd
+            {
+                Id = selectedProduct.Id,
+                Name = selectedProduct.Name,
+                Description = selectedProduct.Description,
+                AmountChange = Convert.ToInt32(TxtMovQuant.Text),
+                AvailableAmount = Convert.ToInt32(TxtAvaQuantity.Text)
+            };
+        }
 
         public void UpdateSelectedProducts(List<SelectedProd> produtosSelecionados)
         {
@@ -382,12 +372,11 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void CleanProduct()
         {
-            _selectedProduct.IdProduct = 0;
-            _selectedProduct.Name = string.Empty;
-            _selectedProduct.Description = string.Empty;
-            _selectedProduct.AvaliableAmount = 0;
-            _selectedProduct.AmountChange = 0;
-
+            selectedProduct.Id = 0;
+            selectedProduct.Name = string.Empty;
+            selectedProduct.Description = string.Empty;
+            selectedProduct.AvailableAmount = 0;
+            selectedProduct.AmountChange = 0;
         }
     }
 }

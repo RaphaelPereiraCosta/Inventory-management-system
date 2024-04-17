@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
-using Gerenciador_de_estoque.src.Utils;
+using Gerenciador_de_estoque.src.Utilities;
 
 namespace Gerenciador_de_estoque.UI
 {
@@ -50,7 +50,7 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                FillSupplierList(txtSearch.Text);
+                FillSupplierList(TxtSearch.Text);
             }
             catch (Exception ex)
             {
@@ -60,17 +60,17 @@ namespace Gerenciador_de_estoque.UI
 
         private void TxtPhone_TextChanged(object sender, EventArgs e)
         {
-            FormatPhone(txtPhone.Text);
+            FormatPhone(TxtPhone.Text);
         }
 
         private void TxtCEP_TextChanged(object sender, EventArgs e)
         {
-            FormatCEP(txtCEP.Text);
+            FormatCEP(TxtCEP.Text);
         }
 
         private void TxtNumber_TextChanged(object sender, EventArgs e)
         {
-            txtNumber.Text = new Utilities().ValidateNonNegativeNumber(txtNumber.Text);
+            TxtNumber.Text = new Utils().ValidateNonNegativeNumber(TxtNumber.Text);
         }
 
         private void FormatPhone(string text)
@@ -86,8 +86,8 @@ namespace Gerenciador_de_estoque.UI
                 if (text.Length == 10)
                     text = text.Insert(0, "(").Insert(3, ")").Insert(8, "-");
 
-                txtPhone.Text = text;
-                txtPhone.SelectionStart = txtPhone.Text.Length;
+                TxtPhone.Text = text;
+                TxtPhone.SelectionStart = TxtPhone.Text.Length;
             }
             catch (Exception ex)
             {
@@ -108,8 +108,8 @@ namespace Gerenciador_de_estoque.UI
                 if (text.Length == 8 && !text.Contains("-"))
                     text = text.Insert(5, "-");
 
-                txtCEP.Text = text;
-                txtCEP.SelectionStart = txtCEP.Text.Length;
+                TxtCEP.Text = text;
+                TxtCEP.SelectionStart = TxtCEP.Text.Length;
             }
             catch (Exception ex)
             {
@@ -189,7 +189,7 @@ namespace Gerenciador_de_estoque.UI
                     if (ConfirmDeletion())
                     {
                         DeleteSupplier(_fornecedor.IdSupplier);
-                        FillSupplierList(txtSearch.Text);
+                        FillSupplierList(TxtSearch.Text);
                     }
                 }
                 else
@@ -209,9 +209,9 @@ namespace Gerenciador_de_estoque.UI
             {
                 HandleFields(_isSelecting, true, _fornecedor);
 
-                if (dtSupplier.CurrentRow != null)
+                if (DtSupplier.CurrentRow != null)
                 {
-                    int index = dtSupplier.CurrentRow.Index;
+                    int index = DtSupplier.CurrentRow.Index;
                     UpdateFornecedorFromGridRow(index);
                     UpdateUIFromFornecedor();
                 }
@@ -224,31 +224,31 @@ namespace Gerenciador_de_estoque.UI
 
         private void UpdateFornecedorFromGridRow(int index)
         {
-            _fornecedor.IdSupplier = Convert.ToInt32(dtSupplier.Rows[index].Cells["IdFornecedor"].Value);
-            _fornecedor.Name = dtSupplier.Rows[index].Cells["NomeFornecedor"].Value.ToString();
-            _fornecedor.City = dtSupplier.Rows[index].Cells["Cidade"].Value.ToString();
-            _fornecedor.CEP = dtSupplier.Rows[index].Cells["CEP"].Value.ToString();
-            _fornecedor.Neighborhood = dtSupplier.Rows[index].Cells["Bairro"].Value.ToString();
-            _fornecedor.Phone = dtSupplier.Rows[index].Cells["Telefone"].Value.ToString();
-            _fornecedor.Street = dtSupplier.Rows[index].Cells["Rua"].Value.ToString();
-            _fornecedor.Email = dtSupplier.Rows[index].Cells["Email"].Value.ToString();
-            _fornecedor.Number = dtSupplier.Rows[index].Cells["Numero"].Value.ToString();
-            _fornecedor.Complement = dtSupplier.Rows[index].Cells["Complemento"].Value.ToString();
-            _fornecedor.State = dtSupplier.Rows[index].Cells["Estado"].Value.ToString();
+            _fornecedor.IdSupplier = Convert.ToInt32(DtSupplier.Rows[index].Cells["IdFornecedor"].Value);
+            _fornecedor.Name = DtSupplier.Rows[index].Cells["NomeFornecedor"].Value.ToString();
+            _fornecedor.City = DtSupplier.Rows[index].Cells["Cidade"].Value.ToString();
+            _fornecedor.CEP = DtSupplier.Rows[index].Cells["CEP"].Value.ToString();
+            _fornecedor.Neighborhood = DtSupplier.Rows[index].Cells["Bairro"].Value.ToString();
+            _fornecedor.Phone = DtSupplier.Rows[index].Cells["Telefone"].Value.ToString();
+            _fornecedor.Street = DtSupplier.Rows[index].Cells["Rua"].Value.ToString();
+            _fornecedor.Email = DtSupplier.Rows[index].Cells["Email"].Value.ToString();
+            _fornecedor.Number = DtSupplier.Rows[index].Cells["Numero"].Value.ToString();
+            _fornecedor.Complement = DtSupplier.Rows[index].Cells["Complemento"].Value.ToString();
+            _fornecedor.State = DtSupplier.Rows[index].Cells["Estado"].Value.ToString();
         }
 
         private void UpdateUIFromFornecedor()
         {
-            txtName.Text = _fornecedor.Name;
-            txtCity.Text = _fornecedor.City;
-            txtCEP.Text = _fornecedor.CEP;
-            txtNeigh.Text = _fornecedor.Neighborhood;
-            txtPhone.Text = _fornecedor.Phone;
-            txtStreet.Text = _fornecedor.Street;
-            txtEmail.Text = _fornecedor.Email;
-            txtNumber.Text = _fornecedor.Number;
-            txtComplement.Text = _fornecedor.Complement;
-            cmbStates.SelectedItem = _fornecedor.State;
+            TxtName.Text = _fornecedor.Name;
+            TxtCity.Text = _fornecedor.City;
+            TxtCEP.Text = _fornecedor.CEP;
+            TxtNeigh.Text = _fornecedor.Neighborhood;
+            TxtPhone.Text = _fornecedor.Phone;
+            TxtStreet.Text = _fornecedor.Street;
+            TxtEmail.Text = _fornecedor.Email;
+            TxtNumber.Text = _fornecedor.Number;
+            TxtComplement.Text = _fornecedor.Complement;
+            CmbStates.SelectedItem = _fornecedor.State;
         }
 
         private bool ConfirmDeletion()
@@ -270,42 +270,42 @@ namespace Gerenciador_de_estoque.UI
         {
             _controller.AddFornecedor(_fornecedor);
             HandleFields(_isSelecting, true, _fornecedor);
-            FillSupplierList(txtSearch.Text);
+            FillSupplierList(TxtSearch.Text);
         }
 
         private void AddColumnsToSupplierList()
         {
-            dtSupplier.Columns.Clear();
-            dtSupplier.Columns.Add("IdFornecedor", "Id");
-            dtSupplier.Columns.Add("NomeFornecedor", "Nome");
-            dtSupplier.Columns.Add("Telefone", "Telefone");
-            dtSupplier.Columns.Add("CEP", "CEP");
-            dtSupplier.Columns.Add("Bairro", "Bairro");
-            dtSupplier.Columns.Add("Rua", "Rua");
-            dtSupplier.Columns.Add("Email", "Email");
-            dtSupplier.Columns.Add("Numero", "Número");
-            dtSupplier.Columns.Add("Complemento", "Complemento");
-            dtSupplier.Columns.Add("Cidade", "Cidade");
-            dtSupplier.Columns.Add("Estado", "Estado");
+            DtSupplier.Columns.Clear();
+            DtSupplier.Columns.Add("IdFornecedor", "Id");
+            DtSupplier.Columns.Add("NomeFornecedor", "Nome");
+            DtSupplier.Columns.Add("Telefone", "Telefone");
+            DtSupplier.Columns.Add("CEP", "CEP");
+            DtSupplier.Columns.Add("Bairro", "Bairro");
+            DtSupplier.Columns.Add("Rua", "Rua");
+            DtSupplier.Columns.Add("Email", "Email");
+            DtSupplier.Columns.Add("Numero", "Número");
+            DtSupplier.Columns.Add("Complemento", "Complemento");
+            DtSupplier.Columns.Add("Cidade", "Cidade");
+            DtSupplier.Columns.Add("Estado", "Estado");
 
-            dtSupplier.Columns["IdFornecedor"].Visible = false;
-            dtSupplier.Columns["CEP"].Visible = false;
-            dtSupplier.Columns["Bairro"].Visible = false;
-            dtSupplier.Columns["Rua"].Visible = false;
-            dtSupplier.Columns["Email"].Visible = false;
-            dtSupplier.Columns["Numero"].Visible = false;
-            dtSupplier.Columns["Complemento"].Visible = false;
-            dtSupplier.Columns["Telefone"].Visible = false;
+            DtSupplier.Columns["IdFornecedor"].Visible = false;
+            DtSupplier.Columns["CEP"].Visible = false;
+            DtSupplier.Columns["Bairro"].Visible = false;
+            DtSupplier.Columns["Rua"].Visible = false;
+            DtSupplier.Columns["Email"].Visible = false;
+            DtSupplier.Columns["Numero"].Visible = false;
+            DtSupplier.Columns["Complemento"].Visible = false;
+            DtSupplier.Columns["Telefone"].Visible = false;
         }
 
         private void FillSupplierList(string nome)
         {
             var fornecedores = _controller.GatherFornecedores(nome);
-            dtSupplier.Rows.Clear();
+            DtSupplier.Rows.Clear();
 
             foreach (var fornecedor in fornecedores)
             {
-                dtSupplier.Rows.Add(
+                DtSupplier.Rows.Add(
                     fornecedor.IdSupplier,
                     fornecedor.Name,
                     fornecedor.Phone,
@@ -323,10 +323,10 @@ namespace Gerenciador_de_estoque.UI
 
         private void FillStates()
         {
-            states = new Utilities().FillStates(states);
+            states = new Utils().FillStates(states);
             foreach (string state in states)
             {
-                cmbStates.Items.Add(state);
+                CmbStates.Items.Add(state);
             }
         }
 
@@ -352,68 +352,68 @@ namespace Gerenciador_de_estoque.UI
 
         private void SetFieldsEmpty()
         {
-            txtName.Text = "";
-            txtCity.Text = "";
-            txtCEP.Text = "";
-            txtNeigh.Text = "";
-            txtPhone.Text = "";
-            txtStreet.Text = "";
-            txtEmail.Text = "";
-            txtNumber.Text = "";
-            txtComplement.Text = "";
-            cmbStates.SelectedItem = null;
-            cmbStates.SelectedText = "";
+            TxtName.Text = "";
+            TxtCity.Text = "";
+            TxtCEP.Text = "";
+            TxtNeigh.Text = "";
+            TxtPhone.Text = "";
+            TxtStreet.Text = "";
+            TxtEmail.Text = "";
+            TxtNumber.Text = "";
+            TxtComplement.Text = "";
+            CmbStates.SelectedItem = null;
+            CmbStates.SelectedText = "";
         }
 
         private void SetFieldReadOnlyStatus(bool isReadOnly)
         {
-            txtName.ReadOnly = isReadOnly;
-            txtCity.ReadOnly = isReadOnly;
-            txtCEP.ReadOnly = isReadOnly;
-            txtNeigh.ReadOnly = isReadOnly;
-            txtPhone.ReadOnly = isReadOnly;
-            txtStreet.ReadOnly = isReadOnly;
-            txtEmail.ReadOnly = isReadOnly;
-            txtNumber.ReadOnly = isReadOnly;
-            txtComplement.ReadOnly = isReadOnly;
-            cmbStates.Enabled = !isReadOnly;
+            TxtName.ReadOnly = isReadOnly;
+            TxtCity.ReadOnly = isReadOnly;
+            TxtCEP.ReadOnly = isReadOnly;
+            TxtNeigh.ReadOnly = isReadOnly;
+            TxtPhone.ReadOnly = isReadOnly;
+            TxtStreet.ReadOnly = isReadOnly;
+            TxtEmail.ReadOnly = isReadOnly;
+            TxtNumber.ReadOnly = isReadOnly;
+            TxtComplement.ReadOnly = isReadOnly;
+            CmbStates.Enabled = !isReadOnly;
         }
 
         private void UpdateButtons(bool isSelecting, bool isEnabled)
         {
             if (isSelecting == true)
             {
-                btnSelect.Enabled = isSelecting;
-                btnSelect.Visible = isSelecting;
-                btnNew.Enabled = !isSelecting;
-                btnNew.Visible = !isSelecting;
-                btnDelete.Visible = !isSelecting;
-                btnDelete.Enabled = !isSelecting;
-                btnEdit.Enabled = !isSelecting;
-                btnEdit.Visible = !isSelecting;
-                btnSave.Enabled = !isSelecting;
-                btnCancel.Enabled = !isSelecting;
-                btnCancel.Visible = !isSelecting;
-                btnSave.Visible = !isSelecting;
-                btnCancel.Visible = !isSelecting;
-                btnCancel.Enabled = !isSelecting;
-                btnGoBack.Enabled = !isSelecting;
-                btnGoBack.Visible = !isSelecting;
+                BtnSelect.Enabled = isSelecting;
+                BtnSelect.Visible = isSelecting;
+                BtnNew.Enabled = !isSelecting;
+                BtnNew.Visible = !isSelecting;
+                BtnDelete.Visible = !isSelecting;
+                BtnDelete.Enabled = !isSelecting;
+                BtnEdit.Enabled = !isSelecting;
+                BtnEdit.Visible = !isSelecting;
+                BtnSave.Enabled = !isSelecting;
+                BtnCancel.Enabled = !isSelecting;
+                BtnCancel.Visible = !isSelecting;
+                BtnSave.Visible = !isSelecting;
+                BtnCancel.Visible = !isSelecting;
+                BtnCancel.Enabled = !isSelecting;
+                BtnGoBack.Enabled = !isSelecting;
+                BtnGoBack.Visible = !isSelecting;
             }
             else
             {
-                btnSelect.Enabled = false;
-                btnSelect.Visible = false;
-                btnNew.Enabled = isEnabled;
-                btnNew.Visible = isEnabled;
-                btnDelete.Visible = isEnabled;
-                btnDelete.Enabled = isEnabled;
-                btnEdit.Enabled = isEnabled;
-                btnEdit.Visible = isEnabled;
-                btnSave.Enabled = !isEnabled;
-                btnCancel.Enabled = !isEnabled;
-                btnCancel.Visible = !isEnabled;
-                btnSave.Visible = !isEnabled;
+                BtnSelect.Enabled = false;
+                BtnSelect.Visible = false;
+                BtnNew.Enabled = isEnabled;
+                BtnNew.Visible = isEnabled;
+                BtnDelete.Visible = isEnabled;
+                BtnDelete.Enabled = isEnabled;
+                BtnEdit.Enabled = isEnabled;
+                BtnEdit.Visible = isEnabled;
+                BtnSave.Enabled = !isEnabled;
+                BtnCancel.Enabled = !isEnabled;
+                BtnCancel.Visible = !isEnabled;
+                BtnSave.Visible = !isEnabled;
             }
         }
 
@@ -428,16 +428,16 @@ namespace Gerenciador_de_estoque.UI
 
         private void UpdateFornecedorFromUI()
         {
-            _fornecedor.Name = txtName.Text;
-            _fornecedor.City = txtCity.Text;
-            _fornecedor.CEP = txtCEP.Text;
-            _fornecedor.Neighborhood = txtNeigh.Text;
-            _fornecedor.Phone = txtPhone.Text;
-            _fornecedor.Street = txtStreet.Text;
-            _fornecedor.Email = txtEmail.Text;
-            _fornecedor.Number = txtNumber.Text;
-            _fornecedor.Complement = txtComplement.Text;
-            _fornecedor.State = cmbStates.SelectedItem?.ToString();
+            _fornecedor.Name = TxtName.Text;
+            _fornecedor.City = TxtCity.Text;
+            _fornecedor.CEP = TxtCEP.Text;
+            _fornecedor.Neighborhood = TxtNeigh.Text;
+            _fornecedor.Phone = TxtPhone.Text;
+            _fornecedor.Street = TxtStreet.Text;
+            _fornecedor.Email = TxtEmail.Text;
+            _fornecedor.Number = TxtNumber.Text;
+            _fornecedor.Complement = TxtComplement.Text;
+            _fornecedor.State = CmbStates.SelectedItem?.ToString();
         }
 
     }

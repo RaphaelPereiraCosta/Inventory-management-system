@@ -8,27 +8,27 @@ namespace Gerenciador_de_estoque.src.Services
     {
         readonly ProductRepository produtoRepository = new ProductRepository();
 
-        public List<Product> GatherProdutos(string nome)
+        public List<Product> GatherProducts(string nome)
         {
             return produtoRepository.GatherProducts (nome);
         }
 
-        public Product GetOneProduto(int id)
+        public Product GetOneProduct(int id)
         {
             return produtoRepository.GetOneProduct(id);
         }
 
-        public void AddProduto(Product produto)
+        public void AddProduct(Product produto)
         {
             produtoRepository.AddProduct(produto);
         }
 
-        public void UpdateProduto(Product produto)
+        public void UpdateProduct(Product produto)
         {
             produtoRepository.UpdateProduct(produto);
         }
 
-        public void DeleteProduto(int id)
+        public void DeleteProduct(int id)
         {
             produtoRepository.DeleteProduct(id);
         }

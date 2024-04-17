@@ -4,7 +4,7 @@ using Gerenciador_de_estoque.src.Connection;
 using Gerenciador_de_estoque.src.Models;
 using MySql.Data.MySqlClient;
 
-namespace Gerenciador_de_estoque.src.Repository
+namespace Gerenciador_de_estoque.src.Repositories
 {
     internal class ProdMovRepository
     {
@@ -23,11 +23,10 @@ namespace Gerenciador_de_estoque.src.Repository
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "INSERT INTO ProductMovement (IdMovement, IdSupplier, Type, Data) VALUES (@IdMovement, @IdSupplier, @Type, @Data); SELECT LAST_INSERT_ID();";
-                        command.Parameters.AddWithValue("@IdMovement", productMovement.IdMovement);
-                        command.Parameters.AddWithValue("@IdSupplier", productMovement.IdSupplier);
+                            "INSERT INTO movement (Type, Date, Supplier_ID) VALUES (@Type, @Date, @Supplier_ID); SELECT LAST_INSERT_ID();";
                         command.Parameters.AddWithValue("@Type", productMovement.Type);
-                        command.Parameters.AddWithValue("@Data", productMovement.Date);
+                        command.Parameters.AddWithValue("@Date", productMovement.Date);
+                        command.Parameters.AddWithValue("@Supplier_ID", productMovement.Supplier.IdSupplier);
 
                         id = Convert.ToInt32(command.ExecuteScalar());
                     }
@@ -53,7 +52,7 @@ namespace Gerenciador_de_estoque.src.Repository
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "SELECT * FROM ProductMovement WHERE IdMovement = @IdMovement";
+                            "SELECT * FROM movement WHERE Id = @IdMovement";
                         command.Parameters.AddWithValue("@IdMovement", idMovement);
 
                         using (var reader = command.ExecuteReader())
@@ -62,10 +61,10 @@ namespace Gerenciador_de_estoque.src.Repository
                             {
                                 var movement = new ProductMovement
                                 {
-                                    IdMovement = Convert.ToInt32(reader["IdMovement"]),
-                                    IdSupplier = Convert.ToInt32(reader["IdSupplier"]),
+                                    IdMovement = Convert.ToInt32(reader["Id"]),
+                                    Supplier = new Supplier { IdSupplier = Convert.ToInt32(reader["Supplier_ID"]) },
                                     Type = Convert.ToString(reader["Type"]),
-                                    Date = Convert.ToString(reader["Data"])
+                                    Date = Convert.ToString(reader["Date"])
                                 };
                                 movements.Add(movement);
                             }
@@ -93,7 +92,7 @@ namespace Gerenciador_de_estoque.src.Repository
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "SELECT * FROM ProductMovement";
+                            "SELECT * FROM movement";
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -101,11 +100,12 @@ namespace Gerenciador_de_estoque.src.Repository
                             {
                                 var movement = new ProductMovement
                                 {
-                                    IdMovement = Convert.ToInt32(reader["IdMovement"]),
-                                    IdSupplier = Convert.ToInt32(reader["IdSupplier"]),
+                                    IdMovement = Convert.ToInt32(reader["Id"]),
+                                    Supplier = new Supplier { IdSupplier = Convert.ToInt32(reader["Supplier_ID"]) },
                                     Type = Convert.ToString(reader["Type"]),
-                                    Date = Convert.ToString(reader["Data"])
+                                    Date = Convert.ToString(reader["Date"])
                                 };
+
                                 movements.Add(movement);
                             }
                         }

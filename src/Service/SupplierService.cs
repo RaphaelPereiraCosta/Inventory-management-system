@@ -10,27 +10,27 @@ namespace Gerenciador_de_estoque.src.Services
 
         public List<Supplier> GatherFornecedores(string nome)
         {
-            return fornecedorRepository.GatherFornecedores(nome);
+            return fornecedorRepository.GatherSuppliers(nome);
         }
 
         public Supplier GetOneFornecedor(int id)
         {
-            return fornecedorRepository.GetOneFornecedor(id);
+            return fornecedorRepository.GetOneSupplier(id);
         }
 
         public void AddFornecedor(Supplier fornecedor)
         {
-            fornecedorRepository.AddFornecedor(fornecedor);
+            fornecedorRepository.AddSupplier(fornecedor);
         }
 
         public void UpdateFornecedor(Supplier fornecedor)
         {
-            fornecedorRepository.UpdateFornecedor(fornecedor);
+            fornecedorRepository.UpdateSupplier(fornecedor);
         }
 
         public void DeleteFornecedor(int id)
         {
-            fornecedorRepository.DeleteFornecedor(id);
+            fornecedorRepository.DeleteSupplier(id);
         }
     }
 }

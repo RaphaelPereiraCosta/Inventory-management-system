@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gerenciador_de_estoque.src.Models;
-using Gerenciador_de_estoque.src.Repository;
+using Gerenciador_de_estoque.src.Repositories;
 
 namespace Gerenciador_de_estoque.src.Services
 {

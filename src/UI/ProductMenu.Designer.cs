@@ -32,7 +32,7 @@
             this.LblName = new System.Windows.Forms.Label();
             this.LblDescription = new System.Windows.Forms.Label();
             this.TxtDescription = new System.Windows.Forms.TextBox();
-            this.TxtQuantity = new System.Windows.Forms.TextBox();
+            this.TxtAmount = new System.Windows.Forms.TextBox();
             this.LblQuantity = new System.Windows.Forms.Label();
             this.dtProduct = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
@@ -79,13 +79,13 @@
             this.TxtDescription.Size = new System.Drawing.Size(237, 174);
             this.TxtDescription.TabIndex = 5;
             // 
-            // TxtQuantity
+            // TxtAmount
             // 
-            this.TxtQuantity.Location = new System.Drawing.Point(21, 90);
-            this.TxtQuantity.Name = "TxtQuantity";
-            this.TxtQuantity.Size = new System.Drawing.Size(73, 20);
-            this.TxtQuantity.TabIndex = 7;
-            this.TxtQuantity.TextChanged += new System.EventHandler(this.TxtQuantity_TextChanged);
+            this.TxtAmount.Location = new System.Drawing.Point(21, 90);
+            this.TxtAmount.Name = "TxtAmount";
+            this.TxtAmount.Size = new System.Drawing.Size(73, 20);
+            this.TxtAmount.TabIndex = 7;
+            this.TxtAmount.TextChanged += new System.EventHandler(this.TxtAmount_TextChanged);
             // 
             // LblQuantity
             // 
@@ -207,7 +207,7 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.dtProduct);
             this.Controls.Add(this.LblQuantity);
-            this.Controls.Add(this.TxtQuantity);
+            this.Controls.Add(this.TxtAmount);
             this.Controls.Add(this.LblDescription);
             this.Controls.Add(this.TxtDescription);
             this.Controls.Add(this.LblName);
@@ -227,7 +227,7 @@
         private System.Windows.Forms.Label LblName;
         private System.Windows.Forms.Label LblDescription;
         private System.Windows.Forms.TextBox TxtDescription;
-        private System.Windows.Forms.TextBox TxtQuantity;
+        private System.Windows.Forms.TextBox TxtAmount;
         private System.Windows.Forms.Label LblQuantity;
         private System.Windows.Forms.DataGridView dtProduct;
         private System.Windows.Forms.Button btnSave;
