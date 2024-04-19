@@ -55,7 +55,7 @@ namespace Gerenciador_de_estoque.src.Utilities
             return types;
         }
 
-        public string ValidateNonNegativeNumber(string text)
+        public string ValidateNumber(string text)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -104,6 +104,41 @@ namespace Gerenciador_de_estoque.src.Utilities
             return table;
         }
 
+        public DataGridView AddSupplierColumns(DataGridView table)
+        {
+            try
+            {
+                table.Columns.Clear();
+                table.Columns.Add("Id", "Id");
+                table.Columns.Add("Name", "Nome");
+                table.Columns.Add("Phone", "Telefone");
+                table.Columns.Add("CEP", "CEP");
+                table.Columns.Add("Neighborhood", "Bairro");
+                table.Columns.Add("Street", "Rua");
+                table.Columns.Add("Email", "Email");
+                table.Columns.Add("Number", "Número");
+                table.Columns.Add("Complement", "Complemento");
+                table.Columns.Add("City", "Cidade");
+                table.Columns.Add("State", "Estado");
+
+                table.Columns["Id"].Visible = false;
+                table.Columns["CEP"].Visible = false;
+                table.Columns["Neighborhood"].Visible = false;
+                table.Columns["Street"].Visible = false;
+                table.Columns["Email"].Visible = false;
+                table.Columns["Number"].Visible = false;
+                table.Columns["Complement"].Visible = false;
+                table.Columns["Phone"].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar colunas à lista de fornecedores: {ex.Message}");
+            }
+
+            return table;
+        }
+
+
         public SelectedProd SelectRowProduct(DataGridView table)
         {
             SelectedProd product = new SelectedProd();
@@ -145,5 +180,41 @@ namespace Gerenciador_de_estoque.src.Utilities
                 return product;
             }
         }
+
+        public Supplier SelectRowSupplier(DataGridView table)
+        {
+            Supplier supplier = new Supplier();
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    int index = table.CurrentRow.Index;
+
+                    if (int.TryParse(table.Rows[index].Cells["Id"].Value.ToString(), out int id))
+                    {
+                        supplier.Id = id;
+                    }
+
+                    supplier.Name = table.Rows[index].Cells["Name"].Value.ToString();
+                    supplier.City = table.Rows[index].Cells["City"].Value.ToString();
+                    supplier.CEP = table.Rows[index].Cells["CEP"].Value.ToString();
+                    supplier.Neighborhood = table.Rows[index].Cells["Neighborhood"].Value.ToString();
+                    supplier.Phone = table.Rows[index].Cells["Phone"].Value.ToString();
+                    supplier.Street = table.Rows[index].Cells["Street"].Value.ToString();
+                    supplier.Email = table.Rows[index].Cells["Email"].Value.ToString();
+                    supplier.Number = table.Rows[index].Cells["Number"].Value.ToString();
+                    supplier.Complement = table.Rows[index].Cells["Complement"].Value.ToString();
+                    supplier.State = table.Rows[index].Cells["State"].Value.ToString();
+                }
+
+                return supplier;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar fornecedor: {ex.Message}");
+                return supplier;
+            }
+        }
+
     }
 }

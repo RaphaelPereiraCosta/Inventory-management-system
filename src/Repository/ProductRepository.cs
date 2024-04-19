@@ -177,7 +177,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public List<Product> GetProductsByMovementId(int movementId)
+        public List<Product> GatherProductsByMovementId(int movementId)
         {
             var products = new List<Product>();
             var query =

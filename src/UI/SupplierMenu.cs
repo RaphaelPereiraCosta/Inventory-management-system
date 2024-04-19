@@ -6,7 +6,7 @@ using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Utilities;
 
-namespace Gerenciador_de_estoque.UI
+namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplierMenu : Form
     {
@@ -14,6 +14,7 @@ namespace Gerenciador_de_estoque.UI
         private readonly SupplierController _controller = new SupplierController();
         private List<string> states = new List<string>();
         private readonly bool _isSelecting;
+        readonly Utils util = new Utils();
 
         public event Action<Supplier> SupplierSelected;
 
@@ -70,7 +71,7 @@ namespace Gerenciador_de_estoque.UI
 
         private void TxtNumber_TextChanged(object sender, EventArgs e)
         {
-            TxtNumber.Text = new Utils().ValidateNonNegativeNumber(TxtNumber.Text);
+            TxtNumber.Text = util.ValidateNumber(TxtNumber.Text);
         }
 
         private void FormatPhone(string text)
@@ -184,11 +185,11 @@ namespace Gerenciador_de_estoque.UI
         {
             try
             {
-                if (_fornecedor.IdSupplier > 0)
+                if (_fornecedor.Id > 0)
                 {
                     if (ConfirmDeletion())
                     {
-                        DeleteSupplier(_fornecedor.IdSupplier);
+                        DeleteSupplier(_fornecedor.Id);
                         FillSupplierList(TxtSearch.Text);
                     }
                 }
@@ -212,8 +213,8 @@ namespace Gerenciador_de_estoque.UI
                 if (DtSupplier.CurrentRow != null)
                 {
                     int index = DtSupplier.CurrentRow.Index;
-                    UpdateFornecedorFromGridRow(index);
-                    UpdateUIFromFornecedor();
+                    SelectRow();
+                    HandleFields();
                 }
             }
             catch (Exception ex)
@@ -222,22 +223,12 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void UpdateFornecedorFromGridRow(int index)
+        private void SelectRow()
         {
-            _fornecedor.IdSupplier = Convert.ToInt32(DtSupplier.Rows[index].Cells["IdFornecedor"].Value);
-            _fornecedor.Name = DtSupplier.Rows[index].Cells["NomeFornecedor"].Value.ToString();
-            _fornecedor.City = DtSupplier.Rows[index].Cells["Cidade"].Value.ToString();
-            _fornecedor.CEP = DtSupplier.Rows[index].Cells["CEP"].Value.ToString();
-            _fornecedor.Neighborhood = DtSupplier.Rows[index].Cells["Bairro"].Value.ToString();
-            _fornecedor.Phone = DtSupplier.Rows[index].Cells["Telefone"].Value.ToString();
-            _fornecedor.Street = DtSupplier.Rows[index].Cells["Rua"].Value.ToString();
-            _fornecedor.Email = DtSupplier.Rows[index].Cells["Email"].Value.ToString();
-            _fornecedor.Number = DtSupplier.Rows[index].Cells["Numero"].Value.ToString();
-            _fornecedor.Complement = DtSupplier.Rows[index].Cells["Complemento"].Value.ToString();
-            _fornecedor.State = DtSupplier.Rows[index].Cells["Estado"].Value.ToString();
+            _fornecedor = util.SelectRowSupplier(DtSupplier);
         }
 
-        private void UpdateUIFromFornecedor()
+        private void HandleFields()
         {
             TxtName.Text = _fornecedor.Name;
             TxtCity.Text = _fornecedor.City;
@@ -275,27 +266,7 @@ namespace Gerenciador_de_estoque.UI
 
         private void AddColumnsToSupplierList()
         {
-            DtSupplier.Columns.Clear();
-            DtSupplier.Columns.Add("IdFornecedor", "Id");
-            DtSupplier.Columns.Add("NomeFornecedor", "Nome");
-            DtSupplier.Columns.Add("Telefone", "Telefone");
-            DtSupplier.Columns.Add("CEP", "CEP");
-            DtSupplier.Columns.Add("Bairro", "Bairro");
-            DtSupplier.Columns.Add("Rua", "Rua");
-            DtSupplier.Columns.Add("Email", "Email");
-            DtSupplier.Columns.Add("Numero", "Número");
-            DtSupplier.Columns.Add("Complemento", "Complemento");
-            DtSupplier.Columns.Add("Cidade", "Cidade");
-            DtSupplier.Columns.Add("Estado", "Estado");
-
-            DtSupplier.Columns["IdFornecedor"].Visible = false;
-            DtSupplier.Columns["CEP"].Visible = false;
-            DtSupplier.Columns["Bairro"].Visible = false;
-            DtSupplier.Columns["Rua"].Visible = false;
-            DtSupplier.Columns["Email"].Visible = false;
-            DtSupplier.Columns["Numero"].Visible = false;
-            DtSupplier.Columns["Complemento"].Visible = false;
-            DtSupplier.Columns["Telefone"].Visible = false;
+            util.AddSupplierColumns(DtSupplier);
         }
 
         private void FillSupplierList(string nome)
@@ -306,7 +277,7 @@ namespace Gerenciador_de_estoque.UI
             foreach (var fornecedor in fornecedores)
             {
                 DtSupplier.Rows.Add(
-                    fornecedor.IdSupplier,
+                    fornecedor.Id,
                     fornecedor.Name,
                     fornecedor.Phone,
                     fornecedor.CEP,
@@ -338,9 +309,9 @@ namespace Gerenciador_de_estoque.UI
 
         private void UpdateFields(bool isReadOnly, Supplier fornecedor)
         {
-            if (fornecedor != null && fornecedor.IdSupplier > 0)
+            if (fornecedor != null && fornecedor.Id > 0)
             {
-                UpdateUIFromFornecedor();
+                HandleFields();
             }
             else
             {

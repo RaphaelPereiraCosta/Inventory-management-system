@@ -4,166 +4,106 @@ using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Utilities;
 
-namespace Gerenciador_de_estoque.UI
+namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductMenu : Form
     {
-        Product _produto = new Product();
-        readonly ProductController _controller = new ProductController();
+        private Product _selectedProduct = new Product();
+        private readonly ProductController _controller = new ProductController();
+        private readonly Utils _utils = new Utils();
 
         public ProductMenu()
         {
-            try
-            {
-                InitializeComponent();
-                InitializeForm();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao inicializar o menu do produto: {ex.Message}");
-            }
+            InitializeComponent();
+            InitializeForm();
         }
 
         private void InitializeForm()
         {
-            try
-            {
-                AddColumnsToProductList();
-                FillProductList(TxtSearch.Text);
-                HandleFields(true, _produto);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao inicializar o formulário: {ex.Message}");
-            }
-        }
-
-        private void TxtSearch_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                FillProductList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao pesquisar produto: {ex.Message}");
-            }
+            AddColumnsToProductList();
+            FillProductList("");
+            HandleFields(true, _selectedProduct);
         }
 
         private void TxtAmount_TextChanged(object sender, EventArgs e)
         {
-            Utils utils = new Utils();
-            TxtAmount.Text = utils.ValidateNonNegativeNumber(TxtAmount.Text);
+            TxtAmount.Text = _utils.ValidateNumber(TxtAmount.Text);
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            FillProductList(TxtSearch.Text);
         }
 
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
-            try
-            {
-                HandleFields(true, _produto);
-                if (dtProduct.CurrentRow != null)
-                {
-                    int index = dtProduct.CurrentRow.Index;
-                    _produto.Name = dtProduct.Rows[index].Cells["Name"].Value.ToString();
-                    _produto.AvailableAmount = Convert.ToInt32(
-                        dtProduct.Rows[index].Cells["AvaliableAmount"].Value
-                    );
-                    _produto.Description = dtProduct
-                        .Rows[index]
-                        .Cells["Description"]
-                        .Value.ToString();
-                    _produto.Id = Convert.ToInt32(dtProduct.Rows[index].Cells["IdProduct"].Value);
-                    TxtName.Text = _produto.Name;
-                    TxtAmount.Text = _produto.AvailableAmount.ToString();
-                    TxtDescription.Text = _produto.Description;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
-            }
+            if (dtProduct.CurrentRow == null)
+                return;
+
+            _selectedProduct = _utils.SelectRowProduct(dtProduct);
+            UpdateProductFields(_selectedProduct);
         }
 
-        private void HandleFields(bool isReadOnly, Product produto)
+        private void UpdateProductFields(Product product)
         {
-            try
-            {
-                if (produto != null)
-                {
-                    TxtName.Text = produto.Name;
-                    TxtAmount.Text = Convert.ToString(produto.AvailableAmount);
-                    TxtDescription.Text = produto.Description;
-                }
-                else
-                {
-                    TxtName.Text = "";
-                    TxtAmount.Text = "0";
-                    TxtDescription.Text = "";
-                }
-
-                TxtName.ReadOnly = isReadOnly;
-                TxtAmount.ReadOnly = isReadOnly;
-                TxtDescription.ReadOnly = isReadOnly;
-                UpdateButtons(isReadOnly);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao manipular campos: {ex.Message}");
-            }
-        }
-
-        private void UpdateButtons(bool isEnabled)
-        {
-            try
-            {
-                BtnNew.Enabled = isEnabled;
-                BtnNew.Visible = isEnabled;
-                BtnDelete.Visible = isEnabled;
-                BtnDelete.Enabled = isEnabled;
-                BtnEdit.Enabled = isEnabled;
-                BtnEdit.Visible = isEnabled;
-                btnSave.Enabled = !isEnabled;
-                btnCancel.Enabled = !isEnabled;
-                btnCancel.Visible = !isEnabled;
-                btnSave.Visible = !isEnabled;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao atualizar botões: {ex.Message}");
-            }
+            TxtName.Text = product.Name;
+            TxtAmount.Text = product.AvailableAmount.ToString();
+            TxtDescription.Text = product.Description;
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            try
-            {
-                HandleFields(false, null);
-                _produto = new Product();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao criar novo produto: {ex.Message}");
-            }
+            HandleFields(false, null);
+            _selectedProduct = new Product();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            _selectedProduct.Name = TxtName.Text;
+
+            if (int.TryParse(TxtAmount.Text, out int quantidade))
+            {
+                _selectedProduct.AvailableAmount = quantidade;
+            }
+            else
+            {
+                MessageBox.Show("Quantidade inválida");
+                return;
+            }
+
+            _selectedProduct.Description = TxtDescription.Text;
+            SaveOrUpdateProduct();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            HandleFields(true, _selectedProduct);
+            _selectedProduct = new Product();
+        }
+
+        private void BtnGoBack_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            HandleFields(false, _selectedProduct);
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteProduct(_selectedProduct.Id);
+            FillProductList(TxtSearch.Text);
+        }
+
+        private void SaveOrUpdateProduct()
+        {
             try
             {
-                _produto.Name = TxtName.Text;
-
-                if (int.TryParse(TxtAmount.Text, out int quantidade))
-                {
-                    _produto.AvailableAmount = quantidade;
-                }
-                else
-                {
-                    MessageBox.Show("Quantidade inválida");
-                    return;
-                }
-
-                _produto.Description = TxtDescription.Text;
-                SaveProduct();
+                _controller.AddProduct(_selectedProduct);
+                HandleFields(true, _selectedProduct);
+                FillProductList(TxtSearch.Text);
             }
             catch (Exception ex)
             {
@@ -171,71 +111,7 @@ namespace Gerenciador_de_estoque.UI
             }
         }
 
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                HandleFields(true, _produto);
-                _produto = new Product();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao cancelar a operação: {ex.Message}");
-            }
-        }
-
-        private void BtnGoBack_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao voltar: {ex.Message}");
-            }
-        }
-
-        private void BtnEdit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                HandleFields(false, _produto);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao editar: {ex.Message}");
-            }
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DeleteProduct(_produto.Id);
-                FillProductList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao excluir o produto: {ex.Message}");
-            }
-        }
-
-        private void SaveProduct()
-        {
-            try
-            {
-                _controller.AddProduct(_produto);
-                HandleFields(false, _produto);
-                FillProductList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
-            }
-        }
-
-        private void DeleteProduct(int produto)
+        private void DeleteProduct(int productId)
         {
             try
             {
@@ -248,7 +124,7 @@ namespace Gerenciador_de_estoque.UI
                 {
                     return;
                 }
-                _controller.DeleteProduct(produto);
+                _controller.DeleteProduct(productId);
             }
             catch (Exception ex)
             {
@@ -258,42 +134,55 @@ namespace Gerenciador_de_estoque.UI
 
         private void AddColumnsToProductList()
         {
-            try
+            dtProduct.Columns.Clear();
+            dtProduct.Columns.Add("IdProduct", "Id");
+            dtProduct.Columns["IdProduct"].Visible = false;
+            dtProduct.Columns.Add("Name", "Nome do Produto");
+            dtProduct.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
+            dtProduct.Columns.Add("Description", "Descrição");
+        }
+
+        private void FillProductList(string name)
+        {
+            var produtos = _controller.GatherProducts(name);
+            dtProduct.Rows.Clear();
+
+            foreach (var produto in produtos)
             {
-                dtProduct.Columns.Clear();
-                dtProduct.Columns.Add("IdProduct", "Id");
-                dtProduct.Columns["IdProduct"].Visible = false;
-                dtProduct.Columns.Add("Name", "Nome do Produto");
-                dtProduct.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
-                dtProduct.Columns.Add("Description", "Descrição");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
+                dtProduct.Rows.Add(
+                    produto.Id,
+                    produto.Name,
+                    produto.AvailableAmount,
+                    produto.Description
+                );
             }
         }
 
-        private void FillProductList(string nome)
+        private void HandleFields(bool isReadOnly, Product produto)
         {
-            try
-            {
-                var produtos = _controller.GatherProducts(nome);
-                dtProduct.Rows.Clear();
+            TxtName.Text = produto?.Name ?? "";
+            TxtAmount.Text = (produto?.AvailableAmount).ToString() ?? "0";
+            TxtDescription.Text = produto?.Description ?? "";
 
-                foreach (var produto in produtos)
-                {
-                    dtProduct.Rows.Add(
-                        produto.Id,
-                        produto.Name,
-                        produto.AvailableAmount,
-                        produto.Description
-                    );
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao preencher a lista de produtos: {ex.Message}");
-            }
+            TxtName.ReadOnly = isReadOnly;
+            TxtAmount.ReadOnly = isReadOnly;
+            TxtDescription.ReadOnly = isReadOnly;
+
+            UpdateButtons(isReadOnly);
+        }
+
+        private void UpdateButtons(bool isEnabled)
+        {
+            BtnNew.Enabled = isEnabled;
+            BtnNew.Visible = isEnabled;
+            BtnDelete.Visible = isEnabled;
+            BtnDelete.Enabled = isEnabled;
+            BtnEdit.Enabled = isEnabled;
+            BtnEdit.Visible = isEnabled;
+            btnSave.Enabled = !isEnabled;
+            btnCancel.Enabled = !isEnabled;
+            btnCancel.Visible = !isEnabled;
+            btnSave.Visible = !isEnabled;
         }
     }
 }

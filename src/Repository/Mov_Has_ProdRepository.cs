@@ -35,32 +35,6 @@ namespace Gerenciador_de_estoque.src.Repository
             }
         }
 
-        public void DeleteMov_has_Prod(int idMovement, int idProduct)
-        {
-            try
-            {
-                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
-                {
-                    connectDb.Open();
-
-                    using (var command = new MySqlCommand())
-                    {
-                        command.Connection = connectDb;
-                        command.CommandText =
-                            "DELETE FROM movement_has_product WHERE movement_Id = @IdMovement AND product_Id = @IdProduct";
-                        command.Parameters.AddWithValue("@IdMovement", idMovement);
-                        command.Parameters.AddWithValue("@IdProduct", idProduct);
-
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao deletar movimento de produto: {ex.Message}");
-            }
-        }
-
         public int GetMovedAmount(int idMovement, int idProduct)
         {
             int movedAmount = 0;

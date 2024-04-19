@@ -41,6 +41,7 @@
             this.LblName = new System.Windows.Forms.Label();
             this.TxtName = new System.Windows.Forms.TextBox();
             this.dtProduct = new System.Windows.Forms.DataGridView();
+            this.LblProducts = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DtMovement)).BeginInit();
             this.pnlButtonBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).BeginInit();
@@ -79,10 +80,11 @@
             // DtMovement
             // 
             this.DtMovement.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtMovement.Location = new System.Drawing.Point(12, 78);
+            this.DtMovement.Location = new System.Drawing.Point(12, 82);
             this.DtMovement.Name = "DtMovement";
-            this.DtMovement.Size = new System.Drawing.Size(302, 328);
+            this.DtMovement.Size = new System.Drawing.Size(302, 354);
             this.DtMovement.TabIndex = 7;
+            this.DtMovement.SelectionChanged += new System.EventHandler(this.DtMovement_SelectionChanged);
             // 
             // pnlButtonBox
             // 
@@ -161,7 +163,7 @@
             this.dtProduct.AllowUserToResizeRows = false;
             this.dtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtProduct.Location = new System.Drawing.Point(332, 222);
+            this.dtProduct.Location = new System.Drawing.Point(332, 252);
             this.dtProduct.MultiSelect = false;
             this.dtProduct.Name = "dtProduct";
             this.dtProduct.ReadOnly = true;
@@ -170,11 +172,21 @@
             this.dtProduct.Size = new System.Drawing.Size(247, 184);
             this.dtProduct.TabIndex = 35;
             // 
+            // LblProducts
+            // 
+            this.LblProducts.AutoSize = true;
+            this.LblProducts.Location = new System.Drawing.Point(329, 236);
+            this.LblProducts.Name = "LblProducts";
+            this.LblProducts.Size = new System.Drawing.Size(82, 13);
+            this.LblProducts.TabIndex = 36;
+            this.LblProducts.Text = "Movimentações";
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(827, 418);
+            this.ClientSize = new System.Drawing.Size(827, 446);
+            this.Controls.Add(this.LblProducts);
             this.Controls.Add(this.dtProduct);
             this.Controls.Add(this.LblEmail);
             this.Controls.Add(this.TxtEmail);
@@ -211,6 +223,7 @@
         private System.Windows.Forms.Label LblName;
         private System.Windows.Forms.TextBox TxtName;
         private System.Windows.Forms.DataGridView dtProduct;
+        private System.Windows.Forms.Label LblProducts;
     }
 }
 

@@ -51,7 +51,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             {
                 CheckForEmptyFields(fornecedor);
 
-                if (fornecedor.IdSupplier <= 0)
+                if (fornecedor.Id <= 0)
                 {
                     fornecedorService.AddFornecedor(fornecedor);
                     MessageBox.Show("Fornecedor adicionado com sucesso!");

@@ -8,13 +8,13 @@ namespace Gerenciador_de_estoque.src.Controllers
 {
     public class ProductController
     {
-        readonly ProductService produtoService = new ProductService();
+        readonly ProductService productService = new ProductService();
 
         public List<Product> GatherProducts(string nome)
         {
             try
             {
-                var produtos = produtoService.GatherProducts(nome);
+                var produtos = productService.GatherProducts(nome);
                 return produtos;
             }
             catch (Exception ex)
@@ -24,11 +24,16 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
+        public List<Product> GatherProductsByMovementId(int movementId)
+        {
+            return productService.GatherProductsByMovementId(movementId);
+        }
+
         public Product GetOneProduct(int id)
         {
             try
             {
-                var produto = produtoService.GetOneProduct(id);
+                var produto = productService.GetOneProduct(id);
                 return produto;
             }
             catch (Exception ex)
@@ -52,12 +57,12 @@ namespace Gerenciador_de_estoque.src.Controllers
                 {
                     if (product.Id <= 0)
                     {
-                        produtoService.AddProduct(product);
+                        productService.AddProduct(product);
                         MessageBox.Show("Produto adicionado com sucesso!");
                     }
                     else
                     {
-                        produtoService.UpdateProduct(product);
+                        productService.UpdateProduct(product);
                         MessageBox.Show("Produto editado com sucesso!");
                     }
                 }
@@ -75,7 +80,7 @@ namespace Gerenciador_de_estoque.src.Controllers
         {
             try
             {
-                produtoService.DeleteProduct(id);
+                productService.DeleteProduct(id);
                 MessageBox.Show("Produto deletado com sucesso!");
             }
             catch (Exception ex)

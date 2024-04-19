@@ -20,17 +20,6 @@ namespace Gerenciador_de_estoque.src.Services
             }
         }
 
-        public void DeleteMov_has_Prod(int idMovement, int idProduct)
-        {
-            try
-            {
-                _repository.DeleteMov_has_Prod(idMovement, idProduct);
-                Console.WriteLine("Movimento de produto deletado com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao deletar movimento de produto na camada de serviço: {ex.Message}");
-            }
-        }
+       
     }
 }

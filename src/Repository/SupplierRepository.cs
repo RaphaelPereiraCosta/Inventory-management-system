@@ -43,7 +43,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                             {
                                 var supplier = new Supplier
                                 {
-                                    IdSupplier = reader.GetInt32("Id"),
+                                    Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
                                     Street = reader.GetString("Street"),
                                     Number = reader.GetString("Number"),
@@ -90,7 +90,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                             {
                                 supplier = new Supplier
                                 {
-                                    IdSupplier = reader.GetInt32("Id"),
+                                    Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
                                     Street = reader.GetString("Street"),
                                     Number = reader.GetString("Number"),
@@ -169,7 +169,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                         command.Parameters.AddWithValue("@cep", supplier.CEP);
                         command.Parameters.AddWithValue("@phone", supplier.Phone);
                         command.Parameters.AddWithValue("@email", supplier.Email);
-                        command.Parameters.AddWithValue("@id", supplier.IdSupplier);
+                        command.Parameters.AddWithValue("@id", supplier.Id);
 
                         connectDb.Open();
                         command.ExecuteNonQuery();

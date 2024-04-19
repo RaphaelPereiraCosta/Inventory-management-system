@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.UI;
-using Gerenciador_de_estoque.UI;
 
 namespace Gerenciador_de_estoque
 {
@@ -12,11 +11,19 @@ namespace Gerenciador_de_estoque
         ProductMenu productMenu;
         SupplierMenu supplierMenu;
         SupplyMovementMenu supplyMovementMenu;
+
         readonly ProdMovController _controller = new ProdMovController();
+
+        readonly ProductMovement movement = new ProductMovement();
 
         public Home()
         {
             InitializeComponent();
+            InitializeForm();
+        }
+
+        private void InitializeForm()
+        {
             FillMovementList();
         }
 
@@ -25,19 +32,20 @@ namespace Gerenciador_de_estoque
             try
             {
                 SupplierController supplierController = new SupplierController();
+
                 var movements = _controller.GatherMovement();
 
                 DtMovement.Rows.Clear();
 
                 foreach (var movement in movements)
                 {
-                    movement.Supplier = supplierController.GetOneFornecedor(movement.Supplier.IdSupplier);
+                    movement.Supplier = supplierController.GetOneFornecedor(movement.Supplier.Id);
 
                     DtMovement.Rows.Add(
                         movement.IdMovement,
-                        movement.Date,
                         movement.Supplier.Name,
-                        movement.Type
+                        movement.Type,
+                        movement.Date
                     );
                 }
             }
@@ -91,6 +99,46 @@ namespace Gerenciador_de_estoque
         private void CreateNewSupplyMovementMenu()
         {
             supplyMovementMenu = new SupplyMovementMenu();
+        }
+
+        private bool _isClearingSelection = false;
+
+        private void DtMovement_SelectionChanged(object sender, EventArgs e)
+        {
+            if (_isClearingSelection)
+                return;
+
+            if (DtMovement.SelectedRows.Count > 0)
+            {
+                SelectRow(DtMovement);
+                HandleFields(movement);
+            }
+
+            _isClearingSelection = true;
+            DtMovement.ClearSelection();
+            _isClearingSelection = false;
+        }
+
+        private void SelectRow(DataGridView table)
+        {
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    HandleFields(movement);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
+        private void HandleFields(ProductMovement movement)
+        {
+            TxtName.Text = movement.Supplier.Name;
+            TxtPhone.Text = movement.Supplier.Phone;
+            TxtEmail.Text = movement.Supplier.Email;
         }
     }
 }

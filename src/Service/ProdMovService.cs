@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Repositories;
 

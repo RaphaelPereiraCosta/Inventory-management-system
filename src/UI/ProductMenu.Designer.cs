@@ -1,4 +1,4 @@
-﻿namespace Gerenciador_de_estoque.UI
+﻿namespace Gerenciador_de_estoque.src.UI
 {
     partial class ProductMenu
     {

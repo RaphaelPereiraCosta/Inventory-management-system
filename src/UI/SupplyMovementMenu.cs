@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Utilities;
-using Gerenciador_de_estoque.UI;
 
 namespace Gerenciador_de_estoque.src.UI
 {
@@ -39,7 +38,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                if (fornecedor != null && fornecedor.IdSupplier > 0)
+                if (fornecedor != null && fornecedor.Id > 0)
                 {
                     TxtName.Text = fornecedor.Name;
                     TxtCity.Text = fornecedor.City;
@@ -260,7 +259,7 @@ namespace Gerenciador_de_estoque.src.UI
 
             ProductMovement movement = new ProductMovement
             {
-                Supplier = new Supplier() { IdSupplier = _fornecedor.IdSupplier },
+                Supplier = new Supplier() { Id = _fornecedor.Id },
                 Type = CmbType.Text,
                 ProductsList = _products,
                 Date = null
