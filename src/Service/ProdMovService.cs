@@ -17,7 +17,7 @@ namespace Gerenciador_de_estoque.src.Services
         public int AddProductMovement(ProductMovement productMovement)
         {
            
-                return _prodMovRepository.AddMovement(productMovement);
+            return _prodMovRepository.AddMovement(productMovement);
             
            
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Models;
-using Gerenciador_de_estoque.src.Repository;
 using Gerenciador_de_estoque.src.Services;
 using Gerenciador_de_estoque.src.Utilities;
 
@@ -30,6 +30,7 @@ namespace Gerenciador_de_estoque.src.Controllers
 
                 if (productMovement.IdMovement < 1)
                 {
+                    MessageBox.Show("Falha ao salvar o movimento do produto.");
                     return;
                 }
 
@@ -54,7 +55,13 @@ namespace Gerenciador_de_estoque.src.Controllers
 
                     registproduct = utils.ConvertSelectedToProduct(selected);
 
-                    _productController.AddProduct(registproduct);
+                    bool isSaved = _productController.AddProduct(registproduct);
+
+                    if (!isSaved)
+                    {
+                        MessageBox.Show("Falha ao salvar o produto.");
+                        return;
+                    }
 
                     _movHas_ProdService.AddMov_has_Prod(
                         productMovement.IdMovement,
@@ -62,14 +69,13 @@ namespace Gerenciador_de_estoque.src.Controllers
                         selected.AmountChange
                     );
                 }
-
-                Console.WriteLine("Movimento de produto adicionado com sucesso.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar movimento de produto: {ex.Message}");
+                MessageBox.Show($"Erro ao adicionar movimento de produto: {ex.Message}");
             }
         }
+
 
         public List<ProductMovement> GatherMovement()
         {

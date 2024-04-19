@@ -38,7 +38,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void AddProduct(Product product)
+        public bool AddProduct(Product product)
         {
             try
             {
@@ -61,10 +61,13 @@ namespace Gerenciador_de_estoque.src.Controllers
                         MessageBox.Show("Produto editado com sucesso!");
                     }
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Falha na operação: {ex.Message}");
+                return false;
             }
         }
 

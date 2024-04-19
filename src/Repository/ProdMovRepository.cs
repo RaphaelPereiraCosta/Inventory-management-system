@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Connection;
 using Gerenciador_de_estoque.src.Models;
 using MySql.Data.MySqlClient;
@@ -23,10 +24,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "INSERT INTO movement (Type, Date, Supplier_ID) VALUES (@Type, @Date, @Supplier_ID); SELECT LAST_INSERT_ID();";
-                        command.Parameters.AddWithValue("@Type", productMovement.Type);
-                        command.Parameters.AddWithValue("@Date", productMovement.Date);
-                        command.Parameters.AddWithValue("@Supplier_ID", productMovement.Supplier.IdSupplier);
+                            "INSERT INTO movement (Type, Date, Supplier_Id) VALUES (@Type, STR_TO_DATE(@Date, '%d-%m-%Y'), @Supplier_ID); SELECT LAST_INSERT_ID();";
+                        command.Parameters.Add("@Type", MySqlDbType.VarChar).Value = productMovement.Type;
+                        command.Parameters.Add("@Date", MySqlDbType.VarChar).Value = productMovement.Date;
+                        command.Parameters.Add("@Supplier_ID", MySqlDbType.Int32).Value = productMovement.Supplier.IdSupplier;
 
                         id = Convert.ToInt32(command.ExecuteScalar());
                     }
@@ -34,7 +35,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar movimento de produto: {ex.Message}");
+                MessageBox.Show($"Erro ao adicionar movimento de produto: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return id;
         }
@@ -52,8 +53,8 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "SELECT * FROM movement WHERE Id = @IdMovement";
-                        command.Parameters.AddWithValue("@IdMovement", idMovement);
+                            "SELECT *, DATE_FORMAT(Date, '%d-%m-%Y') AS FormattedDate FROM movement WHERE Id = @IdMovement";
+                        command.Parameters.Add("@IdMovement", MySqlDbType.Int32).Value = idMovement;
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -62,9 +63,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                                 var movement = new ProductMovement
                                 {
                                     IdMovement = Convert.ToInt32(reader["Id"]),
-                                    Supplier = new Supplier { IdSupplier = Convert.ToInt32(reader["Supplier_ID"]) },
+                                    Supplier = new Supplier { IdSupplier = Convert.ToInt32(reader["Supplier_Id"]) },
                                     Type = Convert.ToString(reader["Type"]),
-                                    Date = Convert.ToString(reader["Date"])
+                                    Date = Convert.ToString(reader["FormattedDate"])
                                 };
                                 movements.Add(movement);
                             }
@@ -74,7 +75,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao obter movimentos de produto: {ex.Message}");
+                MessageBox.Show($"Erro ao obter movimentos de produto: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return movements;
         }
@@ -92,7 +93,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "SELECT * FROM movement";
+                            "SELECT *, DATE_FORMAT(Date, '%d-%m-%Y') AS FormattedDate FROM movement";
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -101,9 +102,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                                 var movement = new ProductMovement
                                 {
                                     IdMovement = Convert.ToInt32(reader["Id"]),
-                                    Supplier = new Supplier { IdSupplier = Convert.ToInt32(reader["Supplier_ID"]) },
+                                    Supplier = new Supplier { IdSupplier = Convert.ToInt32(reader["Supplier_Id"]) },
                                     Type = Convert.ToString(reader["Type"]),
-                                    Date = Convert.ToString(reader["Date"])
+                                    Date = Convert.ToString(reader["FormattedDate"])
                                 };
 
                                 movements.Add(movement);
@@ -114,7 +115,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao obter movimentos de produto: {ex.Message}");
+                MessageBox.Show($"Erro ao obter movimentos de produto: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return movements;
         }
