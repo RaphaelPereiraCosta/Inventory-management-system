@@ -40,11 +40,11 @@
             this.TxtPhone = new System.Windows.Forms.TextBox();
             this.LblName = new System.Windows.Forms.Label();
             this.TxtName = new System.Windows.Forms.TextBox();
-            this.dtProduct = new System.Windows.Forms.DataGridView();
+            this.DtProduct = new System.Windows.Forms.DataGridView();
             this.LblProducts = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DtMovement)).BeginInit();
             this.pnlButtonBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // ProductBtn
@@ -79,10 +79,19 @@
             // 
             // DtMovement
             // 
+            this.DtMovement.AllowUserToAddRows = false;
+            this.DtMovement.AllowUserToDeleteRows = false;
+            this.DtMovement.AllowUserToOrderColumns = true;
+            this.DtMovement.AllowUserToResizeRows = false;
+            this.DtMovement.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DtMovement.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtMovement.Location = new System.Drawing.Point(12, 82);
+            this.DtMovement.Location = new System.Drawing.Point(12, 98);
+            this.DtMovement.MultiSelect = false;
             this.DtMovement.Name = "DtMovement";
-            this.DtMovement.Size = new System.Drawing.Size(302, 354);
+            this.DtMovement.ReadOnly = true;
+            this.DtMovement.RowHeadersVisible = false;
+            this.DtMovement.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DtMovement.Size = new System.Drawing.Size(302, 338);
             this.DtMovement.TabIndex = 7;
             this.DtMovement.SelectionChanged += new System.EventHandler(this.DtMovement_SelectionChanged);
             // 
@@ -99,7 +108,7 @@
             // 
             // TxtSearch
             // 
-            this.TxtSearch.Location = new System.Drawing.Point(12, 52);
+            this.TxtSearch.Location = new System.Drawing.Point(12, 72);
             this.TxtSearch.Name = "TxtSearch";
             this.TxtSearch.Size = new System.Drawing.Size(165, 20);
             this.TxtSearch.TabIndex = 14;
@@ -155,22 +164,22 @@
             this.TxtName.Size = new System.Drawing.Size(225, 20);
             this.TxtName.TabIndex = 29;
             // 
-            // dtProduct
+            // DtProduct
             // 
-            this.dtProduct.AllowUserToAddRows = false;
-            this.dtProduct.AllowUserToDeleteRows = false;
-            this.dtProduct.AllowUserToOrderColumns = true;
-            this.dtProduct.AllowUserToResizeRows = false;
-            this.dtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtProduct.Location = new System.Drawing.Point(332, 252);
-            this.dtProduct.MultiSelect = false;
-            this.dtProduct.Name = "dtProduct";
-            this.dtProduct.ReadOnly = true;
-            this.dtProduct.RowHeadersVisible = false;
-            this.dtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtProduct.Size = new System.Drawing.Size(247, 184);
-            this.dtProduct.TabIndex = 35;
+            this.DtProduct.AllowUserToAddRows = false;
+            this.DtProduct.AllowUserToDeleteRows = false;
+            this.DtProduct.AllowUserToOrderColumns = true;
+            this.DtProduct.AllowUserToResizeRows = false;
+            this.DtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DtProduct.Location = new System.Drawing.Point(332, 252);
+            this.DtProduct.MultiSelect = false;
+            this.DtProduct.Name = "DtProduct";
+            this.DtProduct.ReadOnly = true;
+            this.DtProduct.RowHeadersVisible = false;
+            this.DtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DtProduct.Size = new System.Drawing.Size(247, 184);
+            this.DtProduct.TabIndex = 35;
             // 
             // LblProducts
             // 
@@ -187,7 +196,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 446);
             this.Controls.Add(this.LblProducts);
-            this.Controls.Add(this.dtProduct);
+            this.Controls.Add(this.DtProduct);
             this.Controls.Add(this.LblEmail);
             this.Controls.Add(this.TxtEmail);
             this.Controls.Add(this.LblPhone);
@@ -202,7 +211,7 @@
             this.Text = "Historico de movimentações";
             ((System.ComponentModel.ISupportInitialize)(this.DtMovement)).EndInit();
             this.pnlButtonBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,7 +231,7 @@
         private System.Windows.Forms.TextBox TxtPhone;
         private System.Windows.Forms.Label LblName;
         private System.Windows.Forms.TextBox TxtName;
-        private System.Windows.Forms.DataGridView dtProduct;
+        private System.Windows.Forms.DataGridView DtProduct;
         private System.Windows.Forms.Label LblProducts;
     }
 }

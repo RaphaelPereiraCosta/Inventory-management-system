@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.UI;
+using Gerenciador_de_estoque.src.Utilities;
 
 namespace Gerenciador_de_estoque
 {
@@ -11,10 +12,11 @@ namespace Gerenciador_de_estoque
         ProductMenu productMenu;
         SupplierMenu supplierMenu;
         SupplyMovementMenu supplyMovementMenu;
+        ProductMovement movement = new ProductMovement();
+
+        readonly Utils _util = new Utils();
 
         readonly ProdMovController _controller = new ProdMovController();
-
-        readonly ProductMovement movement = new ProductMovement();
 
         public Home()
         {
@@ -24,7 +26,17 @@ namespace Gerenciador_de_estoque
 
         private void InitializeForm()
         {
+            AddColumns();
             FillMovementList();
+        }
+
+        private void AddColumns()
+        {
+            _util.AddMovementColumns(DtMovement);
+            _util.AddProductColumns(DtProduct);
+
+            DtProduct.Columns["AvaliableAmount"].Visible = false;
+            DtProduct.Columns.Add("AmountChange", movement.Type == "Entrada" ? "Entrada" : "Saída");
         }
 
         private void FillMovementList()
@@ -42,7 +54,8 @@ namespace Gerenciador_de_estoque
                     movement.Supplier = supplierController.GetOneFornecedor(movement.Supplier.Id);
 
                     DtMovement.Rows.Add(
-                        movement.IdMovement,
+                        movement.Id,
+                        movement.Supplier.Id,
                         movement.Supplier.Name,
                         movement.Type,
                         movement.Date
@@ -52,6 +65,31 @@ namespace Gerenciador_de_estoque
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao preencher a lista de produtos: {ex.Message}");
+            }
+        }
+
+        private void FillDtProduct()
+        {
+            DtProduct.Rows.Clear();
+            foreach (var product in movement.ProductsList)
+            {
+                string amountChangeDisplay = product.AmountChange.ToString();
+                if (movement.Type == "Entrada")
+                {
+                    amountChangeDisplay = "+" + amountChangeDisplay;
+                }
+                else
+                {
+                    amountChangeDisplay = "-" + amountChangeDisplay;
+                }
+
+                DtProduct.Rows.Add(
+                    product.Id,
+                    product.Name,
+                    product.AvailableAmount,
+                    product.Description,
+                    amountChangeDisplay
+                );
             }
         }
 
@@ -79,11 +117,17 @@ namespace Gerenciador_de_estoque
             ShowForm(supplyMovementMenu);
         }
 
-        private void ShowForm(Form form)
+        private void ShowForm(Form formToShow)
         {
             Hide();
-            form.FormClosed += (s, args) => Show();
-            form.Show();
+
+            formToShow.FormClosed += (sender, e) =>
+            {
+                Show();
+                FillMovementList();
+            };
+
+            formToShow.Show();
         }
 
         private void CreateNewProductMenu()
@@ -101,22 +145,14 @@ namespace Gerenciador_de_estoque
             supplyMovementMenu = new SupplyMovementMenu();
         }
 
-        private bool _isClearingSelection = false;
-
         private void DtMovement_SelectionChanged(object sender, EventArgs e)
         {
-            if (_isClearingSelection)
-                return;
-
             if (DtMovement.SelectedRows.Count > 0)
             {
                 SelectRow(DtMovement);
+                FillDtProduct();
                 HandleFields(movement);
             }
-
-            _isClearingSelection = true;
-            DtMovement.ClearSelection();
-            _isClearingSelection = false;
         }
 
         private void SelectRow(DataGridView table)
@@ -125,6 +161,7 @@ namespace Gerenciador_de_estoque
             {
                 if (table.CurrentRow != null)
                 {
+                    movement = _util.SelectRowMovement(DtMovement);
                     HandleFields(movement);
                 }
             }

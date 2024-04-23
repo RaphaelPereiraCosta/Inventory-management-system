@@ -26,9 +26,9 @@ namespace Gerenciador_de_estoque.src.Controllers
             {
                 Utils utils = new Utils();
 
-                productMovement.IdMovement = _prodMovService.AddProductMovement(productMovement);
+                productMovement.Id = _prodMovService.AddProductMovement(productMovement);
 
-                if (productMovement.IdMovement < 1)
+                if (productMovement.Id < 1)
                 {
                     MessageBox.Show("Falha ao salvar o movimento do produto.");
                     return;
@@ -64,7 +64,7 @@ namespace Gerenciador_de_estoque.src.Controllers
                     }
 
                     _movHas_ProdService.AddMov_has_Prod(
-                        productMovement.IdMovement,
+                        productMovement.Id,
                         registproduct.Id,
                         selected.AmountChange
                     );

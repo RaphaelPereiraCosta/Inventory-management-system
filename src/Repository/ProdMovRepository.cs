@@ -25,9 +25,12 @@ namespace Gerenciador_de_estoque.src.Repositories
                         command.Connection = connectDb;
                         command.CommandText =
                             "INSERT INTO movement (Type, Date, Supplier_Id) VALUES (@Type, STR_TO_DATE(@Date, '%d-%m-%Y'), @Supplier_ID); SELECT LAST_INSERT_ID();";
-                        command.Parameters.Add("@Type", MySqlDbType.VarChar).Value = productMovement.Type;
-                        command.Parameters.Add("@Date", MySqlDbType.VarChar).Value = productMovement.Date;
-                        command.Parameters.Add("@Supplier_ID", MySqlDbType.Int32).Value = productMovement.Supplier.Id;
+                        command.Parameters.Add("@Type", MySqlDbType.VarChar).Value =
+                            productMovement.Type;
+                        command.Parameters.Add("@Date", MySqlDbType.VarChar).Value =
+                            productMovement.Date;
+                        command.Parameters.Add("@Supplier_ID", MySqlDbType.Int32).Value =
+                            productMovement.Supplier.Id;
 
                         id = Convert.ToInt32(command.ExecuteScalar());
                     }
@@ -35,7 +38,12 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao adicionar movimento de produto: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Erro ao adicionar movimento de produto: {ex.Message}",
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             return id;
         }
@@ -62,8 +70,11 @@ namespace Gerenciador_de_estoque.src.Repositories
                             {
                                 var movement = new ProductMovement
                                 {
-                                    IdMovement = Convert.ToInt32(reader["Id"]),
-                                    Supplier = new Supplier { Id = Convert.ToInt32(reader["Supplier_Id"]) },
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Supplier = new Supplier
+                                    {
+                                        Id = Convert.ToInt32(reader["Supplier_Id"])
+                                    },
                                     Type = Convert.ToString(reader["Type"]),
                                     Date = Convert.ToString(reader["FormattedDate"])
                                 };
@@ -75,7 +86,12 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao obter movimentos de produto: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Erro ao obter movimentos de produto: {ex.Message}",
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             return movements;
         }
@@ -101,8 +117,11 @@ namespace Gerenciador_de_estoque.src.Repositories
                             {
                                 var movement = new ProductMovement
                                 {
-                                    IdMovement = Convert.ToInt32(reader["Id"]),
-                                    Supplier = new Supplier { Id = Convert.ToInt32(reader["Supplier_Id"]) },
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Supplier = new Supplier
+                                    {
+                                        Id = Convert.ToInt32(reader["Supplier_Id"])
+                                    },
                                     Type = Convert.ToString(reader["Type"]),
                                     Date = Convert.ToString(reader["FormattedDate"])
                                 };
@@ -115,7 +134,12 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao obter movimentos de produto: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Erro ao obter movimentos de produto: {ex.Message}",
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             return movements;
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
@@ -8,9 +9,10 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductMenu : Form
     {
-        private Product _selectedProduct = new Product();
+        private Product _product = new Product();
         private readonly ProductController _controller = new ProductController();
         private readonly Utils _utils = new Utils();
+        private List<Product> products = new List<Product>();
 
         public ProductMenu()
         {
@@ -22,12 +24,20 @@ namespace Gerenciador_de_estoque.src.UI
         {
             AddColumnsToProductList();
             FillProductList("");
-            HandleFields(true, _selectedProduct);
+            HandleFields(true, _product);
         }
 
         private void TxtAmount_TextChanged(object sender, EventArgs e)
         {
             TxtAmount.Text = _utils.ValidateNumber(TxtAmount.Text);
+        }
+
+        private void TxtName_TextChanged(object sender, EventArgs e)
+        {
+            if (TxtName.ReadOnly == false)
+            {
+                FillProductList(TxtName.Text);
+            }
         }
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
@@ -37,11 +47,13 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
-            if (dtProduct.CurrentRow == null)
+            if (DtProduct.CurrentRow == null)
                 return;
-
-            _selectedProduct = _utils.SelectRowProduct(dtProduct);
-            UpdateProductFields(_selectedProduct);
+            if (TxtName.ReadOnly == true)
+            {
+                _product = _utils.SelectRowProduct(DtProduct);
+                UpdateProductFields(_product);
+            }
         }
 
         private void UpdateProductFields(Product product)
@@ -54,16 +66,16 @@ namespace Gerenciador_de_estoque.src.UI
         private void BtnNew_Click(object sender, EventArgs e)
         {
             HandleFields(false, null);
-            _selectedProduct = new Product();
+            _product = new Product();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            _selectedProduct.Name = TxtName.Text;
+            _product.Name = TxtName.Text;
 
             if (int.TryParse(TxtAmount.Text, out int quantidade))
             {
-                _selectedProduct.AvailableAmount = quantidade;
+                _product.AvailableAmount = quantidade;
             }
             else
             {
@@ -71,14 +83,16 @@ namespace Gerenciador_de_estoque.src.UI
                 return;
             }
 
-            _selectedProduct.Description = TxtDescription.Text;
+            _product.Description = TxtDescription.Text;
             SaveOrUpdateProduct();
+            products.Clear();
+            FillProductList("");
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            HandleFields(true, _selectedProduct);
-            _selectedProduct = new Product();
+            HandleFields(true, _product);
+            _product = new Product();
         }
 
         private void BtnGoBack_Click(object sender, EventArgs e)
@@ -88,12 +102,13 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            HandleFields(false, _selectedProduct);
+            HandleFields(false, _product);
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            DeleteProduct(_selectedProduct.Id);
+            DeleteProduct(_product.Id);
+            products.Clear();
             FillProductList(TxtSearch.Text);
         }
 
@@ -101,8 +116,8 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                _controller.AddProduct(_selectedProduct);
-                HandleFields(true, _selectedProduct);
+                _controller.AddProduct(_product);
+                HandleFields(true, _product);
                 FillProductList(TxtSearch.Text);
             }
             catch (Exception ex)
@@ -134,26 +149,35 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void AddColumnsToProductList()
         {
-            dtProduct.Columns.Clear();
-            dtProduct.Columns.Add("IdProduct", "Id");
-            dtProduct.Columns["IdProduct"].Visible = false;
-            dtProduct.Columns.Add("Name", "Nome do Produto");
-            dtProduct.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
-            dtProduct.Columns.Add("Description", "Descrição");
+            _utils.AddProductColumns(DtProduct);
         }
 
         private void FillProductList(string name)
         {
-            var produtos = _controller.GatherProducts(name);
-            dtProduct.Rows.Clear();
-
-            foreach (var produto in produtos)
+            DtProduct.Rows.Clear();
+            if (products.Count <= 0)
             {
-                dtProduct.Rows.Add(
-                    produto.Id,
-                    produto.Name,
-                    produto.AvailableAmount,
-                    produto.Description
+                products = _controller.GatherProducts();
+
+                FillProductTable(products);
+            }
+            else
+            {
+                List<Product> filtered = _utils.FilterProductList(products, name);
+
+                FillProductTable(filtered);
+            }
+        }
+
+        private void FillProductTable(List<Product> list)
+        {
+            foreach (var product in list)
+            {
+                DtProduct.Rows.Add(
+                    product.Id,
+                    product.Name,
+                    product.AvailableAmount,
+                    product.Description
                 );
             }
         }

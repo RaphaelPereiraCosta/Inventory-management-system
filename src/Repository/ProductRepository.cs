@@ -10,20 +10,12 @@ namespace Gerenciador_de_estoque.src.Repositories
     {
         readonly DbConnect _connection = new DbConnect();
 
-        public List<Product> GatherProducts(string name)
+        public List<Product> GatherProducts()
         {
             var products = new List<Product>();
 
             string query;
-
-            if (string.IsNullOrEmpty(name))
-            {
-                query = "SELECT * FROM product";
-            }
-            else
-            {
-                query = "SELECT * FROM product WHERE Name LIKE @name";
-            }
+            query = "SELECT * FROM product";
 
             try
             {
@@ -31,11 +23,6 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            command.Parameters.AddWithValue("@name", "%" + name + "%");
-                        }
-
                         connectDb.Open();
                         using (var reader = command.ExecuteReader())
                         {
@@ -45,7 +32,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                                 {
                                     Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
-                                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description"))
+                                        ? null
+                                        : reader.GetString("Description"),
                                     AvailableAmount = reader.GetInt32("AvailableAmount")
                                 };
 
@@ -85,7 +74,9 @@ namespace Gerenciador_de_estoque.src.Repositories
                                 {
                                     Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
-                                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description"))
+                                        ? null
+                                        : reader.GetString("Description"),
                                     AvailableAmount = reader.GetInt32("AvailableAmount")
                                 };
                             }
@@ -114,7 +105,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Parameters.AddWithValue("@Name", product.Name);
                         command.Parameters.AddWithValue("@Description", product.Description);
-                        command.Parameters.AddWithValue("@AvailableAmount", product.AvailableAmount);
+                        command.Parameters.AddWithValue(
+                            "@AvailableAmount",
+                            product.AvailableAmount
+                        );
 
                         connectDb.Open();
                         command.ExecuteNonQuery();
@@ -140,7 +134,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Parameters.AddWithValue("@Name", product.Name);
                         command.Parameters.AddWithValue("@Description", product.Description);
-                        command.Parameters.AddWithValue("@AvailableAmount", product.AvailableAmount);
+                        command.Parameters.AddWithValue(
+                            "@AvailableAmount",
+                            product.AvailableAmount
+                        );
                         command.Parameters.AddWithValue("@Id", product.Id);
 
                         connectDb.Open();
@@ -177,13 +174,13 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public List<Product> GatherProductsByMovementId(int movementId)
+        public List<SelectedProd> GatherProductsByMovementId(int movementId)
         {
-            var products = new List<Product>();
+            var products = new List<SelectedProd>();
             var query =
-                @"SELECT p.* FROM product p INNER JOIN movement_has_product mhp 
-                 ON p.Id = mhp.product_Id
-                 WHERE mhp.movement_Id = @movementId";
+                @"SELECT p.*, mhp.MovedAmount FROM product p INNER JOIN movement_has_product mhp 
+         ON p.Id = mhp.product_Id
+         WHERE mhp.movement_Id = @movementId";
 
             try
             {
@@ -198,12 +195,15 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var product = new Product
+                                var product = new SelectedProd
                                 {
                                     Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),
-                                    Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
-                                    AvailableAmount = reader.GetInt32("AvailableAmount")
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description"))
+                                        ? null
+                                        : reader.GetString("Description"),
+                                    AvailableAmount = reader.GetInt32("AvailableAmount"),
+                                    AmountChange = reader.GetInt32("MovedAmount")
                                 };
 
                                 products.Add(product);

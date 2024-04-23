@@ -1,5 +1,4 @@
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.AssemblyReference.cache
-C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.SuggestedBindingRedirects.cache
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.Properties.Resources.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.GenerateResource.cache
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.CoreCompileInputs.cache
@@ -37,11 +36,11 @@ C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\bin\Debug\System.M
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.csproj.CopyComplete
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.exe
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador de estoque.pdb
-C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.UI.ProductMenu.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.Home.resources
-C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.UI.SupplierMenu.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.src.UI.SupplyMovementMenu.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.src.UI.ProductSelect.resources
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.src.UI.ProductMenu.resources
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.src.UI.SupplierMenu.resources
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerencia.45971E3B.Up2Date

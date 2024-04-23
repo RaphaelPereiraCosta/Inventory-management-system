@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 
 namespace Gerenciador_de_estoque.src.Utilities
@@ -104,6 +106,29 @@ namespace Gerenciador_de_estoque.src.Utilities
             return table;
         }
 
+        public DataGridView AddMovementColumns(DataGridView table)
+        {
+            try
+            {
+                table.Columns.Clear();
+                table.Columns.Add("Id", "Id");
+                table.Columns["Id"].Visible = false;
+                table.Columns.Add("SupplierId", "SId");
+                table.Columns["SupplierId"].Visible = false;
+                table.Columns.Add("SupplierName", "Nome do Fornecedor");
+                table.Columns.Add("Type", "Tipo");
+                table.Columns.Add("Date", "Data");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Erro ao adicionar colunas à lista de movimentações: {ex.Message}"
+                );
+            }
+
+            return table;
+        }
+
         public DataGridView AddSupplierColumns(DataGridView table)
         {
             try
@@ -137,7 +162,6 @@ namespace Gerenciador_de_estoque.src.Utilities
 
             return table;
         }
-
 
         public SelectedProd SelectRowProduct(DataGridView table)
         {
@@ -198,7 +222,10 @@ namespace Gerenciador_de_estoque.src.Utilities
                     supplier.Name = table.Rows[index].Cells["Name"].Value.ToString();
                     supplier.City = table.Rows[index].Cells["City"].Value.ToString();
                     supplier.CEP = table.Rows[index].Cells["CEP"].Value.ToString();
-                    supplier.Neighborhood = table.Rows[index].Cells["Neighborhood"].Value.ToString();
+                    supplier.Neighborhood = table
+                        .Rows[index]
+                        .Cells["Neighborhood"]
+                        .Value.ToString();
                     supplier.Phone = table.Rows[index].Cells["Phone"].Value.ToString();
                     supplier.Street = table.Rows[index].Cells["Street"].Value.ToString();
                     supplier.Email = table.Rows[index].Cells["Email"].Value.ToString();
@@ -214,6 +241,67 @@ namespace Gerenciador_de_estoque.src.Utilities
                 MessageBox.Show($"Erro ao selecionar fornecedor: {ex.Message}");
                 return supplier;
             }
+        }
+
+        public ProductMovement SelectRowMovement(DataGridView table)
+        {
+            if (table.CurrentRow == null)
+            {
+                return new ProductMovement();
+            }
+
+            int index = table.CurrentRow.Index;
+            var movement = new ProductMovement();
+
+            try
+            {
+                movement.Id = GetIntValueFromCell(table, index, "Id");
+                int supplierId = GetIntValueFromCell(table, index, "SupplierId");
+
+                SupplierController supplierController = new SupplierController();
+                movement.Supplier = supplierController.GetOneFornecedor(supplierId);
+                movement.Supplier.Id = supplierId;
+                movement.Supplier.Name = table.Rows[index].Cells["SupplierName"].Value as string;
+
+                ProductController productController = new ProductController();
+                movement.ProductsList = productController.GatherProductsByMovementId(movement.Id);
+
+                movement.Type = table.Rows[index].Cells["Type"].Value as string;
+                movement.Date = table.Rows[index].Cells["Date"].Value.ToString();
+
+                return movement;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar movimento: {ex.Message}");
+                return movement;
+            }
+        }
+
+        private int GetIntValueFromCell(DataGridView table, int rowIndex, string columnName)
+        {
+            if (
+                int.TryParse(table.Rows[rowIndex].Cells[columnName].Value.ToString(), out int value)
+            )
+            {
+                return value;
+            }
+            return 0;
+        }
+
+
+        public List<Product> FilterProductList(List<Product> sourceList, string name)
+        {
+            List<Product> filtered = new List<Product>();
+
+            foreach (Product product in sourceList)
+            {
+                if (product.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    filtered.Add(product);
+                }
+            }
+            return filtered;
         }
 
     }

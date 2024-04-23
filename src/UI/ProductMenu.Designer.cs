@@ -34,7 +34,7 @@
             this.TxtDescription = new System.Windows.Forms.TextBox();
             this.TxtAmount = new System.Windows.Forms.TextBox();
             this.LblQuantity = new System.Windows.Forms.Label();
-            this.dtProduct = new System.Windows.Forms.DataGridView();
+            this.DtProduct = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.BtnNew = new System.Windows.Forms.Button();
@@ -43,7 +43,7 @@
             this.BtnGoBack = new System.Windows.Forms.Button();
             this.BtnEdit = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.SuspendLayout();
             // 
             // TxtName
@@ -52,6 +52,7 @@
             this.TxtName.Name = "TxtName";
             this.TxtName.Size = new System.Drawing.Size(142, 20);
             this.TxtName.TabIndex = 0;
+            this.TxtName.TextChanged += new System.EventHandler(this.TxtName_TextChanged);
             // 
             // LblName
             // 
@@ -96,23 +97,23 @@
             this.LblQuantity.TabIndex = 8;
             this.LblQuantity.Text = "Quantidade";
             // 
-            // dtProduct
+            // DtProduct
             // 
-            this.dtProduct.AllowUserToAddRows = false;
-            this.dtProduct.AllowUserToDeleteRows = false;
-            this.dtProduct.AllowUserToOrderColumns = true;
-            this.dtProduct.AllowUserToResizeRows = false;
-            this.dtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtProduct.Location = new System.Drawing.Point(360, 67);
-            this.dtProduct.MultiSelect = false;
-            this.dtProduct.Name = "dtProduct";
-            this.dtProduct.ReadOnly = true;
-            this.dtProduct.RowHeadersVisible = false;
-            this.dtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtProduct.Size = new System.Drawing.Size(401, 305);
-            this.dtProduct.TabIndex = 9;
-            this.dtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged);
+            this.DtProduct.AllowUserToAddRows = false;
+            this.DtProduct.AllowUserToDeleteRows = false;
+            this.DtProduct.AllowUserToOrderColumns = true;
+            this.DtProduct.AllowUserToResizeRows = false;
+            this.DtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DtProduct.Location = new System.Drawing.Point(360, 67);
+            this.DtProduct.MultiSelect = false;
+            this.DtProduct.Name = "DtProduct";
+            this.DtProduct.ReadOnly = true;
+            this.DtProduct.RowHeadersVisible = false;
+            this.DtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DtProduct.Size = new System.Drawing.Size(401, 305);
+            this.DtProduct.TabIndex = 9;
+            this.DtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged);
             // 
             // btnSave
             // 
@@ -205,7 +206,7 @@
             this.Controls.Add(this.BtnNew);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.dtProduct);
+            this.Controls.Add(this.DtProduct);
             this.Controls.Add(this.LblQuantity);
             this.Controls.Add(this.TxtAmount);
             this.Controls.Add(this.LblDescription);
@@ -215,7 +216,7 @@
             this.MaximizeBox = false;
             this.Name = "ProductMenu";
             this.Text = "Menu de produtos";
-            ((System.ComponentModel.ISupportInitialize)(this.dtProduct)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,7 +230,7 @@
         private System.Windows.Forms.TextBox TxtDescription;
         private System.Windows.Forms.TextBox TxtAmount;
         private System.Windows.Forms.Label LblQuantity;
-        private System.Windows.Forms.DataGridView dtProduct;
+        private System.Windows.Forms.DataGridView DtProduct;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button BtnNew;

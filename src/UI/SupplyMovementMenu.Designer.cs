@@ -61,12 +61,12 @@
             this.BtnSelectProducts = new System.Windows.Forms.Button();
             this.BtnConfirm = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.LblAmountChanged = new System.Windows.Forms.Label();
+            this.TxtAmountChanged = new System.Windows.Forms.TextBox();
             this.TxtDate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ChkToday = new System.Windows.Forms.CheckBox();
-            this.LblAmountChanged = new System.Windows.Forms.Label();
-            this.TxtAmountChanged = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -287,7 +287,7 @@
             this.DtProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DtProduct.Size = new System.Drawing.Size(387, 164);
             this.DtProduct.TabIndex = 51;
-            this.DtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged_1);
+            this.DtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged);
             // 
             // lblQuantity
             // 
@@ -381,6 +381,23 @@
             this.panel1.Size = new System.Drawing.Size(832, 250);
             this.panel1.TabIndex = 60;
             // 
+            // LblAmountChanged
+            // 
+            this.LblAmountChanged.AutoSize = true;
+            this.LblAmountChanged.Location = new System.Drawing.Point(255, 63);
+            this.LblAmountChanged.Name = "LblAmountChanged";
+            this.LblAmountChanged.Size = new System.Drawing.Size(62, 13);
+            this.LblAmountChanged.TabIndex = 60;
+            this.LblAmountChanged.Text = "Quantidade";
+            // 
+            // TxtAmountChanged
+            // 
+            this.TxtAmountChanged.Location = new System.Drawing.Point(258, 79);
+            this.TxtAmountChanged.Name = "TxtAmountChanged";
+            this.TxtAmountChanged.ReadOnly = true;
+            this.TxtAmountChanged.Size = new System.Drawing.Size(73, 20);
+            this.TxtAmountChanged.TabIndex = 59;
+            // 
             // TxtDate
             // 
             this.TxtDate.Location = new System.Drawing.Point(455, 442);
@@ -420,23 +437,6 @@
             this.ChkToday.Text = "Data de hoje";
             this.ChkToday.UseVisualStyleBackColor = true;
             this.ChkToday.CheckedChanged += new System.EventHandler(this.ChkToday_CheckedChanged);
-            // 
-            // LblAmountChanged
-            // 
-            this.LblAmountChanged.AutoSize = true;
-            this.LblAmountChanged.Location = new System.Drawing.Point(255, 63);
-            this.LblAmountChanged.Name = "LblAmountChanged";
-            this.LblAmountChanged.Size = new System.Drawing.Size(62, 13);
-            this.LblAmountChanged.TabIndex = 60;
-            this.LblAmountChanged.Text = "Quantidade";
-            // 
-            // TxtAmountChanged
-            // 
-            this.TxtAmountChanged.Location = new System.Drawing.Point(258, 79);
-            this.TxtAmountChanged.Name = "TxtAmountChanged";
-            this.TxtAmountChanged.ReadOnly = true;
-            this.TxtAmountChanged.Size = new System.Drawing.Size(73, 20);
-            this.TxtAmountChanged.TabIndex = 59;
             // 
             // SupplyMovementMenu
             // 

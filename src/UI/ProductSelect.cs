@@ -12,7 +12,7 @@ namespace Gerenciador_de_estoque.src.UI
     {
         private SelectedProd selectedProduct = new SelectedProd();
         private readonly ProductController _controller = new ProductController();
-        private List<SelectedProd> added = new List<SelectedProd>();
+        private readonly List<SelectedProd> added = new List<SelectedProd>();
         public event Action<List<SelectedProd>> ProdutoSelected;
         private readonly int type;
         readonly Utils utils = new Utils();
@@ -20,23 +20,9 @@ namespace Gerenciador_de_estoque.src.UI
         public ProductSelect(int type, List<SelectedProd> produtosSelecionados)
         {
             InitializeComponent();
-            InitializeComponents();
             InitializeForm();
             this.type = type;
             added = produtosSelecionados;
-        }
-
-        private void InitializeComponents()
-        {
-            try
-            {
-                SetBehavior();
-                AddColumnsToProductLists();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao inicializar os componentes: {ex.Message}");
-            }
         }
 
         private void InitializeForm()
@@ -200,7 +186,6 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 utils.AddProductColumns(DtProduct);
-
                 utils.AddProductColumns(DtAdded);
                 DtAdded.Columns.Add("AmountChange", type == 0 ? "Entrada" : "Saída");
             }
@@ -218,9 +203,12 @@ namespace Gerenciador_de_estoque.src.UI
                 {
                     TxtName.Text = selected.Name;
                     TxtDescription.Text = selected.Description;
-                    TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
                     TxtAvaQuantity.Text = Convert.ToString(selected.AvailableAmount);
-                    if (selected.AmountChange >= 0)
+                    if (type == 0)
+                    {
+                        TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
+                    }
+                    else
                     {
                         TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
                     }
@@ -243,7 +231,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                var produtos = _controller.GatherProducts(nome);
+                var produtos = _controller.GatherProducts();
                 DtProduct.Rows.Clear();
 
                 foreach (var produto in produtos)
@@ -336,12 +324,6 @@ namespace Gerenciador_de_estoque.src.UI
                 AmountChange = Convert.ToInt32(TxtMovQuant.Text),
                 AvailableAmount = Convert.ToInt32(TxtAvaQuantity.Text)
             };
-        }
-
-        public void UpdateSelectedProducts(List<SelectedProd> produtosSelecionados)
-        {
-            added = produtosSelecionados;
-            FillDtAdded();
         }
 
         private void SetBehavior()

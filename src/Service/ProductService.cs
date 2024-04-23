@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Gerenciador_de_estoque.src.Repositories;
 using Gerenciador_de_estoque.src.Models;
+using Gerenciador_de_estoque.src.Repositories;
 
 namespace Gerenciador_de_estoque.src.Services
 {
@@ -8,12 +8,12 @@ namespace Gerenciador_de_estoque.src.Services
     {
         readonly ProductRepository productRepository = new ProductRepository();
 
-        public List<Product> GatherProducts(string nome)
+        public List<Product> GatherProducts()
         {
-            return productRepository.GatherProducts (nome);
+            return productRepository.GatherProducts();
         }
 
-        public List<Product> GatherProductsByMovementId(int movementId)
+        public List<SelectedProd> GatherProductsByMovementId(int movementId)
         {
             return productRepository.GatherProductsByMovementId(movementId);
         }

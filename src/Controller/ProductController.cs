@@ -10,11 +10,11 @@ namespace Gerenciador_de_estoque.src.Controllers
     {
         readonly ProductService productService = new ProductService();
 
-        public List<Product> GatherProducts(string nome)
+        public List<Product> GatherProducts()
         {
             try
             {
-                var produtos = productService.GatherProducts(nome);
+                var produtos = productService.GatherProducts();
                 return produtos;
             }
             catch (Exception ex)
@@ -24,7 +24,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public List<Product> GatherProductsByMovementId(int movementId)
+        public List<SelectedProd> GatherProductsByMovementId(int movementId)
         {
             return productService.GatherProductsByMovementId(movementId);
         }

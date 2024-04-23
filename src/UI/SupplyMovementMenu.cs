@@ -23,6 +23,7 @@ namespace Gerenciador_de_estoque.src.UI
             InitializeComponent();
             InitializeForm();
 
+            movement = CmbType.SelectedIndex;
             _fornecedor = new Supplier();
         }
 
@@ -77,6 +78,10 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 DtProduct.Columns.Clear();
                 utils.AddProductColumns(DtProduct);
+                DtProduct.Columns.Add(
+                    "AmountChange",
+                    CmbType.Text == "Entrada" ? "Entrada" : "Saída"
+                );
             }
             catch (Exception ex)
             {
@@ -86,36 +91,8 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
-            try
-            {
-                if (DtProduct.CurrentRow != null)
-                {
-                    int index = DtProduct.CurrentRow.Index;
-
-                    selectedProduct.Name = DtProduct
-                        .Rows[index]
-                        .Cells["NomeProduto"]
-                        .Value.ToString();
-                    selectedProduct.AvailableAmount = Convert.ToInt32(
-                        DtProduct.Rows[index].Cells["QuantidadeEstoque"].Value
-                    );
-                    selectedProduct.Description = DtProduct
-                        .Rows[index]
-                        .Cells["Descricao"]
-                        .Value.ToString();
-                    selectedProduct.Id = Convert.ToInt32(
-                        DtProduct.Rows[index].Cells["IdProduto"].Value
-                    );
-
-                    TxtProdName.Text = selectedProduct.Name;
-                    TxtAmount.Text = selectedProduct.AvailableAmount.ToString();
-                    TxtDescription.Text = selectedProduct.Description;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
-            }
+            SelectRow(DtProduct);
+            HandleFields(selectedProduct);
         }
 
         private void FillTypes()
@@ -146,11 +123,13 @@ namespace Gerenciador_de_estoque.src.UI
                 {
                     movement = type;
 
-                     LblAmountChanged.Text = type == 0 ? "Quantidade adicionada" : "Quantidade retirada";
+                    LblAmountChanged.Text =
+                        type == 0 ? "Quantidade adicionada" : "Quantidade retirada";
 
                     BtnConfirm.Text = "Confirmar " + CmbType.Text;
-                }
 
+                    CreateNewProductSelect(movement, _products);
+                }
             }
             catch (Exception ex)
             {
@@ -248,7 +227,8 @@ namespace Gerenciador_de_estoque.src.UI
                     produto.Id,
                     produto.Name,
                     produto.AvailableAmount,
-                    produto.Description
+                    produto.Description,
+                    produto.AmountChange
                 );
             }
         }
@@ -275,6 +255,7 @@ namespace Gerenciador_de_estoque.src.UI
             }
 
             controller.AddProductMovement(movement);
+            Close();
         }
 
         private void TxtDate_TextChanged(object sender, EventArgs e)
@@ -283,7 +264,7 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 bool isValid = DateTime.TryParseExact(
                     TxtDate.Text,
-                    "dd/MM/yyyy",
+                    "dd-MM-yyyy",
                     null,
                     System.Globalization.DateTimeStyles.None,
                     out _
@@ -292,7 +273,7 @@ namespace Gerenciador_de_estoque.src.UI
                 if (!isValid)
                 {
                     MessageBox.Show(
-                        "Data inválida. Por favor, insira a data no formato dd/MM/yyyy"
+                        "Data inválida. Por favor, insira a data no formato dd-MM-yyyy"
                     );
                     TxtDate.Focus();
                 }
@@ -319,6 +300,14 @@ namespace Gerenciador_de_estoque.src.UI
                 if (table.CurrentRow != null)
                 {
                     selectedProduct = utils.SelectRowProduct(table);
+                    if (int.TryParse(table.CurrentRow.Cells["AmountChange"].Value.ToString(), out int availableAmount))
+                    {
+                        selectedProduct.AmountChange = availableAmount;
+                    }
+                    else
+                    {
+                        selectedProduct.AmountChange = 0;
+                    }
 
                     HandleFields(selectedProduct);
                 }
@@ -329,19 +318,17 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+
         private void HandleFields(SelectedProd selected)
         {
             try
             {
                 if (selected != null)
                 {
-                    TxtName.Text = selected.Name;
+                    TxtProdName.Text = selected.Name;
                     TxtDescription.Text = selected.Description;
                     TxtAmount.Text = Convert.ToString(selected.AvailableAmount);
-                    if (selected.AmountChange >= 0)
-                    {
-                        TxtAmount.Text = Convert.ToString(selected.AmountChange);
-                    }
+                    TxtAmountChanged.Text = Convert.ToString(selected.AmountChange);
                 }
                 else
                 {
@@ -355,12 +342,6 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
             }
-        }
-
-        private void DtProduct_SelectionChanged_1(object sender, EventArgs e)
-        {
-            SelectRow(DtProduct);
-            HandleFields(selectedProduct);
         }
     }
 }
