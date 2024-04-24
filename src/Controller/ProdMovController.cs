@@ -51,11 +51,8 @@ namespace Gerenciador_de_estoque.src.Controllers
 
                 foreach (var selected in productMovement.ProductsList)
                 {
-                    Product registproduct = new Product();
 
-                    registproduct = utils.ConvertSelectedToProduct(selected);
-
-                    bool isSaved = _productController.AddProduct(registproduct);
+                    bool isSaved = _productController.AddProduct(selected);
 
                     if (!isSaved)
                     {
@@ -65,7 +62,7 @@ namespace Gerenciador_de_estoque.src.Controllers
 
                     _movHas_ProdService.AddMov_has_Prod(
                         productMovement.Id,
-                        registproduct.Id,
+                        selected.Id,
                         selected.AmountChange
                     );
                 }

@@ -13,7 +13,7 @@ namespace Gerenciador_de_estoque.src.Services
             return productRepository.GatherProducts();
         }
 
-        public List<SelectedProd> GatherProductsByMovementId(int movementId)
+        public List<Product> GatherProductsByMovementId(int movementId)
         {
             return productRepository.GatherProductsByMovementId(movementId);
         }

@@ -103,7 +103,6 @@
     <Compile Include="src\Controller\ProdMovController.cs" />
     <Compile Include="src\Controller\SupplierController.cs" />
     <Compile Include="src\Controller\ProductController.cs" />
-    <Compile Include="src\Models\SelectedProd.cs" />
     <Compile Include="src\Repository\Mov_Has_ProdRepository.cs" />
     <Compile Include="src\Repository\ProdMovRepository.cs" />
     <Compile Include="src\Service\Mov_Has_ProdService.cs" />

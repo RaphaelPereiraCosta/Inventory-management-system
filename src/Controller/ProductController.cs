@@ -24,7 +24,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public List<SelectedProd> GatherProductsByMovementId(int movementId)
+        public List<Product> GatherProductsByMovementId(int movementId)
         {
             return productService.GatherProductsByMovementId(movementId);
         }

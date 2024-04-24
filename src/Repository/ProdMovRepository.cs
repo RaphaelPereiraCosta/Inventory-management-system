@@ -24,7 +24,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "INSERT INTO movement (Type, Date, Supplier_Id) VALUES (@Type, STR_TO_DATE(@Date, '%d-%m-%Y'), @Supplier_ID); SELECT LAST_INSERT_ID();";
+                            "INSERT INTO movement (Type, Date, Supplier_Id) VALUES (@Type, STR_TO_DATE(@Date, '%d/%m/%Y'), @Supplier_ID); SELECT LAST_INSERT_ID();";
                         command.Parameters.Add("@Type", MySqlDbType.VarChar).Value =
                             productMovement.Type;
                         command.Parameters.Add("@Date", MySqlDbType.VarChar).Value =
@@ -61,7 +61,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "SELECT *, DATE_FORMAT(Date, '%d-%m-%Y') AS FormattedDate FROM movement WHERE Id = @IdMovement";
+                            "SELECT *, DATE_FORMAT(Date, '%d/%m/%Y') AS FormattedDate FROM movement WHERE Id = @IdMovement";
                         command.Parameters.Add("@IdMovement", MySqlDbType.Int32).Value = idMovement;
 
                         using (var reader = command.ExecuteReader())
@@ -109,7 +109,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "SELECT *, DATE_FORMAT(Date, '%d-%m-%Y') AS FormattedDate FROM movement";
+                            "SELECT *, DATE_FORMAT(Date, '%d/%m/%Y') AS FormattedDate FROM movement";
 
                         using (var reader = command.ExecuteReader())
                         {

@@ -400,7 +400,7 @@
             // 
             // TxtDate
             // 
-            this.TxtDate.Location = new System.Drawing.Point(455, 442);
+            this.TxtDate.Location = new System.Drawing.Point(467, 442);
             this.TxtDate.Name = "TxtDate";
             this.TxtDate.ReadOnly = true;
             this.TxtDate.Size = new System.Drawing.Size(80, 20);
@@ -410,7 +410,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(222, 445);
+            this.label1.Location = new System.Drawing.Point(253, 446);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 13);
             this.label1.TabIndex = 62;
@@ -419,7 +419,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(452, 426);
+            this.label2.Location = new System.Drawing.Point(464, 426);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 64;
@@ -430,7 +430,7 @@
             this.ChkToday.AutoSize = true;
             this.ChkToday.Checked = true;
             this.ChkToday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkToday.Location = new System.Drawing.Point(345, 444);
+            this.ChkToday.Location = new System.Drawing.Point(376, 445);
             this.ChkToday.Name = "ChkToday";
             this.ChkToday.Size = new System.Drawing.Size(87, 17);
             this.ChkToday.TabIndex = 65;

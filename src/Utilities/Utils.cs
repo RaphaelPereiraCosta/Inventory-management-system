@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Gerenciador_de_estoque.src.Controllers;
@@ -73,18 +74,6 @@ namespace Gerenciador_de_estoque.src.Utilities
             }
 
             return text;
-        }
-
-        public Product ConvertSelectedToProduct(SelectedProd selected)
-        {
-            Product product = new Product
-            {
-                Id = selected.Id,
-                Name = selected.Name,
-                AvailableAmount = selected.AvailableAmount,
-                Description = selected.Description
-            };
-            return product;
         }
 
         public DataGridView AddProductColumns(DataGridView table)
@@ -163,9 +152,9 @@ namespace Gerenciador_de_estoque.src.Utilities
             return table;
         }
 
-        public SelectedProd SelectRowProduct(DataGridView table)
+        public Product SelectRowProduct(DataGridView table)
         {
-            SelectedProd product = new SelectedProd();
+            Product product = new Product();
             try
             {
                 if (table.CurrentRow != null)
@@ -289,7 +278,6 @@ namespace Gerenciador_de_estoque.src.Utilities
             return 0;
         }
 
-
         public List<Product> FilterProductList(List<Product> sourceList, string name)
         {
             List<Product> filtered = new List<Product>();
@@ -304,5 +292,71 @@ namespace Gerenciador_de_estoque.src.Utilities
             return filtered;
         }
 
+        public string FormatPhone(string text)
+        {
+            try
+            {
+                text = new string(text.Where(char.IsDigit).ToArray());
+
+                if (text.Length > 10)
+                    text = text.Substring(0, 10);
+
+                if (text.Length == 10)
+                    text = text.Insert(0, "(").Insert(3, ")").Insert(8, "-");
+
+                return text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao formatar telefone: {ex.Message}");
+
+                return text;
+            }
+        }
+
+        public string FormatCEP(string text)
+        {
+            try
+            {
+                text = new string(text.Where(char.IsDigit).ToArray());
+
+                if (text.Length > 8)
+                    text = text.Substring(0, 8);
+
+                if (text.Length == 8 && !text.Contains("-"))
+                    text = text.Insert(5, "-");
+
+                return text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao formatar CEP: {ex.Message}");
+                return text;
+            }
+        }
+
+        public string FormatDate(string text)
+        {
+            try
+            {
+                text = new string(text.Where(char.IsDigit).ToArray());
+
+                if (text.Length > 8)
+                    text = text.Substring(0, 8);
+
+                if (text.Length == 8 && text[2] != '/' && text[5] != '/')
+                {
+                    text = text.Insert(2, "/");
+                    text = text.Insert(5, "/");
+                }
+
+                return text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao formatar a data: {ex.Message}");
+                return text;
+            }
+        }
     }
 }

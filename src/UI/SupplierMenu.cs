@@ -5,16 +5,17 @@ using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Utilities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplierMenu : Form
     {
-        private Supplier _fornecedor = new Supplier();
-        private readonly SupplierController _controller = new SupplierController();
-        private List<string> states = new List<string>();
+        private Supplier _fornecedor;
+        private readonly SupplierController _controller;
+        private List<string> states;
         private readonly bool _isSelecting;
-        readonly Utils util = new Utils();
+        private readonly Utils utils;
 
         public event Action<Supplier> SupplierSelected;
 
@@ -22,6 +23,12 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
+                _controller = new SupplierController();
+                utils = new Utils();
+
+                _fornecedor = new Supplier();
+                states = new List<string>();
+
                 InitializeComponent();
                 _isSelecting = isSelecting;
                 InitializeForm();
@@ -61,63 +68,19 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void TxtPhone_TextChanged(object sender, EventArgs e)
         {
-            FormatPhone(TxtPhone.Text);
+            TxtPhone.Text = utils.FormatPhone(TxtPhone.Text);
         }
 
         private void TxtCEP_TextChanged(object sender, EventArgs e)
         {
-            FormatCEP(TxtCEP.Text);
+            TxtCEP.Text = utils.FormatCEP(TxtCEP.Text);
         }
 
         private void TxtNumber_TextChanged(object sender, EventArgs e)
         {
-            TxtNumber.Text = util.ValidateNumber(TxtNumber.Text);
+            TxtNumber.Text = utils.ValidateNumber(TxtNumber.Text);
         }
 
-        private void FormatPhone(string text)
-        {
-            try
-            {
-                text = new string(text.Where(char.IsDigit).ToArray());
-                text = text.PadLeft(10, '0');
-
-                if (text.Length > 10)
-                    text = text.Substring(0, 10);
-
-                if (text.Length == 10)
-                    text = text.Insert(0, "(").Insert(3, ")").Insert(8, "-");
-
-                TxtPhone.Text = text;
-                TxtPhone.SelectionStart = TxtPhone.Text.Length;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao formatar telefone: {ex.Message}");
-            }
-        }
-
-        private void FormatCEP(string text)
-        {
-            try
-            {
-                text = new string(text.Where(char.IsDigit).ToArray());
-                text = text.PadLeft(8, '0');
-
-                if (text.Length > 8)
-                    text = text.Substring(0, 8);
-
-                if (text.Length == 8 && !text.Contains("-"))
-                    text = text.Insert(5, "-");
-
-                TxtCEP.Text = text;
-                TxtCEP.SelectionStart = TxtCEP.Text.Length;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao formatar CEP: {ex.Message}");
-            }
-        }
- 
         private void BtnNew_Click(object sender, EventArgs e)
         {
             try
@@ -225,7 +188,7 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void SelectRow()
         {
-            _fornecedor = util.SelectRowSupplier(DtSupplier);
+            _fornecedor = utils.SelectRowSupplier(DtSupplier);
         }
 
         private void HandleFields()
@@ -266,7 +229,7 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void AddColumnsToSupplierList()
         {
-            util.AddSupplierColumns(DtSupplier);
+            utils.AddSupplierColumns(DtSupplier);
         }
 
         private void FillSupplierList(string nome)
@@ -410,6 +373,5 @@ namespace Gerenciador_de_estoque.src.UI
             _fornecedor.Complement = TxtComplement.Text;
             _fornecedor.State = CmbStates.SelectedItem?.ToString();
         }
-
     }
 }

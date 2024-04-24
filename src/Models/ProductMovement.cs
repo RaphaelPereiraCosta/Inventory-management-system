@@ -7,8 +7,8 @@ namespace Gerenciador_de_estoque.src.Models
         public int Id { get; set; }
         public Supplier Supplier = new Supplier();
         public string Type { get; set; }
-        public List<SelectedProd> ProductsList = new List<SelectedProd>();
-        public string Date { get; set; }
 
+        public List<Product> ProductsList = new List<Product>();
+        public string Date { get; set; }
     }
 }

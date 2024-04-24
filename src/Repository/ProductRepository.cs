@@ -174,9 +174,9 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
         }
 
-        public List<SelectedProd> GatherProductsByMovementId(int movementId)
+        public List<Product> GatherProductsByMovementId(int movementId)
         {
-            var products = new List<SelectedProd>();
+            var products = new List<Product>();
             var query =
                 @"SELECT p.*, mhp.MovedAmount FROM product p INNER JOIN movement_has_product mhp 
          ON p.Id = mhp.product_Id
@@ -195,7 +195,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                         {
                             while (reader.Read())
                             {
-                                var product = new SelectedProd
+                                var product = new Product
                                 {
                                     Id = reader.GetInt32("Id"),
                                     Name = reader.GetString("Name"),

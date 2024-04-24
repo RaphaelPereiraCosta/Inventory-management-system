@@ -9,22 +9,27 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplyMovementMenu : Form
     {
-        private Supplier _fornecedor = new Supplier();
-        private SelectedProd selectedProduct = new SelectedProd();
-        private List<SelectedProd> _products = new List<SelectedProd>();
+        private Supplier _fornecedor;
+        private Product selectedProduct;
+        private List<Product> _products;
         private int movement;
-        readonly Utils utils = new Utils();
+        private readonly Utils utils;
 
         private SupplierMenu supplierMenu;
         private ProductSelect productSelect;
 
         public SupplyMovementMenu()
         {
+            utils = new Utils();
+
+            _fornecedor = new Supplier();
+            selectedProduct = new Product();
+            _products = new List<Product>();
+
             InitializeComponent();
             InitializeForm();
 
             movement = CmbType.SelectedIndex;
-            _fornecedor = new Supplier();
         }
 
         private void InitializeForm()
@@ -144,7 +149,7 @@ namespace Gerenciador_de_estoque.src.UI
             supplierMenu.SupplierSelected += SupplierSelectForm_SupplierSelected;
         }
 
-        private void CreateNewProductSelect(int type, List<SelectedProd> produtos)
+        private void CreateNewProductSelect(int type, List<Product> produtos)
         {
             productSelect = new ProductSelect(type, produtos);
             productSelect.FormClosed += ProductSelect_FormClosed;
@@ -170,7 +175,7 @@ namespace Gerenciador_de_estoque.src.UI
             UpdateSupFields(_fornecedor);
         }
 
-        private void ProductSelectForm_ProductSelected(List<SelectedProd> products)
+        private void ProductSelectForm_ProductSelected(List<Product> products)
         {
             _products = products;
             UpdateProdList(_products);
@@ -217,7 +222,7 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void UpdateProdList(List<SelectedProd> productList)
+        private void UpdateProdList(List<Product> productList)
         {
             DtProduct.Rows.Clear();
 
@@ -242,17 +247,8 @@ namespace Gerenciador_de_estoque.src.UI
                 Supplier = new Supplier() { Id = _fornecedor.Id },
                 Type = CmbType.Text,
                 ProductsList = _products,
-                Date = null
+                Date = TxtDate.Text
             };
-
-            if (ChkToday.Checked)
-            {
-                movement.Date = DateTime.Now.ToString("dd-MM-yyyy");
-            }
-            else
-            {
-                movement.Date = TxtDate.Text;
-            }
 
             controller.AddProductMovement(movement);
             Close();
@@ -260,24 +256,7 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void TxtDate_TextChanged(object sender, EventArgs e)
         {
-            if (TxtDate.Text.Length > 0)
-            {
-                bool isValid = DateTime.TryParseExact(
-                    TxtDate.Text,
-                    "dd-MM-yyyy",
-                    null,
-                    System.Globalization.DateTimeStyles.None,
-                    out _
-                );
-
-                if (!isValid)
-                {
-                    MessageBox.Show(
-                        "Data inválida. Por favor, insira a data no formato dd-MM-yyyy"
-                    );
-                    TxtDate.Focus();
-                }
-            }
+            TxtDate.Text = utils.FormatDate(TxtDate.Text);
         }
 
         private void ChkToday_CheckedChanged(object sender, EventArgs e)
@@ -285,7 +264,7 @@ namespace Gerenciador_de_estoque.src.UI
             if (ChkToday.Checked)
             {
                 TxtDate.ReadOnly = true;
-                TxtDate.Text = DateTime.Now.ToString("dd-MM-yyyy");
+                TxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             }
             else
             {
@@ -300,7 +279,12 @@ namespace Gerenciador_de_estoque.src.UI
                 if (table.CurrentRow != null)
                 {
                     selectedProduct = utils.SelectRowProduct(table);
-                    if (int.TryParse(table.CurrentRow.Cells["AmountChange"].Value.ToString(), out int availableAmount))
+                    if (
+                        int.TryParse(
+                            table.CurrentRow.Cells["AmountChange"].Value.ToString(),
+                            out int availableAmount
+                        )
+                    )
                     {
                         selectedProduct.AmountChange = availableAmount;
                     }
@@ -318,8 +302,7 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-
-        private void HandleFields(SelectedProd selected)
+        private void HandleFields(Product selected)
         {
             try
             {

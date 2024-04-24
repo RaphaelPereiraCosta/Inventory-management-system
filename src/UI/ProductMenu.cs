@@ -9,16 +9,23 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductMenu : Form
     {
-        private Product _product = new Product();
-        private readonly ProductController _controller = new ProductController();
-        private readonly Utils _utils = new Utils();
-        private List<Product> products = new List<Product>();
+        private Product _product;
+        private List<Product> products;
+        private readonly ProductController _controller;
+        private readonly Utils _utils;
 
         public ProductMenu()
         {
+            _controller = new ProductController();
+            _utils = new Utils();
+
+            _product = new Product();
+            products = new List<Product>();
+
             InitializeComponent();
             InitializeForm();
         }
+
 
         private void InitializeForm()
         {
@@ -35,14 +42,19 @@ namespace Gerenciador_de_estoque.src.UI
         private void TxtName_TextChanged(object sender, EventArgs e)
         {
             if (TxtName.ReadOnly == false)
-            {
                 FillProductList(TxtName.Text);
-            }
         }
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            FillProductList(TxtSearch.Text);
+            try
+            {
+                FillProductList(TxtSearch.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao pesquisar produto: {ex.Message}");
+            }
         }
 
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
@@ -149,23 +161,37 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void AddColumnsToProductList()
         {
-            _utils.AddProductColumns(DtProduct);
+            try
+            {
+                _utils.AddProductColumns(DtProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar colunas: {ex.Message}");
+            }
         }
 
         private void FillProductList(string name)
         {
-            DtProduct.Rows.Clear();
-            if (products.Count <= 0)
+            try
             {
-                products = _controller.GatherProducts();
+                DtProduct.Rows.Clear();
+                if (products.Count <= 0)
+                {
+                    products = _controller.GatherProducts();
 
-                FillProductTable(products);
+                    FillProductTable(products);
+                }
+                else
+                {
+                    List<Product> filtered = _utils.FilterProductList(products, name);
+
+                    FillProductTable(filtered);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                List<Product> filtered = _utils.FilterProductList(products, name);
-
-                FillProductTable(filtered);
+                MessageBox.Show($"Erro ao preencher lista de produtos: {ex.Message}");
             }
         }
 
