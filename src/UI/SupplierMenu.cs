@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 using Gerenciador_de_estoque.src.Utilities;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplierMenu : Form
     {
-        private Supplier _fornecedor;
+        private Supplier _supplier;
+        private List<Supplier> suppliers;
         private readonly SupplierController _controller;
         private List<string> states;
         private readonly bool _isSelecting;
-        private readonly Utils utils;
+        private readonly Utils _utils;
 
         public event Action<Supplier> SupplierSelected;
 
@@ -24,9 +23,10 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 _controller = new SupplierController();
-                utils = new Utils();
+                _utils = new Utils();
+                suppliers = new List<Supplier>();
+                _supplier = new Supplier();
 
-                _fornecedor = new Supplier();
                 states = new List<string>();
 
                 InitializeComponent();
@@ -43,7 +43,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                HandleFields(_isSelecting, true, _fornecedor);
+                HandleFields(_isSelecting, true);
                 AddColumnsToSupplierList();
                 FillSupplierList("");
                 FillStates();
@@ -56,49 +56,42 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                FillSupplierList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao preencher a lista de fornecedores: {ex.Message}");
-            }
+            FillSupplierList(TxtSearch.Text);
         }
+
+        private void TxtName_TextChanged(object sender, EventArgs e) { }
 
         private void TxtPhone_TextChanged(object sender, EventArgs e)
         {
-            TxtPhone.Text = utils.FormatPhone(TxtPhone.Text);
+            TxtPhone.Text = _utils.FormatPhone(TxtPhone.Text);
         }
 
         private void TxtCEP_TextChanged(object sender, EventArgs e)
         {
-            TxtCEP.Text = utils.FormatCEP(TxtCEP.Text);
+            TxtCEP.Text = _utils.FormatCEP(TxtCEP.Text);
         }
 
         private void TxtNumber_TextChanged(object sender, EventArgs e)
         {
-            TxtNumber.Text = utils.ValidateNumber(TxtNumber.Text);
+            TxtNumber.Text = _utils.ValidateNumber(TxtNumber.Text);
+        }
+
+        private void DtSupplier_SelectionChanged(object sender, EventArgs e)
+        {
+            SelectRow();
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            try
-            {
-                HandleFields(_isSelecting, false, null);
-                _fornecedor = new Supplier();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao criar novo fornecedor: {ex.Message}");
-            }
+            _supplier = new Supplier();
+            HandleFields(_isSelecting, false);
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
             try
             {
-                UpdateFornecedorFromUI();
+                UpdateSupplierObj();
                 SaveSupplier();
             }
             catch (Exception ex)
@@ -109,27 +102,12 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            try
-            {
-                HandleFields(_isSelecting, false, _fornecedor);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao editar fornecedor: {ex.Message}");
-            }
+            HandleFields(_isSelecting, false);
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            try
-            {
-                HandleFields(_isSelecting, true, _fornecedor);
-                _fornecedor = new Supplier();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao cancelar operação: {ex.Message}");
-            }
+            HandleFields(_isSelecting, true);
         }
 
         private void BtnGoBack_Click(object sender, EventArgs e)
@@ -146,63 +124,57 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (_fornecedor.Id > 0)
-                {
-                    if (ConfirmDeletion())
-                    {
-                        DeleteSupplier(_fornecedor.Id);
-                        FillSupplierList(TxtSearch.Text);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Nenhum fornecedor selecionado para excluir.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao excluir fornecedor: {ex.Message}");
-            }
+            DeleteSupplier();
         }
 
-        private void DtSupplier_SelectionChanged(object sender, EventArgs e)
+        private void BtnSelect_Click(object sender, EventArgs e)
         {
-            try
+            if (_supplier != null)
             {
-                HandleFields(_isSelecting, true, _fornecedor);
+                SupplierSelected?.Invoke(_supplier);
+            }
+            Close();
+        }
 
-                if (DtSupplier.CurrentRow != null)
-                {
-                    int index = DtSupplier.CurrentRow.Index;
-                    SelectRow();
-                    HandleFields();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao alterar seleção: {ex.Message}");
-            }
+        private void HandleFields(bool isSelecting, bool isReadOnly)
+        {
+            TxtName.Text = _supplier.Name ?? "";
+            TxtCity.Text = _supplier.City ?? "";
+            TxtCEP.Text = _supplier.CEP ?? "";
+            TxtNeigh.Text = _supplier.Neighborhood ?? "";
+            TxtPhone.Text = _supplier.Phone ?? "";
+            TxtStreet.Text = _supplier.Street ?? "";
+            TxtEmail.Text = _supplier.Email ?? "";
+            TxtNumber.Text = _supplier.Number ?? "";
+            TxtComplement.Text = _supplier.Complement ?? "";
+            CmbStates.SelectedItem = _supplier.State ?? null;
+
+            UpdateButtons(isSelecting, isReadOnly);
+
+            SetFieldReadOnlyStatus(isReadOnly);
         }
 
         private void SelectRow()
         {
-            _fornecedor = utils.SelectRowSupplier(DtSupplier);
+            _supplier = _utils.SelectRowSupplier(DtSupplier);
+
+            HandleFields(_isSelecting, true);
         }
 
-        private void HandleFields()
+        private void SaveSupplier()
         {
-            TxtName.Text = _fornecedor.Name;
-            TxtCity.Text = _fornecedor.City;
-            TxtCEP.Text = _fornecedor.CEP;
-            TxtNeigh.Text = _fornecedor.Neighborhood;
-            TxtPhone.Text = _fornecedor.Phone;
-            TxtStreet.Text = _fornecedor.Street;
-            TxtEmail.Text = _fornecedor.Email;
-            TxtNumber.Text = _fornecedor.Number;
-            TxtComplement.Text = _fornecedor.Complement;
-            CmbStates.SelectedItem = _fornecedor.State;
+            _controller.AddFornecedor(_supplier);
+            HandleFields(_isSelecting, true);
+            FillSupplierList(TxtSearch.Text);
+        }
+
+        private void DeleteSupplier()
+        {
+            if (ConfirmDeletion())
+            {
+                _controller.DeleteFornecedor(_supplier.Id);
+                FillSupplierList(TxtSearch.Text);
+            }
         }
 
         private bool ConfirmDeletion()
@@ -215,29 +187,25 @@ namespace Gerenciador_de_estoque.src.UI
             return dialogResult == DialogResult.Yes;
         }
 
-        private void DeleteSupplier(int fornecedorId)
-        {
-            _controller.DeleteFornecedor(fornecedorId);
-        }
-
-        private void SaveSupplier()
-        {
-            _controller.AddFornecedor(_fornecedor);
-            HandleFields(_isSelecting, true, _fornecedor);
-            FillSupplierList(TxtSearch.Text);
-        }
-
         private void AddColumnsToSupplierList()
         {
-            utils.AddSupplierColumns(DtSupplier);
+            _utils.AddSupplierColumns(DtSupplier);
         }
 
-        private void FillSupplierList(string nome)
+        private void FillSupplierList(string name)
         {
-            var fornecedores = _controller.GatherFornecedores(nome);
+            GatherSuppliers();
+
+            List<Supplier> filtered = FilterSuppliers(name);
+
+            FillSuppierTable(filtered);
+        }
+
+        private void FillSuppierTable(List<Supplier> list)
+        {
             DtSupplier.Rows.Clear();
 
-            foreach (var fornecedor in fornecedores)
+            foreach (var fornecedor in list)
             {
                 DtSupplier.Rows.Add(
                     fornecedor.Id,
@@ -255,6 +223,17 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        private void GatherSuppliers()
+        {
+            if (suppliers.Count <= 0)
+                suppliers = _controller.GatherSuppliers();
+        }
+
+        private List<Supplier> FilterSuppliers(string name)
+        {
+            return _utils.FilterSupplierList(suppliers, name);
+        }
+
         private void FillStates()
         {
             states = new Utils().FillStates(states);
@@ -262,41 +241,6 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 CmbStates.Items.Add(state);
             }
-        }
-
-        private void HandleFields(bool isSelecting, bool isReadOnly, Supplier fornecedor)
-        {
-            UpdateFields(isReadOnly, fornecedor);
-            UpdateButtons(isSelecting, isReadOnly);
-        }
-
-        private void UpdateFields(bool isReadOnly, Supplier fornecedor)
-        {
-            if (fornecedor != null && fornecedor.Id > 0)
-            {
-                HandleFields();
-            }
-            else
-            {
-                SetFieldsEmpty();
-            }
-
-            SetFieldReadOnlyStatus(isReadOnly);
-        }
-
-        private void SetFieldsEmpty()
-        {
-            TxtName.Text = "";
-            TxtCity.Text = "";
-            TxtCEP.Text = "";
-            TxtNeigh.Text = "";
-            TxtPhone.Text = "";
-            TxtStreet.Text = "";
-            TxtEmail.Text = "";
-            TxtNumber.Text = "";
-            TxtComplement.Text = "";
-            CmbStates.SelectedItem = null;
-            CmbStates.SelectedText = "";
         }
 
         private void SetFieldReadOnlyStatus(bool isReadOnly)
@@ -351,27 +295,18 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void BtnSelect_Click(object sender, EventArgs e)
+        private void UpdateSupplierObj()
         {
-            if (_fornecedor != null)
-            {
-                SupplierSelected?.Invoke(_fornecedor);
-            }
-            Close();
-        }
-
-        private void UpdateFornecedorFromUI()
-        {
-            _fornecedor.Name = TxtName.Text;
-            _fornecedor.City = TxtCity.Text;
-            _fornecedor.CEP = TxtCEP.Text;
-            _fornecedor.Neighborhood = TxtNeigh.Text;
-            _fornecedor.Phone = TxtPhone.Text;
-            _fornecedor.Street = TxtStreet.Text;
-            _fornecedor.Email = TxtEmail.Text;
-            _fornecedor.Number = TxtNumber.Text;
-            _fornecedor.Complement = TxtComplement.Text;
-            _fornecedor.State = CmbStates.SelectedItem?.ToString();
+            _supplier.Name = TxtName.Text;
+            _supplier.City = TxtCity.Text;
+            _supplier.CEP = TxtCEP.Text;
+            _supplier.Neighborhood = TxtNeigh.Text;
+            _supplier.Phone = TxtPhone.Text;
+            _supplier.Street = TxtStreet.Text;
+            _supplier.Email = TxtEmail.Text;
+            _supplier.Number = TxtNumber.Text;
+            _supplier.Complement = TxtComplement.Text;
+            _supplier.State = CmbStates.SelectedItem?.ToString();
         }
     }
 }

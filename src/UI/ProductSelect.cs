@@ -10,71 +10,59 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductSelect : Form
     {
-        private Product selectedProduct;
-        private List<Product> products;
+        private Product _product;
+        private List<Product> _products;
         private readonly ProductController _controller;
-        private List<Product> added;
+        private readonly List<Product> _added;
         public event Action<List<Product>> ProdutoSelected;
-        private readonly int type;
+        private readonly int _type;
         private readonly Utils _utils;
 
         public ProductSelect(int type, List<Product> produtosSelecionados)
         {
-            this.type = type;
-            added = produtosSelecionados ?? new List<Product>();
+            _type = type;
+            _added = produtosSelecionados ?? new List<Product>();
             _controller = new ProductController();
             _utils = new Utils();
 
-            selectedProduct = new Product();
-            products = new List<Product>();
+            _product = new Product();
+            _products = new List<Product>();
 
             InitializeComponent();
             InitializeForm();
         }
 
-
-
         private void InitializeForm()
         {
-            try
-            {
-                SetBehavior();
-                AddColumnsToProductLists();
-                FillProductList("");
-                FillDtAdded();
-                HandleFields(selectedProduct);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao inicializar o formulário: {ex.Message}");
-            }
+            SetBehavior();
+            AddColumnsToProductLists();
+            LoadDGV();
+            HandleFields();
+        }
+
+        private void SetBehavior()
+        {
+            LblMovQuant.Text = _type == 0 ? "Adicionando:" : "Removendo:";
         }
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                FillProductList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao pesquisar produto: {ex.Message}");
-            }
+            FillProductList(TxtSearch.Text);
         }
 
-        private bool _isClearingSelection = false;
+        private void TxtMovQuant_TextChanged(object sender, EventArgs e)
+        {
+            BtnAdd.Enabled = !string.IsNullOrEmpty(TxtMovQuant.Text);
+            LblInstruction.Visible = string.IsNullOrEmpty(TxtMovQuant.Text);
+            TxtMovQuant.Text = _utils.ValidateNumber(TxtMovQuant.Text);
+        }
 
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
             if (_isClearingSelection)
                 return;
 
-            if (DtProduct.SelectedRows.Count > 0)
-            {
-                SelectRow(DtProduct);
-                HandleFields(selectedProduct);
-                BtnAdd.Text = "Selecionar";
-            }
+            SelectRow(DtProduct);
 
             _isClearingSelection = true;
             DtAdded.ClearSelection();
@@ -86,12 +74,7 @@ namespace Gerenciador_de_estoque.src.UI
             if (_isClearingSelection)
                 return;
 
-            if (DtAdded.SelectedRows.Count > 0)
-            {
-                SelectRow(DtAdded);
-                HandleFields(selectedProduct);
-                BtnAdd.Text = "Confirmar edição";
-            }
+            SelectRow(DtAdded);
 
             _isClearingSelection = true;
             DtProduct.ClearSelection();
@@ -100,184 +83,83 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            try
+            Product productDTO = CreateProductDTO();
+
+            if (!VerifySupply(productDTO))
             {
-                Product productDTO = CreateProductDTO();
-
-                if (!VerifySupply(productDTO))
-                {
-                    return;
-                }
-
-                var existingProduct = added.FirstOrDefault(p => p.Id == productDTO.Id);
-                if (existingProduct != null)
-                {
-                    existingProduct.AmountChange = Convert.ToInt32(TxtMovQuant.Text);
-                    existingProduct.AvailableAmount = Convert.ToInt32(TxtAvaQuantity.Text);
-                }
-                else
-                {
-                    added.Add(productDTO);
-                }
-
-                CleanProduct();
-                HandleFields(selectedProduct);
-
-                FillDtAdded();
-                FillProductList(TxtSearch.Text);
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    $"Erro ao adicionar produto: {ex.Message}",
-                    "Erro",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
+
+            UpdateOrAddProductToList(productDTO);
+
+            CleanProduct();
+            HandleFields();
+
+            LoadDGV();
         }
 
         private void BtnRemove_Click(object sender, EventArgs e)
         {
-            try
+            foreach (Product produto in _added.ToList())
             {
-                foreach (Product produto in added.ToList())
+                if (produto.Id == _product.Id)
                 {
-                    if (produto.Id == selectedProduct.Id)
-                    {
-                        added.Remove(produto);
-                    }
+                    _added.Remove(produto);
                 }
-                FillDtAdded();
-                FillProductList(TxtSearch.Text);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao remover produto: {ex.Message}");
-            }
+            LoadDGV();
         }
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            try
+            if (ProdutoSelected != null)
             {
-                if (ProdutoSelected != null)
-                {
-                    ProdutoSelected?.Invoke(added);
-                }
-                Close();
+                ProdutoSelected?.Invoke(_added);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao confirmar seleção de produtos: {ex.Message}");
-            }
+            Close();
         }
 
-        private bool VerifySupply(Product productDTO)
+        public void SelectRow(DataGridView table)
         {
-            try
+            if (table.SelectedRows.Count > 0)
             {
-                if (productDTO.AmountChange <= 0)
-                {
-                    MessageBox.Show("A quantidade deve ser maior que 0");
-                    return false;
-                }
-
-                if (type == 1 && productDTO.AmountChange > productDTO.AvailableAmount)
-                {
-                    MessageBox.Show("Estoque insuficiente");
-                    return false;
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao verificar suprimento: {ex.Message}");
-                return false;
+                _product = _utils.SelectRowProduct(table);
+                HandleFields();
+                BtnAdd.Text = "Selecionar";
             }
         }
 
         private void AddColumnsToProductLists()
         {
-            try
-            {
-                _utils.AddProductColumns(DtProduct);
-                _utils.AddProductColumns(DtAdded);
-                DtAdded.Columns.Add("AmountChange", type == 0 ? "Entrada" : "Saída");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
-            }
-        }
-
-        private void HandleFields(Product selected)
-        {
-            try
-            {
-                if (selected != null)
-                {
-                    TxtName.Text = selected.Name;
-                    TxtDescription.Text = selected.Description;
-                    TxtAvaQuantity.Text = Convert.ToString(selected.AvailableAmount);
-                    if (type == 0)
-                    {
-                        TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
-                    }
-                    else
-                    {
-                        TxtMovQuant.Text = Convert.ToString(selected.AmountChange);
-                    }
-                }
-                else
-                {
-                    TxtName.Text = "";
-                    TxtAvaQuantity.Text = "";
-                    TxtMovQuant.Text = "";
-                    TxtDescription.Text = "";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao atualizar campos: {ex.Message}");
-            }
+            _utils.AddProductColumns(DtProduct);
+            _utils.AddProductColumns(DtAdded);
+            DtAdded.Columns.Add("AmountChange", _type == 0 ? "Entrada" : "Saída");
         }
 
         private void FillProductList(string nome)
         {
-            try
+            GatherProducts();
+            List<Product> filtered = FilterAndExcludeAddedProducts(nome);
+            FillProductTable(filtered);
+        }
+
+        private void GatherProducts()
+        {
+            if (_products.Count <= 0)
             {
-                DtProduct.Rows.Clear();
-                if (products.Count <= 0)
-                {
-                    products = _controller.GatherProducts();
-
-                    FillProductTable(products);
-                }
-                else
-                {
-                    List<Product> filtered = _utils.FilterProductList(products, nome);
-
-                    filtered = filtered.Where(p => !added.Any(a => a.Id == p.Id)).ToList();
-
-                    FillProductTable(filtered);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao preencher a lista de produtos: {ex.Message}");
+                _products = _controller.GatherProducts();
             }
         }
 
-        private void FillDtAdded()
+        private List<Product> FilterAndExcludeAddedProducts(string nome)
         {
-            DtAdded.Rows.Clear();
-            FillAddedTable(added);
+            List<Product> filtered = _utils.FilterProductList(_products, nome);
+            return filtered.Where(p => !_added.Any(a => a.Id == p.Id)).ToList();
         }
 
         private void FillProductTable(List<Product> list)
         {
+            DtProduct.Rows.Clear();
             foreach (var product in list)
             {
                 DtProduct.Rows.Add(
@@ -289,12 +171,18 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        private void FillDtAdded()
+        {
+            DtAdded.Rows.Clear();
+            FillAddedTable(_added);
+        }
+
         private void FillAddedTable(List<Product> list)
         {
             foreach (var product in list)
             {
                 string amountChangeDisplay = product.AmountChange.ToString();
-                if (type == 0)
+                if (_type == 0)
                 {
                     amountChangeDisplay = "+" + amountChangeDisplay;
                 }
@@ -313,85 +201,83 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void SelectRow(DataGridView table)
+        private void UpdateOrAddProductToList(Product productDTO)
         {
-            try
+            Product existingProduct = _added.FirstOrDefault(p => p.Id == productDTO.Id);
+            if (existingProduct != null)
             {
-                if (table.CurrentRow != null)
-                {
-                    selectedProduct = _utils.SelectRowProduct(table);
-
-                    if (table.Equals(DtProduct))
-                    {
-                        selectedProduct.AmountChange = 0;
-                    }
-
-                    if (table.Equals(DtAdded))
-                    {
-                        if (
-                            int.TryParse(
-                                table.CurrentRow.Cells["AmountChange"].Value.ToString(),
-                                out int amountChange
-                            )
-                        )
-                        {
-                            selectedProduct.AmountChange = amountChange;
-                        }
-                    }
-                    HandleFields(selectedProduct);
-                }
+                UpdateExistingProduct(existingProduct);
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+                _added.Add(productDTO);
             }
+        }
+
+        private void UpdateExistingProduct(Product existingProduct)
+        {
+            existingProduct.AmountChange = Convert.ToInt32(TxtMovQuant.Text);
+            existingProduct.AvailableAmount = Convert.ToInt32(TxtAvaQuantity.Text);
+        }
+
+        private void LoadDGV()
+        {
+            FillDtAdded();
+            FillProductList(TxtSearch.Text);
+        }
+
+        private void HandleFields()
+        {
+            if (_product != null)
+            {
+                TxtName.Text = _product.Name;
+                TxtDescription.Text = _product.Description;
+                TxtAvaQuantity.Text = Convert.ToString(_product.AvailableAmount);
+                TxtMovQuant.Text = Convert.ToString(_product.AmountChange);
+            }
+            else
+            {
+                TxtName.Text = "";
+                TxtAvaQuantity.Text = "";
+                TxtMovQuant.Text = "";
+                TxtDescription.Text = "";
+            }
+        }
+
+        private bool _isClearingSelection = false;
+
+        private bool VerifySupply(Product productDTO)
+        {
+            if (productDTO.AmountChange <= 0)
+            {
+                MessageBox.Show("A quantidade deve ser maior que 0");
+                return false;
+            }
+
+            if (_type == 1 && productDTO.AmountChange > productDTO.AvailableAmount)
+            {
+                MessageBox.Show("Estoque insuficiente");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void CleanProduct()
+        {
+            _product = new Product();
         }
 
         private Product CreateProductDTO()
         {
             return new Product
             {
-                Id = selectedProduct.Id,
-                Name = selectedProduct.Name,
-                Description = selectedProduct.Description,
+                Id = _product.Id,
+                Name = _product.Name,
+                Description = _product.Description,
                 AmountChange = Convert.ToInt32(TxtMovQuant.Text),
                 AvailableAmount = Convert.ToInt32(TxtAvaQuantity.Text)
             };
-        }
-
-        private void SetBehavior()
-        {
-            if (type == 0)
-            {
-                LblMovQuant.Text = "Adicionando:";
-            }
-            else
-            {
-                LblMovQuant.Text = "Removendo:";
-            }
-        }
-
-        private void TxtMovQuant_TextChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(TxtMovQuant.Text))
-            {
-                BtnAdd.Enabled = true;
-                LblInstruction.Visible = false;
-            }
-            else
-            {
-                BtnAdd.Enabled = false;
-                LblInstruction.Visible = true;
-            }
-        }
-
-        private void CleanProduct()
-        {
-            selectedProduct.Id = 0;
-            selectedProduct.Name = string.Empty;
-            selectedProduct.Description = string.Empty;
-            selectedProduct.AvailableAmount = 0;
-            selectedProduct.AmountChange = 0;
         }
     }
 }

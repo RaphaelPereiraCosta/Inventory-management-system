@@ -8,21 +8,17 @@ namespace Gerenciador_de_estoque.src.Controllers
 {
     public class SupplierController
     {
-        readonly SupplierService fornecedorService = new SupplierService();
+        readonly SupplierService supplierService = new SupplierService();
 
-        public List<Supplier> GatherFornecedores(string nome)
+        public List<Supplier> GatherSuppliers()
         {
             try
             {
-                var fornecedores = fornecedorService.GatherFornecedores(nome);
+               List<Supplier> suppliers = supplierService.GatherSuppliers();
 
-                if (!string.IsNullOrEmpty(nome) && (fornecedores == null || fornecedores.Count == 0))
-                {
-                    MessageBox.Show("O fornecedor não está cadastrado.");
-                    return null;
-                }
+             
 
-                return fornecedores;
+                return suppliers;
             }
             catch (Exception ex)
             {
@@ -35,7 +31,7 @@ namespace Gerenciador_de_estoque.src.Controllers
         {
             try
             {
-                var fornecedor = fornecedorService.GetOneFornecedor(id);
+                var fornecedor = supplierService.GetOneSupplier(id);
                 return fornecedor;
             }
             catch (Exception ex)
@@ -45,20 +41,20 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void AddFornecedor(Supplier fornecedor)
+        public void AddFornecedor(Supplier supplier)
         {
             try
             {
-                CheckForEmptyFields(fornecedor);
+                CheckForEmptyFields(supplier);
 
-                if (fornecedor.Id <= 0)
+                if (supplier.Id <= 0)
                 {
-                    fornecedorService.AddFornecedor(fornecedor);
+                    supplierService.AddSupplier(supplier);
                     MessageBox.Show("Fornecedor adicionado com sucesso!");
                 }
                 else
                 {
-                    fornecedorService.UpdateFornecedor(fornecedor);
+                    supplierService.UpdateSupplier(supplier);
                     MessageBox.Show("Fornecedor editado com sucesso!");
                 }
             }
@@ -68,9 +64,9 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        private void CheckForEmptyFields(Supplier fornecedor)
+        private void CheckForEmptyFields(Supplier supplier)
         {
-            List<string> emptyFields = GetEmptyFields(fornecedor);
+            List<string> emptyFields = GetEmptyFields(supplier);
 
             if (emptyFields.Count > 0)
             {
@@ -81,23 +77,23 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        private List<string> GetEmptyFields(Supplier fornecedor)
+        private List<string> GetEmptyFields(Supplier supplier)
         {
             List<string> emptyFields = new List<string>();
 
-            if (string.IsNullOrEmpty(fornecedor.Name))
+            if (string.IsNullOrEmpty(supplier.Name))
                 emptyFields.Add("Nome");
-            if (string.IsNullOrEmpty(fornecedor.Street))
+            if (string.IsNullOrEmpty(supplier.Street))
                 emptyFields.Add("Rua");
-            if (string.IsNullOrEmpty(fornecedor.Number))
+            if (string.IsNullOrEmpty(supplier.Number))
                 emptyFields.Add("Numero");
-            if (string.IsNullOrEmpty(fornecedor.Neighborhood))
+            if (string.IsNullOrEmpty(supplier.Neighborhood))
                 emptyFields.Add("Bairro");
-            if (string.IsNullOrEmpty(fornecedor.City))
+            if (string.IsNullOrEmpty(supplier.City))
                 emptyFields.Add("Cidade");
-            if (string.IsNullOrEmpty(fornecedor.State))
+            if (string.IsNullOrEmpty(supplier.State))
                 emptyFields.Add("Estado");
-            if (string.IsNullOrEmpty(fornecedor.CEP))
+            if (string.IsNullOrEmpty(supplier.CEP))
                 emptyFields.Add("CEP");
 
             return emptyFields;
@@ -107,7 +103,7 @@ namespace Gerenciador_de_estoque.src.Controllers
         {
             try
             {
-                fornecedorService.DeleteFornecedor(id);
+                supplierService.DeleteSupplier(id);
                 MessageBox.Show("Fornecedor deletado com sucesso!");
             }
             catch (Exception ex)

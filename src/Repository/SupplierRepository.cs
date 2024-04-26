@@ -10,20 +10,13 @@ namespace Gerenciador_de_estoque.src.Repositories
     {
         readonly DbConnect _connection = new DbConnect();
 
-        public List<Supplier> GatherSuppliers(string name)
+        public List<Supplier> GatherSuppliers()
         {
             var suppliers = new List<Supplier>();
 
             string query;
 
-            if (string.IsNullOrEmpty(name))
-            {
-                query = "SELECT * FROM supplier";
-            }
-            else
-            {
-                query = "SELECT * FROM supplier WHERE Name LIKE @name";
-            }
+            query = "SELECT * FROM supplier WHERE Name LIKE @name";
 
             try
             {
@@ -31,11 +24,6 @@ namespace Gerenciador_de_estoque.src.Repositories
                 {
                     using (var command = new MySqlCommand(query, connectDb))
                     {
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            command.Parameters.AddWithValue("@name", "%" + name + "%");
-                        }
-
                         connectDb.Open();
                         using (var reader = command.ExecuteReader())
                         {

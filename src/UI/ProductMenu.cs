@@ -10,7 +10,7 @@ namespace Gerenciador_de_estoque.src.UI
     public partial class ProductMenu : Form
     {
         private Product _product;
-        private List<Product> products;
+        private List<Product> _products;
         private readonly ProductController _controller;
         private readonly Utils _utils;
 
@@ -18,20 +18,22 @@ namespace Gerenciador_de_estoque.src.UI
         {
             _controller = new ProductController();
             _utils = new Utils();
-
             _product = new Product();
-            products = new List<Product>();
-
+            _products = new List<Product>();
             InitializeComponent();
             InitializeForm();
         }
-
 
         private void InitializeForm()
         {
             AddColumnsToProductList();
             FillProductList("");
-            HandleFields(true, _product);
+            HandleFields(true);
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            FillProductList(TxtSearch.Text);
         }
 
         private void TxtAmount_TextChanged(object sender, EventArgs e)
@@ -39,49 +41,158 @@ namespace Gerenciador_de_estoque.src.UI
             TxtAmount.Text = _utils.ValidateNumber(TxtAmount.Text);
         }
 
-        private void TxtName_TextChanged(object sender, EventArgs e)
-        {
-            if (TxtName.ReadOnly == false)
-                FillProductList(TxtName.Text);
-        }
-
-        private void TxtSearch_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                FillProductList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao pesquisar produto: {ex.Message}");
-            }
-        }
-
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
-            if (DtProduct.CurrentRow == null)
-                return;
-            if (TxtName.ReadOnly == true)
-            {
-                _product = _utils.SelectRowProduct(DtProduct);
-                UpdateProductFields(_product);
-            }
-        }
-
-        private void UpdateProductFields(Product product)
-        {
-            TxtName.Text = product.Name;
-            TxtAmount.Text = product.AvailableAmount.ToString();
-            TxtDescription.Text = product.Description;
+            SelectRow();
         }
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            HandleFields(false, null);
-            _product = new Product();
+            CleanProduct();
+            HandleFields(false);
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateProductObj();
+                SaveProduct();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao salvar o Product: {ex.Message}");
+            }
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            HandleFields(false);
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            HandleFields(true);
+        }
+
+        private void BtnGoBack_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteProduct();
+        }
+
+        public void SelectRow()
+        {
+            if (DtProduct.SelectedRows.Count > 0)
+            {
+                _product = _utils.SelectRowProduct(DtProduct);
+                HandleFields(true);
+            }
+        }
+
+        private void SaveProduct()
+        {
+            _controller.AddProduct(_product);
+            HandleFields(true);
+            FillProductList(TxtSearch.Text);
+        }
+
+        private void DeleteProduct()
+        {
+            if (ConfirmDeletion())
+            {
+                _controller.DeleteProduct(_product.Id);
+                FillProductList(TxtSearch.Text);
+            }
+        }
+
+        private bool ConfirmDeletion()
+        {
+            DialogResult dialogResult = MessageBox.Show(
+                "Você está prestes a excluir um fornecedor. Você deseja continuar?",
+                "Confirmação",
+                MessageBoxButtons.YesNo
+            );
+            return dialogResult == DialogResult.Yes;
+        }
+
+        private void AddColumnsToProductList()
+        {
+            _utils.AddProductColumns(DtProduct);
+        }
+
+        private void FillProductList(string name)
+        {
+            GatherProducts();
+            List<Product> filtered = FilterProducts(name);
+            FillProductTable(filtered);
+        }
+
+        private void FillProductTable(List<Product> list)
+        {
+            DtProduct.Rows.Clear();
+            foreach (var product in list)
+            {
+                DtProduct.Rows.Add(
+                    product.Id,
+                    product.Name,
+                    product.AvailableAmount,
+                    product.Description
+                );
+            }
+        }
+
+        private void GatherProducts()
+        {
+            if (_products.Count <= 0)
+            {
+                _products = _controller.GatherProducts();
+            }
+        }
+
+        private List<Product> FilterProducts(string name)
+        {
+            return _utils.FilterProductList(_products, name);
+        }
+
+        private void HandleFields(bool isReadOnly)
+        {
+            TxtName.Text = _product.Name ?? "";
+            TxtAmount.Text = _product.AvailableAmount.ToString() ?? "";
+            TxtDescription.Text = _product.Description ?? "";
+
+            UpdateButtons(isReadOnly);
+
+            SetFieldReadOnlyStatus(isReadOnly);
+        }
+
+        private void SetFieldReadOnlyStatus(bool isReadOnly)
+        {
+            TxtName.ReadOnly = isReadOnly;
+            TxtAmount.ReadOnly = isReadOnly;
+            TxtDescription.ReadOnly = isReadOnly;
+        }
+
+        private void UpdateButtons(bool isEnabled)
+        {
+            BtnNew.Visible = isEnabled;
+            BtnDelete.Visible = isEnabled;
+            BtnEdit.Visible = isEnabled;
+            BtnSave.Visible = !isEnabled;
+            BtnCancel.Visible = !isEnabled;
+
+            BtnNew.Enabled = isEnabled;
+            BtnDelete.Enabled = isEnabled;
+            BtnEdit.Enabled = isEnabled;
+            BtnSave.Enabled = !isEnabled;
+            BtnCancel.Enabled = !isEnabled;
+        }
+
+        private void UpdateProductObj()
         {
             _product.Name = TxtName.Text;
 
@@ -96,143 +207,11 @@ namespace Gerenciador_de_estoque.src.UI
             }
 
             _product.Description = TxtDescription.Text;
-            SaveOrUpdateProduct();
-            products.Clear();
-            FillProductList("");
         }
 
-        private void BtnCancel_Click(object sender, EventArgs e)
+        private void CleanProduct()
         {
-            HandleFields(true, _product);
             _product = new Product();
-        }
-
-        private void BtnGoBack_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void BtnEdit_Click(object sender, EventArgs e)
-        {
-            HandleFields(false, _product);
-        }
-
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            DeleteProduct(_product.Id);
-            products.Clear();
-            FillProductList(TxtSearch.Text);
-        }
-
-        private void SaveOrUpdateProduct()
-        {
-            try
-            {
-                _controller.AddProduct(_product);
-                HandleFields(true, _product);
-                FillProductList(TxtSearch.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao salvar o produto: {ex.Message}");
-            }
-        }
-
-        private void DeleteProduct(int productId)
-        {
-            try
-            {
-                DialogResult dialogResult = MessageBox.Show(
-                    "Você está prestes a excluir um produto. Você deseja continuar?",
-                    "Confirmação",
-                    MessageBoxButtons.YesNo
-                );
-                if (dialogResult == DialogResult.No)
-                {
-                    return;
-                }
-                _controller.DeleteProduct(productId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao excluir o produto: {ex.Message}");
-            }
-        }
-
-        private void AddColumnsToProductList()
-        {
-            try
-            {
-                _utils.AddProductColumns(DtProduct);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar colunas: {ex.Message}");
-            }
-        }
-
-        private void FillProductList(string name)
-        {
-            try
-            {
-                DtProduct.Rows.Clear();
-                if (products.Count <= 0)
-                {
-                    products = _controller.GatherProducts();
-
-                    FillProductTable(products);
-                }
-                else
-                {
-                    List<Product> filtered = _utils.FilterProductList(products, name);
-
-                    FillProductTable(filtered);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao preencher lista de produtos: {ex.Message}");
-            }
-        }
-
-        private void FillProductTable(List<Product> list)
-        {
-            foreach (var product in list)
-            {
-                DtProduct.Rows.Add(
-                    product.Id,
-                    product.Name,
-                    product.AvailableAmount,
-                    product.Description
-                );
-            }
-        }
-
-        private void HandleFields(bool isReadOnly, Product produto)
-        {
-            TxtName.Text = produto?.Name ?? "";
-            TxtAmount.Text = (produto?.AvailableAmount).ToString() ?? "0";
-            TxtDescription.Text = produto?.Description ?? "";
-
-            TxtName.ReadOnly = isReadOnly;
-            TxtAmount.ReadOnly = isReadOnly;
-            TxtDescription.ReadOnly = isReadOnly;
-
-            UpdateButtons(isReadOnly);
-        }
-
-        private void UpdateButtons(bool isEnabled)
-        {
-            BtnNew.Enabled = isEnabled;
-            BtnNew.Visible = isEnabled;
-            BtnDelete.Visible = isEnabled;
-            BtnDelete.Enabled = isEnabled;
-            BtnEdit.Enabled = isEnabled;
-            BtnEdit.Visible = isEnabled;
-            btnSave.Enabled = !isEnabled;
-            btnCancel.Enabled = !isEnabled;
-            btnCancel.Visible = !isEnabled;
-            btnSave.Visible = !isEnabled;
         }
     }
 }

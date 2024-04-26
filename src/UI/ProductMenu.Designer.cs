@@ -35,8 +35,8 @@
             this.TxtAmount = new System.Windows.Forms.TextBox();
             this.LblQuantity = new System.Windows.Forms.Label();
             this.DtProduct = new System.Windows.Forms.DataGridView();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.BtnSave = new System.Windows.Forms.Button();
+            this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnNew = new System.Windows.Forms.Button();
             this.TxtSearch = new System.Windows.Forms.TextBox();
             this.LblSearch = new System.Windows.Forms.Label();
@@ -52,7 +52,6 @@
             this.TxtName.Name = "TxtName";
             this.TxtName.Size = new System.Drawing.Size(142, 20);
             this.TxtName.TabIndex = 0;
-            this.TxtName.TextChanged += new System.EventHandler(this.TxtName_TextChanged);
             // 
             // LblName
             // 
@@ -115,25 +114,25 @@
             this.DtProduct.TabIndex = 9;
             this.DtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged);
             // 
-            // btnSave
+            // BtnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(21, 320);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 10;
-            this.btnSave.Text = "Salvar";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            this.BtnSave.Location = new System.Drawing.Point(21, 320);
+            this.BtnSave.Name = "BtnSave";
+            this.BtnSave.Size = new System.Drawing.Size(75, 23);
+            this.BtnSave.TabIndex = 10;
+            this.BtnSave.Text = "Salvar";
+            this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // btnCancel
+            // BtnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(183, 320);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 11;
-            this.btnCancel.Text = "Cancelar";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            this.BtnCancel.Location = new System.Drawing.Point(183, 320);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(75, 23);
+            this.BtnCancel.TabIndex = 11;
+            this.BtnCancel.Text = "Cancelar";
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // BtnNew
             // 
@@ -204,8 +203,8 @@
             this.Controls.Add(this.LblSearch);
             this.Controls.Add(this.TxtSearch);
             this.Controls.Add(this.BtnNew);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.BtnCancel);
+            this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.DtProduct);
             this.Controls.Add(this.LblQuantity);
             this.Controls.Add(this.TxtAmount);
@@ -231,8 +230,8 @@
         private System.Windows.Forms.TextBox TxtAmount;
         private System.Windows.Forms.Label LblQuantity;
         private System.Windows.Forms.DataGridView DtProduct;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnNew;
         private System.Windows.Forms.TextBox TxtSearch;
         private System.Windows.Forms.Label LblSearch;

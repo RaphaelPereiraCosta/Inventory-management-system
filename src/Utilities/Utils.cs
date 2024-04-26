@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
 
@@ -287,6 +286,21 @@ namespace Gerenciador_de_estoque.src.Utilities
                 if (product.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     filtered.Add(product);
+                }
+            }
+            return filtered;
+        }
+
+
+        public List<Supplier> FilterSupplierList(List<Supplier> sourceList, string name)
+        {
+            List<Supplier> filtered = new List<Supplier>();
+
+            foreach (Supplier supplier in sourceList)
+            {
+                if (supplier.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    filtered.Add(supplier);
                 }
             }
             return filtered;

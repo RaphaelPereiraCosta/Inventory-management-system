@@ -6,31 +6,31 @@ namespace Gerenciador_de_estoque.src.Services
 {
     public class SupplierService
     {
-        readonly SupplierRepository fornecedorRepository = new SupplierRepository();
+        readonly SupplierRepository supplierRepository = new SupplierRepository();
 
-        public List<Supplier> GatherFornecedores(string nome)
+        public List<Supplier> GatherSuppliers()
         {
-            return fornecedorRepository.GatherSuppliers(nome);
+            return supplierRepository.GatherSuppliers();
         }
 
-        public Supplier GetOneFornecedor(int id)
+        public Supplier GetOneSupplier(int id)
         {
-            return fornecedorRepository.GetOneSupplier(id);
+            return supplierRepository.GetOneSupplier(id);
         }
 
-        public void AddFornecedor(Supplier fornecedor)
+        public void AddSupplier(Supplier supplier)
         {
-            fornecedorRepository.AddSupplier(fornecedor);
+            supplierRepository.AddSupplier(supplier);
         }
 
-        public void UpdateFornecedor(Supplier fornecedor)
+        public void UpdateSupplier(Supplier supplier)
         {
-            fornecedorRepository.UpdateSupplier(fornecedor);
+            supplierRepository.UpdateSupplier(supplier);
         }
 
-        public void DeleteFornecedor(int id)
+        public void DeleteSupplier(int id)
         {
-            fornecedorRepository.DeleteSupplier(id);
+            supplierRepository.DeleteSupplier(id);
         }
     }
 }
