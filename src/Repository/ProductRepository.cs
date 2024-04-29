@@ -9,7 +9,12 @@ namespace Gerenciador_de_estoque.src.Repositories
 {
     public class ProductRepository : IDisposable
     {
-        readonly DbConnect _connection = new DbConnect();
+        readonly DbConnect _connection;
+
+        public ProductRepository()
+        {
+            _connection = new DbConnect();
+        }
 
         public List<Product> GatherProducts()
         {
@@ -48,6 +53,52 @@ namespace Gerenciador_de_estoque.src.Repositories
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao recuperar produtos: {ex.Message}");
+            }
+
+            return products;
+        }
+
+        public List<Product> GatherProductsByMovementId(int movementId)
+        {
+            var products = new List<Product>();
+            var query =
+                @"SELECT p.*, mhp.MovedAmount FROM product p INNER JOIN movement_has_product mhp 
+         ON p.Id = mhp.product_Id
+         WHERE mhp.movement_Id = @movementId";
+
+            try
+            {
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+                {
+                    using (var command = new MySqlCommand(query, connectDb))
+                    {
+                        command.Parameters.AddWithValue("@movementId", movementId);
+                        connectDb.Open();
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var product = new Product
+                                {
+                                    Id = reader.GetInt32("Id"),
+                                    Name = reader.GetString("Name"),
+                                    Description = reader.IsDBNull(reader.GetOrdinal("Description"))
+                                        ? null
+                                        : reader.GetString("Description"),
+                                    AvailableAmount = reader.GetInt32("AvailableAmount"),
+                                    AmountChange = reader.GetInt32("MovedAmount")
+                                };
+
+                                products.Add(product);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao recuperar produtos do movimento: {ex.Message}");
             }
 
             return products;
@@ -150,52 +201,6 @@ namespace Gerenciador_de_estoque.src.Repositories
             {
                 MessageBox.Show($"Erro ao atualizar produto: {ex.Message}");
             }
-        }
-
-        public List<Product> GatherProductsByMovementId(int movementId)
-        {
-            var products = new List<Product>();
-            var query =
-                @"SELECT p.*, mhp.MovedAmount FROM product p INNER JOIN movement_has_product mhp 
-         ON p.Id = mhp.product_Id
-         WHERE mhp.movement_Id = @movementId";
-
-            try
-            {
-                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
-                {
-                    using (var command = new MySqlCommand(query, connectDb))
-                    {
-                        command.Parameters.AddWithValue("@movementId", movementId);
-                        connectDb.Open();
-
-                        using (var reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var product = new Product
-                                {
-                                    Id = reader.GetInt32("Id"),
-                                    Name = reader.GetString("Name"),
-                                    Description = reader.IsDBNull(reader.GetOrdinal("Description"))
-                                        ? null
-                                        : reader.GetString("Description"),
-                                    AvailableAmount = reader.GetInt32("AvailableAmount"),
-                                    AmountChange = reader.GetInt32("MovedAmount")
-                                };
-
-                                products.Add(product);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao recuperar produtos do movimento: {ex.Message}");
-            }
-
-            return products;
         }
 
         public void Dispose()

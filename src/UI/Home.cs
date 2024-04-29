@@ -10,9 +10,9 @@ namespace Gerenciador_de_estoque
 {
     public partial class Home : Form
     {
-        ProductMenu productMenu;
-        SupplierMenu supplierMenu;
-        SupplyMovementMenu supplyMovementMenu;
+        ProductMenu _productMenu;
+        SupplierMenu _supplierMenu;
+        SupplyMovementMenu _supplyMovementMenu;
         ProductMovement movement;
         List<ProductMovement> movements;
 
@@ -21,9 +21,9 @@ namespace Gerenciador_de_estoque
 
         public Home()
         {
-            productMenu = new ProductMenu();
-            supplierMenu = new SupplierMenu(false);
-            supplyMovementMenu = new SupplyMovementMenu();
+            _productMenu = new ProductMenu();
+            _supplierMenu = new SupplierMenu(false);
+            _supplyMovementMenu = new SupplyMovementMenu();
             movement = new ProductMovement();
             movements = new List<ProductMovement>();
 
@@ -56,6 +56,46 @@ namespace Gerenciador_de_estoque
             FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
         }
 
+        private void BtnProductMenu_Click(object sender, EventArgs e)
+        {
+            if (_productMenu == null || _productMenu.IsDisposed)
+                CreateNewProductMenu();
+
+            ShowForm(_productMenu);
+        }
+
+        private void BtnSupplierMenu_Click(object sender, EventArgs e)
+        {
+            if (_supplierMenu == null || _supplierMenu.IsDisposed)
+                CreateNewSupplierMenu(false);
+
+            ShowForm(_supplierMenu);
+        }
+
+        private void BtnSupplyMovementMenu_Click(object sender, EventArgs e)
+        {
+            if (_supplyMovementMenu == null || _supplyMovementMenu.IsDisposed)
+                CreateNewSupplyMovementMenu();
+
+            ShowForm(_supplyMovementMenu);
+        }
+
+        private void SelectRow(DataGridView table)
+        {
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    movement = _utils.SelectRowMovement(DtMovement);
+                    HandleFields(movement);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
         private void AddColumns()
         {
             _utils.AddMovementColumns(DtMovement);
@@ -78,25 +118,6 @@ namespace Gerenciador_de_estoque
             {
                 MessageBox.Show($"Erro ao preencher a lista de produtos: {ex.Message}");
             }
-        }
-
-        private void GatherMovements()
-        {
-            if (movements.Count <= 0)
-            {
-                SupplierController supplierController = new SupplierController();
-                movements = _controller.GatherMovement();
-
-                foreach (ProductMovement movement in movements)
-                {
-                    movement.Supplier = supplierController.GetOneSupplier(movement.Supplier.Id);
-                }
-            }
-        }
-
-        private List<ProductMovement> FilterMovements(string name, string month, string year)
-        {
-            return _utils.FilterMovementList(movements, name, month, year);
         }
 
         private void FillMovementTable(List<ProductMovement> list)
@@ -140,28 +161,39 @@ namespace Gerenciador_de_estoque
             }
         }
 
-        private void BtnProductMenu_Click(object sender, EventArgs e)
+        private void FillCmb()
         {
-            if (productMenu == null || productMenu.IsDisposed)
-                CreateNewProductMenu();
-
-            ShowForm(productMenu);
+            FillCmbMonths(movements);
+            FillCmbYears(movements);
         }
 
-        private void BtnSupplierMenu_Click(object sender, EventArgs e)
+        private void FillCmbMonths(List<ProductMovement> movements)
         {
-            if (supplierMenu == null || supplierMenu.IsDisposed)
-                CreateNewSupplierMenu(false);
-
-            ShowForm(supplierMenu);
+            CmbMonths.Items.AddRange(_utils.ListMonths(movements).ToArray());
         }
 
-        private void BtnSupplyMovementMenu_Click(object sender, EventArgs e)
+        private void FillCmbYears(List<ProductMovement> movements)
         {
-            if (supplyMovementMenu == null || supplyMovementMenu.IsDisposed)
-                CreateNewSupplyMovementMenu();
+            CmbYears.Items.AddRange(_utils.ListYears(movements).ToArray());
+        }
 
-            ShowForm(supplyMovementMenu);
+        private void GatherMovements()
+        {
+            if (movements.Count <= 0)
+            {
+                SupplierController supplierController = new SupplierController();
+                movements = _controller.GatherMovement();
+
+                foreach (ProductMovement movement in movements)
+                {
+                    movement.Supplier = supplierController.GetOneSupplier(movement.Supplier.Id);
+                }
+            }
+        }
+
+        private List<ProductMovement> FilterMovements(string name, string month, string year)
+        {
+            return _utils.FilterMovementList(movements, name, month, year);
         }
 
         private void ShowForm(Form formToShow)
@@ -179,17 +211,17 @@ namespace Gerenciador_de_estoque
 
         private void CreateNewProductMenu()
         {
-            productMenu = new ProductMenu();
+            _productMenu = new ProductMenu();
         }
 
         private void CreateNewSupplierMenu(bool isSelecting)
         {
-            supplierMenu = new SupplierMenu(isSelecting);
+            _supplierMenu = new SupplierMenu(isSelecting);
         }
 
         private void CreateNewSupplyMovementMenu()
         {
-            supplyMovementMenu = new SupplyMovementMenu();
+            _supplyMovementMenu = new SupplyMovementMenu();
         }
 
         private void DtMovement_SelectionChanged(object sender, EventArgs e)
@@ -202,43 +234,11 @@ namespace Gerenciador_de_estoque
             }
         }
 
-        private void SelectRow(DataGridView table)
-        {
-            try
-            {
-                if (table.CurrentRow != null)
-                {
-                    movement = _utils.SelectRowMovement(DtMovement);
-                    HandleFields(movement);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
-            }
-        }
-
         private void HandleFields(ProductMovement movement)
         {
             TxtName.Text = movement.Supplier.Name;
             TxtPhone.Text = movement.Supplier.Phone;
             TxtEmail.Text = movement.Supplier.Email;
-        }
-
-        private void FillCmb()
-        {
-            FillCmbMonths(movements);
-            FillCmbYears(movements);
-        }
-
-        private void FillCmbMonths(List<ProductMovement> movements)
-        {
-            CmbMonths.Items.AddRange(_utils.ListMonths(movements).ToArray());
-        }
-
-        private void FillCmbYears(List<ProductMovement> movements)
-        {
-            CmbYears.Items.AddRange(_utils.ListYears(movements).ToArray());
         }
     }
 }

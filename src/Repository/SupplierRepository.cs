@@ -9,7 +9,12 @@ namespace Gerenciador_de_estoque.src.Repositories
 {
     public class SupplierRepository : IDisposable
     {
-        readonly DbConnect _connection = new DbConnect();
+        readonly DbConnect _connection;
+
+        public SupplierRepository()
+        {
+            _connection = new DbConnect();
+        }
 
         public List<Supplier> GatherSuppliers()
         {

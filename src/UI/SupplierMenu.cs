@@ -9,8 +9,8 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplierMenu : Form
     {
-        private Supplier supplier;
-        private List<Supplier> suppliers;
+        private Supplier _supplier;
+        private List<Supplier> _suppliers;
         private readonly SupplierController _controller;
         private readonly bool _isSelecting;
         private readonly Utils _utils;
@@ -21,8 +21,8 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                suppliers = new List<Supplier>();
-                supplier = new Supplier();
+                _suppliers = new List<Supplier>();
+                _supplier = new Supplier();
 
                 _controller = new SupplierController();
                 _utils = new Utils();
@@ -124,42 +124,24 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnSelect_Click(object sender, EventArgs e)
         {
-            if (supplier != null)
+            if (_supplier != null)
             {
-                SupplierSelected?.Invoke(supplier);
+                SupplierSelected?.Invoke(_supplier);
             }
             Close();
         }
 
-        private void HandleFields(bool isSelecting, bool isReadOnly)
-        {
-            TxtName.Text = supplier.Name ?? "";
-            TxtCity.Text = supplier.City ?? "";
-            TxtCEP.Text = supplier.CEP ?? "";
-            TxtNeigh.Text = supplier.Neighborhood ?? "";
-            TxtPhone.Text = supplier.Phone ?? "";
-            TxtStreet.Text = supplier.Street ?? "";
-            TxtEmail.Text = supplier.Email ?? "";
-            TxtNumber.Text = supplier.Number ?? "";
-            TxtComplement.Text = supplier.Complement ?? "";
-            CmbStates.SelectedItem = supplier.State ?? null;
-
-            UpdateButtons(isSelecting, isReadOnly);
-
-            SetFieldReadOnlyStatus(isReadOnly);
-        }
-
         private void SelectRow()
         {
-            supplier = _utils.SelectRowSupplier(DtSupplier);
+            _supplier = _utils.SelectRowSupplier(DtSupplier);
             HandleFields(_isSelecting, true);
         }
 
         private void SaveSupplier()
         {
-            if (_controller.ValidateSupplier(supplier).Count <= 0)
+            if (_controller.ValidateSupplier(_supplier).Count <= 0)
             {
-                if (_controller.AddSupplier(supplier))
+                if (_controller.AddSupplier(_supplier))
                 {
                     MessageBox.Show("Fornecedor salvo com sucesso!");
                 }
@@ -168,7 +150,7 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 throw new ArgumentException(
                     "Preencha os campos a seguir antes de continuar: "
-                        + string.Join(", ", _controller.ValidateSupplier(supplier))
+                        + string.Join(", ", _controller.ValidateSupplier(_supplier))
                 );
             }
         }
@@ -183,17 +165,6 @@ namespace Gerenciador_de_estoque.src.UI
             GatherSuppliers(dbchange);
             List<Supplier> filtered = FilterSuppliers(name);
             FillSuppierTable(filtered);
-        }
-
-        private void GatherSuppliers(bool dbchange)
-        {
-            if (suppliers.Count <= 0 || dbchange)
-                suppliers = _controller.GatherSuppliers();
-        }
-
-        private List<Supplier> FilterSuppliers(string name)
-        {
-            return _utils.FilterSupplierList(suppliers, name);
         }
 
         private void FillSuppierTable(List<Supplier> list)
@@ -221,6 +192,35 @@ namespace Gerenciador_de_estoque.src.UI
         private void FillCmbStates()
         {
             CmbStates.Items.AddRange(new Utils().ListStates().ToArray());
+        }
+
+        private void GatherSuppliers(bool dbchange)
+        {
+            if (_suppliers.Count <= 0 || dbchange)
+                _suppliers = _controller.GatherSuppliers();
+        }
+
+        private List<Supplier> FilterSuppliers(string name)
+        {
+            return _utils.FilterSupplierList(_suppliers, name);
+        }
+
+        private void HandleFields(bool isSelecting, bool isReadOnly)
+        {
+            TxtName.Text = _supplier.Name ?? "";
+            TxtCity.Text = _supplier.City ?? "";
+            TxtCEP.Text = _supplier.CEP ?? "";
+            TxtNeigh.Text = _supplier.Neighborhood ?? "";
+            TxtPhone.Text = _supplier.Phone ?? "";
+            TxtStreet.Text = _supplier.Street ?? "";
+            TxtEmail.Text = _supplier.Email ?? "";
+            TxtNumber.Text = _supplier.Number ?? "";
+            TxtComplement.Text = _supplier.Complement ?? "";
+            CmbStates.SelectedItem = _supplier.State ?? null;
+
+            UpdateButtons(isSelecting, isReadOnly);
+
+            SetFieldReadOnlyStatus(isReadOnly);
         }
 
         private void SetFieldReadOnlyStatus(bool isReadOnly)
@@ -273,21 +273,21 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void UpdateSupplierObj()
         {
-            supplier.Name = TxtName.Text;
-            supplier.City = TxtCity.Text;
-            supplier.CEP = TxtCEP.Text;
-            supplier.Neighborhood = TxtNeigh.Text;
-            supplier.Phone = TxtPhone.Text;
-            supplier.Street = TxtStreet.Text;
-            supplier.Email = TxtEmail.Text;
-            supplier.Number = TxtNumber.Text;
-            supplier.Complement = TxtComplement.Text;
-            supplier.State = CmbStates.SelectedItem?.ToString();
+            _supplier.Name = TxtName.Text;
+            _supplier.City = TxtCity.Text;
+            _supplier.CEP = TxtCEP.Text;
+            _supplier.Neighborhood = TxtNeigh.Text;
+            _supplier.Phone = TxtPhone.Text;
+            _supplier.Street = TxtStreet.Text;
+            _supplier.Email = TxtEmail.Text;
+            _supplier.Number = TxtNumber.Text;
+            _supplier.Complement = TxtComplement.Text;
+            _supplier.State = CmbStates.SelectedItem?.ToString();
         }
 
         private void CleanSupplier()
         {
-            supplier = new Supplier();
+            _supplier = new Supplier();
         }
     }
 }

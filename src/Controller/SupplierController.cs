@@ -8,13 +8,17 @@ namespace Gerenciador_de_estoque.src.Controllers
 {
     public class SupplierController
     {
-        readonly SupplierService supplierService = new SupplierService();
+        readonly SupplierService _service;
+
+        public SupplierController() {
+            _service = new SupplierService();
+        }
 
         public List<Supplier> GatherSuppliers()
         {
             try
             {
-                List<Supplier> suppliers = supplierService.GatherSuppliers();
+                List<Supplier> suppliers = _service.GatherSuppliers();
 
                 return suppliers;
             }
@@ -29,7 +33,7 @@ namespace Gerenciador_de_estoque.src.Controllers
         {
             try
             {
-                var fornecedor = supplierService.GetOneSupplier(id);
+                var fornecedor = _service.GetOneSupplier(id);
                 return fornecedor;
             }
             catch (Exception ex)
@@ -45,17 +49,17 @@ namespace Gerenciador_de_estoque.src.Controllers
             {
                 if (supplier.Id <= 0)
                 {
-                    supplierService.AddSupplier(supplier);
+                    _service.AddSupplier(supplier);
                 }
                 else
                 {
-                    supplierService.UpdateSupplier(supplier);
+                    _service.UpdateSupplier(supplier);
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Aviso: {ex.Message}");
+                MessageBox.Show($"Falha na operação: {ex.Message}");
                 return false;
             }
         }

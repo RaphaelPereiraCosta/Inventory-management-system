@@ -8,14 +8,19 @@ namespace Gerenciador_de_estoque.src.Controllers
 {
     public class ProductController
     {
-        readonly ProductService productService = new ProductService();
+        readonly ProductService _service;
+        public ProductController()
+        {
+            _service = new ProductService();
+        }
 
         public List<Product> GatherProducts()
         {
             try
             {
-                var produtos = productService.GatherProducts();
-                return produtos;
+                List<Product> products = _service.GatherProducts();
+
+                return products;
             }
             catch (Exception ex)
             {
@@ -26,20 +31,42 @@ namespace Gerenciador_de_estoque.src.Controllers
 
         public List<Product> GatherProductsByMovementId(int movementId)
         {
-            return productService.GatherProductsByMovementId(movementId);
+            return _service.GatherProductsByMovementId(movementId);
         }
 
         public Product GetOneProduct(int id)
         {
             try
             {
-                var produto = productService.GetOneProduct(id);
+                var produto = _service.GetOneProduct(id);
                 return produto;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Falha na operação: {ex.Message}");
                 return null;
+            }
+        }
+
+        public bool AddProduct(Product product)
+        {
+            try
+            {
+                if (product.Id <= 0)
+                {
+                    _service.AddProduct(product);
+                }
+                else
+                {
+                    _service.UpdateProduct(product);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Falha na operação: {ex.Message}");
+                return false;
             }
         }
 
@@ -58,28 +85,6 @@ namespace Gerenciador_de_estoque.src.Controllers
                 emptyFields.Add("Quantidade");
 
             return emptyFields;
-        }
-
-        public bool AddProduct(Product product)
-        {
-            try
-            {
-                if (product.Id <= 0)
-                {
-                    productService.AddProduct(product);
-                }
-                else
-                {
-                    productService.UpdateProduct(product);
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Falha na operação: {ex.Message}");
-                return false;
-            }
         }
     }
 }

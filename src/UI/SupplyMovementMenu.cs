@@ -10,20 +10,20 @@ namespace Gerenciador_de_estoque.src.UI
     public partial class SupplyMovementMenu : Form
     {
         private Supplier _fornecedor;
-        private Product selectedProduct;
+        private Product _selectedProduct;
         private List<Product> _products;
         private int movement;
-        private readonly Utils utils;
+        private readonly Utils _utils;
 
-        private SupplierMenu supplierMenu;
-        private ProductSelect productSelect;
+        private SupplierMenu _supplierMenu;
+        private ProductSelect _productSelect;
 
         public SupplyMovementMenu()
         {
-            utils = new Utils();
+            _utils = new Utils();
 
             _fornecedor = new Supplier();
-            selectedProduct = new Product();
+            _selectedProduct = new Product();
             _products = new List<Product>();
 
             InitializeComponent();
@@ -38,6 +38,155 @@ namespace Gerenciador_de_estoque.src.UI
             FillTypes();
 
             AddColumnsToProductList();
+        }
+
+        private void TxtDate_TextChanged(object sender, EventArgs e)
+        {
+            TxtDate.Text = _utils.FormatDate(TxtDate.Text);
+        }
+
+        private void CmbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int type))
+                {
+                    movement = type;
+
+                    LblAmountChanged.Text =
+                        type == 0 ? "Quantidade adicionada" : "Quantidade retirada";
+
+                    BtnConfirm.Text = "Confirmar " + CmbType.Text;
+
+                    CreateNewProductSelect(movement, _products);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar tipo de movimentação: {ex.Message}");
+            }
+        }
+
+        private void ChkToday_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkToday.Checked)
+            {
+                TxtDate.ReadOnly = true;
+                TxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            }
+            else
+            {
+                TxtDate.ReadOnly = false;
+            }
+        }
+
+        private void DtProduct_SelectionChanged(object sender, EventArgs e)
+        {
+            SelectRow(DtProduct);
+            HandleFields(_selectedProduct);
+        }
+
+        private void BtnSelectSupplier_Click(object sender, EventArgs e)
+        {
+            if (_supplierMenu == null || _supplierMenu.IsDisposed)
+                CreateNewSupplierMenu(true);
+            ShowSupplierMenu();
+        }
+
+        private void BtnSelectProducts_Click(object sender, EventArgs e)
+        {
+            if (_productSelect == null || _productSelect.IsDisposed)
+                CreateNewProductSelect(movement, _products);
+
+            ShowProductSelect();
+        }
+
+        private void BtnConfirm_Click(object sender, EventArgs e)
+        {
+            ProdMovController controller = new ProdMovController();
+
+            ProductMovement movement = new ProductMovement
+            {
+                Supplier = new Supplier() { Id = _fornecedor.Id },
+                Type = CmbType.Text,
+                ProductsList = _products,
+                Date = TxtDate.Text
+            };
+
+            controller.AddProductMovement(movement);
+            Close();
+        }
+
+        private void ProductSelect_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Show();
+
+            CreateNewProductSelect(movement, _products);
+        }
+
+        private void SupplierMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Show();
+            CreateNewSupplierMenu(true);
+        }
+
+        private void SupplierSelectForm_SupplierSelected(Supplier fornecedor)
+        {
+            _fornecedor = fornecedor;
+            UpdateSupFields(_fornecedor);
+        }
+
+        private void ProductSelectForm_ProductSelected(List<Product> products)
+        {
+            _products = products;
+            UpdateProdList(_products);
+        }
+
+        private void SelectRow(DataGridView table)
+        {
+            try
+            {
+                if (table.CurrentRow != null)
+                {
+                    _selectedProduct = _utils.SelectRowProduct(table);
+                    if (
+                        int.TryParse(
+                            table.CurrentRow.Cells["AmountChange"].Value.ToString(),
+                            out int availableAmount
+                        )
+                    )
+                    {
+                        _selectedProduct.AmountChange = availableAmount;
+                    }
+                    else
+                    {
+                        _selectedProduct.AmountChange = 0;
+                    }
+
+                    HandleFields(_selectedProduct);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+            }
+        }
+
+        private void AddColumnsToProductList()
+        {
+            try
+            {
+                DtProduct.Columns.Clear();
+                _utils.AddProductColumns(DtProduct);
+                DtProduct.Columns.Add(
+                    "AmountChange",
+                    CmbType.Text == "Entrada" ? "Entrada" : "Saída"
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
+            }
         }
 
         private void UpdateSupFields(Supplier fornecedor)
@@ -77,29 +226,6 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void AddColumnsToProductList()
-        {
-            try
-            {
-                DtProduct.Columns.Clear();
-                utils.AddProductColumns(DtProduct);
-                DtProduct.Columns.Add(
-                    "AmountChange",
-                    CmbType.Text == "Entrada" ? "Entrada" : "Saída"
-                );
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar colunas à lista de produtos: {ex.Message}");
-            }
-        }
-
-        private void DtProduct_SelectionChanged(object sender, EventArgs e)
-        {
-            SelectRow(DtProduct);
-            HandleFields(selectedProduct);
-        }
-
         private void FillTypes()
         {
             try
@@ -120,80 +246,18 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void CmbType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (int.TryParse(CmbType.SelectedIndex.ToString(), out int type))
-                {
-                    movement = type;
-
-                    LblAmountChanged.Text =
-                        type == 0 ? "Quantidade adicionada" : "Quantidade retirada";
-
-                    BtnConfirm.Text = "Confirmar " + CmbType.Text;
-
-                    CreateNewProductSelect(movement, _products);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar tipo de movimentação: {ex.Message}");
-            }
-        }
-
         private void CreateNewSupplierMenu(bool isSelecting)
         {
-            supplierMenu = new SupplierMenu(isSelecting);
-            supplierMenu.FormClosed += SupplierMenu_FormClosed;
-            supplierMenu.SupplierSelected += SupplierSelectForm_SupplierSelected;
+            _supplierMenu = new SupplierMenu(isSelecting);
+            _supplierMenu.FormClosed += SupplierMenu_FormClosed;
+            _supplierMenu.SupplierSelected += SupplierSelectForm_SupplierSelected;
         }
 
         private void CreateNewProductSelect(int type, List<Product> produtos)
         {
-            productSelect = new ProductSelect(type, produtos);
-            productSelect.FormClosed += ProductSelect_FormClosed;
-            productSelect.ProdutoSelected += ProductSelectForm_ProductSelected;
-        }
-
-        private void ProductSelect_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-
-            CreateNewProductSelect(movement, _products);
-        }
-
-        private void SupplierMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-            CreateNewSupplierMenu(true);
-        }
-
-        private void SupplierSelectForm_SupplierSelected(Supplier fornecedor)
-        {
-            _fornecedor = fornecedor;
-            UpdateSupFields(_fornecedor);
-        }
-
-        private void ProductSelectForm_ProductSelected(List<Product> products)
-        {
-            _products = products;
-            UpdateProdList(_products);
-        }
-
-        private void BtnSelectSupplier_Click(object sender, EventArgs e)
-        {
-            if (supplierMenu == null || supplierMenu.IsDisposed)
-                CreateNewSupplierMenu(true);
-            ShowSupplierMenu();
-        }
-
-        private void BtnSelectProducts_Click(object sender, EventArgs e)
-        {
-            if (productSelect == null || productSelect.IsDisposed)
-                CreateNewProductSelect(movement, _products);
-
-            ShowProductSelect();
+            _productSelect = new ProductSelect(type, produtos);
+            _productSelect.FormClosed += ProductSelect_FormClosed;
+            _productSelect.ProdutoSelected += ProductSelectForm_ProductSelected;
         }
 
         private void ShowProductSelect()
@@ -201,7 +265,7 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 Hide();
-                productSelect.Show();
+                _productSelect.Show();
             }
             catch (Exception ex)
             {
@@ -214,7 +278,7 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 Hide();
-                supplierMenu.Show();
+                _supplierMenu.Show();
             }
             catch (Exception ex)
             {
@@ -235,70 +299,6 @@ namespace Gerenciador_de_estoque.src.UI
                     produto.Description,
                     produto.AmountChange
                 );
-            }
-        }
-
-        private void BtnConfirm_Click(object sender, EventArgs e)
-        {
-            ProdMovController controller = new ProdMovController();
-
-            ProductMovement movement = new ProductMovement
-            {
-                Supplier = new Supplier() { Id = _fornecedor.Id },
-                Type = CmbType.Text,
-                ProductsList = _products,
-                Date = TxtDate.Text
-            };
-
-            controller.AddProductMovement(movement);
-            Close();
-        }
-
-        private void TxtDate_TextChanged(object sender, EventArgs e)
-        {
-            TxtDate.Text = utils.FormatDate(TxtDate.Text);
-        }
-
-        private void ChkToday_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ChkToday.Checked)
-            {
-                TxtDate.ReadOnly = true;
-                TxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            }
-            else
-            {
-                TxtDate.ReadOnly = false;
-            }
-        }
-
-        private void SelectRow(DataGridView table)
-        {
-            try
-            {
-                if (table.CurrentRow != null)
-                {
-                    selectedProduct = utils.SelectRowProduct(table);
-                    if (
-                        int.TryParse(
-                            table.CurrentRow.Cells["AmountChange"].Value.ToString(),
-                            out int availableAmount
-                        )
-                    )
-                    {
-                        selectedProduct.AmountChange = availableAmount;
-                    }
-                    else
-                    {
-                        selectedProduct.AmountChange = 0;
-                    }
-
-                    HandleFields(selectedProduct);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
             }
         }
 

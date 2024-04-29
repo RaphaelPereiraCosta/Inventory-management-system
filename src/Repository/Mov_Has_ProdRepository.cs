@@ -7,33 +7,11 @@ namespace Gerenciador_de_estoque.src.Repository
 {
     internal class Mov_Has_ProdRepository
     {
-        private readonly DbConnect _connection = new DbConnect();
+        private readonly DbConnect _connection;
 
-        public void AddMov_has_Prod(int idMovement, int idProduct, int movedAmount)
+        public Mov_Has_ProdRepository()
         {
-            try
-            {
-                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
-                {
-                    connectDb.Open();
-
-                    using (var command = new MySqlCommand())
-                    {
-                        command.Connection = connectDb;
-                        command.CommandText =
-                            "INSERT INTO movement_has_product (movement_Id, product_Id, MovedAmount) VALUES (@IdMovement, @IdProduct, @MovedAmount)";
-                        command.Parameters.AddWithValue("@IdMovement", idMovement);
-                        command.Parameters.AddWithValue("@IdProduct", idProduct);
-                        command.Parameters.AddWithValue("@MovedAmount", movedAmount);
-
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao adicionar movimento de produto: {ex.Message}");
-            }
+            _connection = new DbConnect();
         }
 
         public int GetMovedAmount(int idMovement, int idProduct)
@@ -66,6 +44,33 @@ namespace Gerenciador_de_estoque.src.Repository
                 MessageBox.Show($"Erro ao obter quantidade movida: {ex.Message}");
             }
             return movedAmount;
+        }
+
+        public void AddMov_has_Prod(int idMovement, int idProduct, int movedAmount)
+        {
+            try
+            {
+                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
+                {
+                    connectDb.Open();
+
+                    using (var command = new MySqlCommand())
+                    {
+                        command.Connection = connectDb;
+                        command.CommandText =
+                            "INSERT INTO movement_has_product (movement_Id, product_Id, MovedAmount) VALUES (@IdMovement, @IdProduct, @MovedAmount)";
+                        command.Parameters.AddWithValue("@IdMovement", idMovement);
+                        command.Parameters.AddWithValue("@IdProduct", idProduct);
+                        command.Parameters.AddWithValue("@MovedAmount", movedAmount);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao adicionar movimento de produto: {ex.Message}");
+            }
         }
 
         public void UpdateMovedAmount(int idMovement, int idProduct, int newMovedAmount)

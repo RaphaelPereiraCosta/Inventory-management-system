@@ -57,6 +57,8 @@ namespace Gerenciador_de_estoque.src.UI
             TxtMovQuant.Text = _utils.ValidateNumber(TxtMovQuant.Text);
         }
 
+        private bool _isClearingSelection = false;
+
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
             if (_isClearingSelection)
@@ -139,22 +141,8 @@ namespace Gerenciador_de_estoque.src.UI
         private void FillProductList(string nome)
         {
             GatherProducts();
-            List<Product> filtered = FilterAndExcludeAddedProducts(nome);
+            List<Product> filtered = FiltersProducts(nome);
             FillProductTable(filtered);
-        }
-
-        private void GatherProducts()
-        {
-            if (_products.Count <= 0)
-            {
-                _products = _controller.GatherProducts();
-            }
-        }
-
-        private List<Product> FilterAndExcludeAddedProducts(string nome)
-        {
-            List<Product> filtered = _utils.FilterProductList(_products, nome);
-            return filtered.Where(p => !_added.Any(a => a.Id == p.Id)).ToList();
         }
 
         private void FillProductTable(List<Product> list)
@@ -201,6 +189,38 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        private void GatherProducts()
+        {
+            if (_products.Count <= 0)
+            {
+                _products = _controller.GatherProducts();
+            }
+        }
+
+        private List<Product> FiltersProducts(string nome)
+        {
+            List<Product> filtered = _utils.FilterProductList(_products, nome);
+            return filtered.Where(p => !_added.Any(a => a.Id == p.Id)).ToList();
+        }
+
+        private void HandleFields()
+        {
+            if (_product != null)
+            {
+                TxtName.Text = _product.Name;
+                TxtDescription.Text = _product.Description;
+                TxtAvaQuantity.Text = Convert.ToString(_product.AvailableAmount);
+                TxtMovQuant.Text = Convert.ToString(_product.AmountChange);
+            }
+            else
+            {
+                TxtName.Text = "";
+                TxtAvaQuantity.Text = "";
+                TxtMovQuant.Text = "";
+                TxtDescription.Text = "";
+            }
+        }
+
         private void UpdateOrAddProductToList(Product productDTO)
         {
             Product existingProduct = _added.FirstOrDefault(p => p.Id == productDTO.Id);
@@ -225,26 +245,6 @@ namespace Gerenciador_de_estoque.src.UI
             FillDtAdded();
             FillProductList(TxtSearch.Text);
         }
-
-        private void HandleFields()
-        {
-            if (_product != null)
-            {
-                TxtName.Text = _product.Name;
-                TxtDescription.Text = _product.Description;
-                TxtAvaQuantity.Text = Convert.ToString(_product.AvailableAmount);
-                TxtMovQuant.Text = Convert.ToString(_product.AmountChange);
-            }
-            else
-            {
-                TxtName.Text = "";
-                TxtAvaQuantity.Text = "";
-                TxtMovQuant.Text = "";
-                TxtDescription.Text = "";
-            }
-        }
-
-        private bool _isClearingSelection = false;
 
         private bool VerifySupply(Product productDTO)
         {

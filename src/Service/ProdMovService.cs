@@ -6,26 +6,21 @@ namespace Gerenciador_de_estoque.src.Services
 {
     public class ProdMovService
     {
-        private readonly ProdMovRepository _prodMovRepository;
+        private readonly ProdMovRepository _repository;
 
         public ProdMovService()
         {
-            _prodMovRepository = new ProdMovRepository();
-        }
-
-        public int AddProductMovement(ProductMovement productMovement)
-        {
-           
-            return _prodMovRepository.AddMovement(productMovement);
-            
-           
+            _repository = new ProdMovRepository();
         }
 
         public List<ProductMovement> GatherMovement()
         {
-            return _prodMovRepository.GatherMovement();
+            return _repository.GatherMovement();
         }
 
-
+        public int AddProductMovement(ProductMovement productMovement)
+        {
+            return _repository.AddMovement(productMovement);
+        }
     }
 }

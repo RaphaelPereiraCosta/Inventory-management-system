@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
@@ -339,13 +338,16 @@ namespace Gerenciador_de_estoque.src.Utilities
             return filtered;
         }
 
-
-
-        public List<ProductMovement> FilterMovementList(List<ProductMovement> sourceList, string name, string month, string year)
+        public List<ProductMovement> FilterMovementList(
+            List<ProductMovement> sourceList,
+            string name,
+            string month,
+            string year
+        )
         {
             if (!string.IsNullOrEmpty(name))
             {
-                sourceList =  FilterMovementListByName(sourceList, name);
+                sourceList = FilterMovementListByName(sourceList, name);
             }
             if (!string.IsNullOrEmpty(month))
             {
@@ -358,7 +360,6 @@ namespace Gerenciador_de_estoque.src.Utilities
 
             return sourceList;
         }
-
 
         public List<ProductMovement> FilterMovementListByName(
             List<ProductMovement> sourceList,

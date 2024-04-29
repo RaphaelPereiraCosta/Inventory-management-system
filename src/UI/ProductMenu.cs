@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
@@ -9,7 +10,7 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductMenu : Form
     {
-        private Product product;
+        private Product _product;
         private List<Product> _products;
         private readonly ProductController _controller;
         private readonly Utils _utils;
@@ -18,7 +19,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             _controller = new ProductController();
             _utils = new Utils();
-            product = new Product();
+            _product = new Product();
             _products = new List<Product>();
             InitializeComponent();
             InitializeForm();
@@ -85,16 +86,16 @@ namespace Gerenciador_de_estoque.src.UI
         {
             if (DtProduct.SelectedRows.Count > 0)
             {
-                product = _utils.SelectRowProduct(DtProduct);
+                _product = _utils.SelectRowProduct(DtProduct);
                 HandleFields(true);
             }
         }
 
         private void SaveProduct()
         {
-            if (_controller.ValidateProduct(product).Count <= 0)
+            if (_controller.ValidateProduct(_product).Count <= 0)
             {
-                if (_controller.AddProduct(product))
+                if (_controller.AddProduct(_product))
                 {
                     MessageBox.Show("Produto salvo com sucesso!");
                 }
@@ -103,7 +104,7 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 throw new ArgumentException(
                     "Preencha os campos a seguir antes de continuar: "
-                        + string.Join(", ", _controller.ValidateProduct(product))
+                        + string.Join(", ", _controller.ValidateProduct(_product))
                 );
             }
         }
@@ -147,9 +148,9 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void HandleFields(bool isReadOnly)
         {
-            TxtName.Text = product.Name ?? "";
-            TxtAmount.Text = product.AvailableAmount.ToString() ?? "";
-            TxtDescription.Text = product.Description ?? "";
+            TxtName.Text = _product.Name ?? "";
+            TxtAmount.Text = _product.AvailableAmount.ToString() ?? "";
+            TxtDescription.Text = _product.Description ?? "";
 
             UpdateButtons(isReadOnly);
 
@@ -178,11 +179,11 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void UpdateProductObj()
         {
-            product.Name = TxtName.Text;
+            _product.Name = TxtName.Text;
 
             if (int.TryParse(TxtAmount.Text, out int quantidade))
             {
-                product.AvailableAmount = quantidade;
+                _product.AvailableAmount = quantidade;
             }
             else
             {
@@ -190,12 +191,12 @@ namespace Gerenciador_de_estoque.src.UI
                 return;
             }
 
-            product.Description = TxtDescription.Text;
+            _product.Description = TxtDescription.Text;
         }
 
         private void CleanProduct()
         {
-            product = new Product();
+            _product = new Product();
         }
     }
 }

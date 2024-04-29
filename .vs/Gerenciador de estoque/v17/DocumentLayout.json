@@ -1,12 +1,88 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|c:\\users\\teste\\desktop\\pastas\\projetos\\gerenciador de estoque\\src\\ui\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|solutionrelative:src\\ui\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|c:\\users\\teste\\desktop\\pastas\\projetos\\gerenciador de estoque\\src\\ui\\suppliermenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|solutionrelative:src\\ui\\suppliermenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|c:\\users\\teste\\desktop\\pastas\\projetos\\gerenciador de estoque\\src\\ui\\supplymovementmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|solutionrelative:src\\ui\\supplymovementmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|c:\\users\\teste\\desktop\\pastas\\projetos\\gerenciador de estoque\\src\\ui\\productmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05E965A2-EE4A-47D4-8497-19FE0D277457}|Gerenciador de estoque.csproj|solutionrelative:src\\ui\\productmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 225,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductMenu.cs",
+              "DocumentMoniker": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\ProductMenu.cs",
+              "RelativeDocumentMoniker": "src\\UI\\ProductMenu.cs",
+              "ToolTip": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\ProductMenu.cs",
+              "RelativeToolTip": "src\\UI\\ProductMenu.cs",
+              "ViewState": "AQIAAHMAAAAAAAAAAAAuwLEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T19:28:44.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SupplierMenu.cs",
+              "DocumentMoniker": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\SupplierMenu.cs",
+              "RelativeDocumentMoniker": "src\\UI\\SupplierMenu.cs",
+              "ToolTip": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\SupplierMenu.cs",
+              "RelativeToolTip": "src\\UI\\SupplierMenu.cs",
+              "ViewState": "AQIAAGsAAAAAAAAAAAAAAOEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T19:28:51.442Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SupplyMovementMenu.cs",
+              "DocumentMoniker": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\SupplyMovementMenu.cs",
+              "RelativeDocumentMoniker": "src\\UI\\SupplyMovementMenu.cs",
+              "ToolTip": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\SupplyMovementMenu.cs",
+              "RelativeToolTip": "src\\UI\\SupplyMovementMenu.cs",
+              "ViewState": "AQIAAP8AAAAAAAAAAAAqwDABAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T19:28:57.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Home.cs",
+              "DocumentMoniker": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\Home.cs",
+              "RelativeDocumentMoniker": "src\\UI\\Home.cs",
+              "ToolTip": "C:\\Users\\Teste\\Desktop\\pastas\\projetos\\Gerenciador de estoque\\src\\UI\\Home.cs",
+              "RelativeToolTip": "src\\UI\\Home.cs",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAcwE4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T19:28:40.432Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

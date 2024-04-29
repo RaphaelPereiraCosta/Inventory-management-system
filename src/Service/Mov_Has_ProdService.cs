@@ -5,7 +5,12 @@ namespace Gerenciador_de_estoque.src.Services
 {
     internal class Mov_Has_ProdService
     {
-        private readonly Mov_Has_ProdRepository _repository = new Mov_Has_ProdRepository();
+        private readonly Mov_Has_ProdRepository _repository;
+
+        public Mov_Has_ProdService()
+        {
+            _repository = new Mov_Has_ProdRepository();
+        }
 
         public void AddMov_has_Prod(int idMovement, int idProduct, int movedAmount)
         {
@@ -16,10 +21,10 @@ namespace Gerenciador_de_estoque.src.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar movimento de produto na camada de serviço: {ex.Message}");
+                Console.WriteLine(
+                    $"Erro ao adicionar movimento de produto na camada de serviço: {ex.Message}"
+                );
             }
         }
-
-       
     }
 }
