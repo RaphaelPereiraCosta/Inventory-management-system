@@ -32,10 +32,5 @@ namespace Gerenciador_de_estoque.src.Services
         {
             productRepository.UpdateProduct(produto);
         }
-
-        public void DeleteProduct(int id)
-        {
-            productRepository.DeleteProduct(id);
-        }
     }
 }

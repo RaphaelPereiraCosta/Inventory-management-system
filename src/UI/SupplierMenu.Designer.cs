@@ -48,7 +48,6 @@
             this.LblEmail = new System.Windows.Forms.Label();
             this.TxtEmail = new System.Windows.Forms.TextBox();
             this.CmbStates = new System.Windows.Forms.ComboBox();
-            this.BtnDelete = new System.Windows.Forms.Button();
             this.BtnEdit = new System.Windows.Forms.Button();
             this.BtnGoBack = new System.Windows.Forms.Button();
             this.BtnNew = new System.Windows.Forms.Button();
@@ -226,19 +225,9 @@
             this.CmbStates.Size = new System.Drawing.Size(124, 21);
             this.CmbStates.TabIndex = 29;
             // 
-            // BtnDelete
-            // 
-            this.BtnDelete.Location = new System.Drawing.Point(172, 357);
-            this.BtnDelete.Name = "BtnDelete";
-            this.BtnDelete.Size = new System.Drawing.Size(75, 23);
-            this.BtnDelete.TabIndex = 35;
-            this.BtnDelete.Text = "Deletar";
-            this.BtnDelete.UseVisualStyleBackColor = true;
-            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
-            // 
             // BtnEdit
             // 
-            this.BtnEdit.Location = new System.Drawing.Point(91, 357);
+            this.BtnEdit.Location = new System.Drawing.Point(127, 357);
             this.BtnEdit.Name = "BtnEdit";
             this.BtnEdit.Size = new System.Drawing.Size(75, 23);
             this.BtnEdit.TabIndex = 34;
@@ -258,7 +247,7 @@
             // 
             // BtnNew
             // 
-            this.BtnNew.Location = new System.Drawing.Point(10, 357);
+            this.BtnNew.Location = new System.Drawing.Point(46, 357);
             this.BtnNew.Name = "BtnNew";
             this.BtnNew.Size = new System.Drawing.Size(75, 23);
             this.BtnNew.TabIndex = 32;
@@ -268,7 +257,7 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(172, 357);
+            this.BtnCancel.Location = new System.Drawing.Point(127, 357);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 23);
             this.BtnCancel.TabIndex = 31;
@@ -278,7 +267,7 @@
             // 
             // BtnSave
             // 
-            this.BtnSave.Location = new System.Drawing.Point(10, 357);
+            this.BtnSave.Location = new System.Drawing.Point(46, 357);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(75, 23);
             this.BtnSave.TabIndex = 30;
@@ -323,7 +312,7 @@
             // 
             // BtnSelect
             // 
-            this.BtnSelect.Location = new System.Drawing.Point(105, 357);
+            this.BtnSelect.Location = new System.Drawing.Point(123, 357);
             this.BtnSelect.Name = "BtnSelect";
             this.BtnSelect.Size = new System.Drawing.Size(180, 45);
             this.BtnSelect.TabIndex = 64;
@@ -340,7 +329,6 @@
             this.Controls.Add(this.LblSearch);
             this.Controls.Add(this.TxtSearch);
             this.Controls.Add(this.DtSupplier);
-            this.Controls.Add(this.BtnDelete);
             this.Controls.Add(this.BtnEdit);
             this.Controls.Add(this.BtnGoBack);
             this.Controls.Add(this.BtnNew);
@@ -397,7 +385,6 @@
         private System.Windows.Forms.Label LblEmail;
         private System.Windows.Forms.TextBox TxtEmail;
         private System.Windows.Forms.ComboBox CmbStates;
-        private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.Button BtnEdit;
         private System.Windows.Forms.Button BtnGoBack;
         private System.Windows.Forms.Button BtnNew;

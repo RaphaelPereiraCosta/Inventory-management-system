@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Connection;
 using MySql.Data.MySqlClient;
 
@@ -31,7 +32,7 @@ namespace Gerenciador_de_estoque.src.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar movimento de produto: {ex.Message}");
+                MessageBox.Show($"Erro ao adicionar movimento de produto: {ex.Message}");
             }
         }
 
@@ -62,7 +63,7 @@ namespace Gerenciador_de_estoque.src.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao obter quantidade movida: {ex.Message}");
+                MessageBox.Show($"Erro ao obter quantidade movida: {ex.Message}");
             }
             return movedAmount;
         }
@@ -90,7 +91,7 @@ namespace Gerenciador_de_estoque.src.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao atualizar quantidade movida: {ex.Message}");
+                MessageBox.Show($"Erro ao atualizar quantidade movida: {ex.Message}");
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Connection;
 using Gerenciador_de_estoque.src.Models;
 using MySql.Data.MySqlClient;
@@ -46,7 +47,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao recuperar produtos: {ex.Message}");
+                MessageBox.Show($"Erro ao recuperar produtos: {ex.Message}");
             }
 
             return products;
@@ -86,7 +87,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao recuperar produto: {ex.Message}");
+                MessageBox.Show($"Erro ao recuperar produto: {ex.Message}");
             }
 
             return product;
@@ -117,7 +118,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar produto: {ex.Message}");
+                MessageBox.Show($"Erro ao adicionar produto: {ex.Message}");
             }
         }
 
@@ -147,30 +148,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao atualizar produto: {ex.Message}");
-            }
-        }
-
-        public void DeleteProduct(int id)
-        {
-            var query = "DELETE FROM product WHERE Id = @id";
-
-            try
-            {
-                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
-                {
-                    using (var command = new MySqlCommand(query, connectDb))
-                    {
-                        command.Parameters.AddWithValue("@id", id);
-
-                        connectDb.Open();
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao excluir produto: {ex.Message}");
+                MessageBox.Show($"Erro ao atualizar produto: {ex.Message}");
             }
         }
 
@@ -214,7 +192,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao recuperar produtos do movimento: {ex.Message}");
+                MessageBox.Show($"Erro ao recuperar produtos do movimento: {ex.Message}");
             }
 
             return products;
@@ -228,7 +206,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao desconectar: {ex.Message}");
+                MessageBox.Show($"Erro ao desconectar: {ex.Message}");
             }
         }
     }

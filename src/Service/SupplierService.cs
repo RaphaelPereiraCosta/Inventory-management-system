@@ -28,9 +28,5 @@ namespace Gerenciador_de_estoque.src.Services
             supplierRepository.UpdateSupplier(supplier);
         }
 
-        public void DeleteSupplier(int id)
-        {
-            supplierRepository.DeleteSupplier(id);
-        }
     }
 }

@@ -105,7 +105,7 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 Utils utils = new Utils();
-                Dictionary<string, int> types = utils.FillType();
+                Dictionary<string, int> types = utils.ListTypes();
                 foreach (var type in types)
                 {
                     CmbType.Items.Add(new { Text = type.Key, type.Value });

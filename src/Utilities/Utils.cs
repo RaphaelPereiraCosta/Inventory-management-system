@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
@@ -9,7 +10,7 @@ namespace Gerenciador_de_estoque.src.Utilities
 {
     public class Utils
     {
-        public List<string> FillStates(List<string> states)
+        public List<string> ListStates()
         {
             string[] stateAbbreviations = new string[]
             {
@@ -42,11 +43,12 @@ namespace Gerenciador_de_estoque.src.Utilities
                 "TO"
             };
 
+            List<string> states = new List<string>();
             states.AddRange(stateAbbreviations);
             return states;
         }
 
-        public Dictionary<string, int> FillType()
+        public Dictionary<string, int> ListTypes()
         {
             Dictionary<string, int> types = new Dictionary<string, int>
             {
@@ -55,6 +57,38 @@ namespace Gerenciador_de_estoque.src.Utilities
             };
 
             return types;
+        }
+
+        public List<string> ListMonths(List<ProductMovement> movements)
+        {
+            List<string> months = new List<string>();
+
+            foreach (ProductMovement movement in movements)
+            {
+                string month = Convert.ToDateTime(movement.Date).ToString("MMM");
+                if (!months.Contains(month))
+                {
+                    months.Add(month);
+                }
+            }
+
+            return months;
+        }
+
+        public List<string> ListYears(List<ProductMovement> movements)
+        {
+            List<string> years = new List<string>();
+
+            foreach (ProductMovement movement in movements)
+            {
+                string year = Convert.ToDateTime(movement.Date).Year.ToString();
+                if (!years.Contains(year))
+                {
+                    years.Add(year);
+                }
+            }
+
+            return years;
         }
 
         public string ValidateNumber(string text)
@@ -247,7 +281,7 @@ namespace Gerenciador_de_estoque.src.Utilities
                 int supplierId = GetIntValueFromCell(table, index, "SupplierId");
 
                 SupplierController supplierController = new SupplierController();
-                movement.Supplier = supplierController.GetOneFornecedor(supplierId);
+                movement.Supplier = supplierController.GetOneSupplier(supplierId);
                 movement.Supplier.Id = supplierId;
                 movement.Supplier.Name = table.Rows[index].Cells["SupplierName"].Value as string;
 
@@ -291,7 +325,6 @@ namespace Gerenciador_de_estoque.src.Utilities
             return filtered;
         }
 
-
         public List<Supplier> FilterSupplierList(List<Supplier> sourceList, string name)
         {
             List<Supplier> filtered = new List<Supplier>();
@@ -301,6 +334,82 @@ namespace Gerenciador_de_estoque.src.Utilities
                 if (supplier.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     filtered.Add(supplier);
+                }
+            }
+            return filtered;
+        }
+
+
+
+        public List<ProductMovement> FilterMovementList(List<ProductMovement> sourceList, string name, string month, string year)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                sourceList =  FilterMovementListByName(sourceList, name);
+            }
+            if (!string.IsNullOrEmpty(month))
+            {
+                sourceList = FilterMovementListByMonth(sourceList, month);
+            }
+            if (!string.IsNullOrEmpty(year))
+            {
+                sourceList = FilterMovementListByName(sourceList, year);
+            }
+
+            return sourceList;
+        }
+
+
+        public List<ProductMovement> FilterMovementListByName(
+            List<ProductMovement> sourceList,
+            string name
+        )
+        {
+            List<ProductMovement> filtered = new List<ProductMovement>();
+
+            foreach (ProductMovement movement in sourceList)
+            {
+                if (movement.Supplier.Name.IndexOf(name, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    filtered.Add(movement);
+                }
+            }
+            return filtered;
+        }
+
+        public List<ProductMovement> FilterMovementListByMonth(
+            List<ProductMovement> sourceList,
+            string month
+        )
+        {
+            List<ProductMovement> filtered = new List<ProductMovement>();
+
+            foreach (ProductMovement movement in sourceList)
+            {
+                DateTime movementDate = Convert.ToDateTime(movement.Date);
+
+                if (movementDate.ToString("MMM") == month)
+                {
+                    filtered.Add(movement);
+                }
+            }
+            return filtered;
+        }
+
+        public List<ProductMovement> FilterMovementListByYear(
+            List<ProductMovement> sourceList,
+            string year
+        )
+        {
+            List<ProductMovement> filtered = new List<ProductMovement>();
+
+            foreach (ProductMovement movement in sourceList)
+            {
+                DateTime movementDate = Convert.ToDateTime(movement.Date);
+
+                if (movementDate.ToString("yyyy") == year)
+                {
+                    filtered.Add(movement);
                 }
             }
             return filtered;

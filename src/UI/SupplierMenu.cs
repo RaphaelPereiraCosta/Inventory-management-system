@@ -9,10 +9,9 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplierMenu : Form
     {
-        private Supplier _supplier;
+        private Supplier supplier;
         private List<Supplier> suppliers;
         private readonly SupplierController _controller;
-        private List<string> states;
         private readonly bool _isSelecting;
         private readonly Utils _utils;
 
@@ -22,15 +21,15 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
+                suppliers = new List<Supplier>();
+                supplier = new Supplier();
+
                 _controller = new SupplierController();
                 _utils = new Utils();
-                suppliers = new List<Supplier>();
-                _supplier = new Supplier();
-
-                states = new List<string>();
+                _isSelecting = isSelecting;
 
                 InitializeComponent();
-                _isSelecting = isSelecting;
+
                 InitializeForm();
             }
             catch (Exception ex)
@@ -44,9 +43,9 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 HandleFields(_isSelecting, true);
-                AddColumnsToSupplierList();
-                FillSupplierList("");
-                FillStates();
+                AddColumns();
+                FillDataGridView(TxtSearch.Text, true);
+                FillCmbStates();
             }
             catch (Exception ex)
             {
@@ -56,7 +55,7 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            FillSupplierList(TxtSearch.Text);
+            FillDataGridView(TxtSearch.Text, false);
         }
 
         private void TxtName_TextChanged(object sender, EventArgs e) { }
@@ -83,7 +82,7 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            _supplier = new Supplier();
+            CleanSupplier();
             HandleFields(_isSelecting, false);
         }
 
@@ -93,6 +92,7 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 UpdateSupplierObj();
                 SaveSupplier();
+                FillDataGridView(TxtSearch.Text, true);
             }
             catch (Exception ex)
             {
@@ -122,32 +122,27 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            DeleteSupplier();
-        }
-
         private void BtnSelect_Click(object sender, EventArgs e)
         {
-            if (_supplier != null)
+            if (supplier != null)
             {
-                SupplierSelected?.Invoke(_supplier);
+                SupplierSelected?.Invoke(supplier);
             }
             Close();
         }
 
         private void HandleFields(bool isSelecting, bool isReadOnly)
         {
-            TxtName.Text = _supplier.Name ?? "";
-            TxtCity.Text = _supplier.City ?? "";
-            TxtCEP.Text = _supplier.CEP ?? "";
-            TxtNeigh.Text = _supplier.Neighborhood ?? "";
-            TxtPhone.Text = _supplier.Phone ?? "";
-            TxtStreet.Text = _supplier.Street ?? "";
-            TxtEmail.Text = _supplier.Email ?? "";
-            TxtNumber.Text = _supplier.Number ?? "";
-            TxtComplement.Text = _supplier.Complement ?? "";
-            CmbStates.SelectedItem = _supplier.State ?? null;
+            TxtName.Text = supplier.Name ?? "";
+            TxtCity.Text = supplier.City ?? "";
+            TxtCEP.Text = supplier.CEP ?? "";
+            TxtNeigh.Text = supplier.Neighborhood ?? "";
+            TxtPhone.Text = supplier.Phone ?? "";
+            TxtStreet.Text = supplier.Street ?? "";
+            TxtEmail.Text = supplier.Email ?? "";
+            TxtNumber.Text = supplier.Number ?? "";
+            TxtComplement.Text = supplier.Complement ?? "";
+            CmbStates.SelectedItem = supplier.State ?? null;
 
             UpdateButtons(isSelecting, isReadOnly);
 
@@ -156,49 +151,49 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void SelectRow()
         {
-            _supplier = _utils.SelectRowSupplier(DtSupplier);
-
+            supplier = _utils.SelectRowSupplier(DtSupplier);
             HandleFields(_isSelecting, true);
         }
 
         private void SaveSupplier()
         {
-            _controller.AddFornecedor(_supplier);
-            HandleFields(_isSelecting, true);
-            FillSupplierList(TxtSearch.Text);
-        }
-
-        private void DeleteSupplier()
-        {
-            if (ConfirmDeletion())
+            if (_controller.ValidateSupplier(supplier).Count <= 0)
             {
-                _controller.DeleteFornecedor(_supplier.Id);
-                FillSupplierList(TxtSearch.Text);
+                if (_controller.AddSupplier(supplier))
+                {
+                    MessageBox.Show("Fornecedor salvo com sucesso!");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(
+                    "Preencha os campos a seguir antes de continuar: "
+                        + string.Join(", ", _controller.ValidateSupplier(supplier))
+                );
             }
         }
 
-        private bool ConfirmDeletion()
-        {
-            DialogResult dialogResult = MessageBox.Show(
-                "Você está prestes a excluir um fornecedor. Você deseja continuar?",
-                "Confirmação",
-                MessageBoxButtons.YesNo
-            );
-            return dialogResult == DialogResult.Yes;
-        }
-
-        private void AddColumnsToSupplierList()
+        private void AddColumns()
         {
             _utils.AddSupplierColumns(DtSupplier);
         }
 
-        private void FillSupplierList(string name)
+        private void FillDataGridView(string name, bool dbchange)
         {
-            GatherSuppliers();
-
+            GatherSuppliers(dbchange);
             List<Supplier> filtered = FilterSuppliers(name);
-
             FillSuppierTable(filtered);
+        }
+
+        private void GatherSuppliers(bool dbchange)
+        {
+            if (suppliers.Count <= 0 || dbchange)
+                suppliers = _controller.GatherSuppliers();
+        }
+
+        private List<Supplier> FilterSuppliers(string name)
+        {
+            return _utils.FilterSupplierList(suppliers, name);
         }
 
         private void FillSuppierTable(List<Supplier> list)
@@ -223,24 +218,9 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void GatherSuppliers()
+        private void FillCmbStates()
         {
-            if (suppliers.Count <= 0)
-                suppliers = _controller.GatherSuppliers();
-        }
-
-        private List<Supplier> FilterSuppliers(string name)
-        {
-            return _utils.FilterSupplierList(suppliers, name);
-        }
-
-        private void FillStates()
-        {
-            states = new Utils().FillStates(states);
-            foreach (string state in states)
-            {
-                CmbStates.Items.Add(state);
-            }
+            CmbStates.Items.AddRange(new Utils().ListStates().ToArray());
         }
 
         private void SetFieldReadOnlyStatus(bool isReadOnly)
@@ -265,8 +245,6 @@ namespace Gerenciador_de_estoque.src.UI
                 BtnSelect.Visible = isSelecting;
                 BtnNew.Enabled = !isSelecting;
                 BtnNew.Visible = !isSelecting;
-                BtnDelete.Visible = !isSelecting;
-                BtnDelete.Enabled = !isSelecting;
                 BtnEdit.Enabled = !isSelecting;
                 BtnEdit.Visible = !isSelecting;
                 BtnSave.Enabled = !isSelecting;
@@ -284,8 +262,6 @@ namespace Gerenciador_de_estoque.src.UI
                 BtnSelect.Visible = false;
                 BtnNew.Enabled = isEnabled;
                 BtnNew.Visible = isEnabled;
-                BtnDelete.Visible = isEnabled;
-                BtnDelete.Enabled = isEnabled;
                 BtnEdit.Enabled = isEnabled;
                 BtnEdit.Visible = isEnabled;
                 BtnSave.Enabled = !isEnabled;
@@ -297,16 +273,21 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void UpdateSupplierObj()
         {
-            _supplier.Name = TxtName.Text;
-            _supplier.City = TxtCity.Text;
-            _supplier.CEP = TxtCEP.Text;
-            _supplier.Neighborhood = TxtNeigh.Text;
-            _supplier.Phone = TxtPhone.Text;
-            _supplier.Street = TxtStreet.Text;
-            _supplier.Email = TxtEmail.Text;
-            _supplier.Number = TxtNumber.Text;
-            _supplier.Complement = TxtComplement.Text;
-            _supplier.State = CmbStates.SelectedItem?.ToString();
+            supplier.Name = TxtName.Text;
+            supplier.City = TxtCity.Text;
+            supplier.CEP = TxtCEP.Text;
+            supplier.Neighborhood = TxtNeigh.Text;
+            supplier.Phone = TxtPhone.Text;
+            supplier.Street = TxtStreet.Text;
+            supplier.Email = TxtEmail.Text;
+            supplier.Number = TxtNumber.Text;
+            supplier.Complement = TxtComplement.Text;
+            supplier.State = CmbStates.SelectedItem?.ToString();
+        }
+
+        private void CleanSupplier()
+        {
+            supplier = new Supplier();
         }
     }
 }

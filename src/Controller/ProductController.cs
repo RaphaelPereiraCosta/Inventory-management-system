@@ -43,28 +43,34 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
+        public List<string> ValidateProduct(Product product)
+        {
+            return GetEmptyFields(product);
+        }
+
+        private List<string> GetEmptyFields(Product product)
+        {
+            List<string> emptyFields = new List<string>();
+
+            if (string.IsNullOrEmpty(product.Name))
+                emptyFields.Add("Nome");
+            if (product.AvailableAmount < 0)
+                emptyFields.Add("Quantidade");
+
+            return emptyFields;
+        }
+
         public bool AddProduct(Product product)
         {
             try
             {
-                if (string.IsNullOrEmpty(product.Name) || product.AvailableAmount < 0)
+                if (product.Id <= 0)
                 {
-                    throw new ArgumentException(
-                        "Nome e Quantidade do produto não podem estar vazios ou negativos"
-                    );
+                    productService.AddProduct(product);
                 }
                 else
                 {
-                    if (product.Id <= 0)
-                    {
-                        productService.AddProduct(product);
-                        MessageBox.Show("Produto adicionado com sucesso!");
-                    }
-                    else
-                    {
-                        productService.UpdateProduct(product);
-                        MessageBox.Show("Produto editado com sucesso!");
-                    }
+                    productService.UpdateProduct(product);
                 }
 
                 return true;
@@ -73,19 +79,6 @@ namespace Gerenciador_de_estoque.src.Controllers
             {
                 MessageBox.Show($"Falha na operação: {ex.Message}");
                 return false;
-            }
-        }
-
-        public void DeleteProduct(int id)
-        {
-            try
-            {
-                productService.DeleteProduct(id);
-                MessageBox.Show("Produto deletado com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Falha na operação: {ex.Message}");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
 using Gerenciador_de_estoque.src.Models;
@@ -12,14 +13,23 @@ namespace Gerenciador_de_estoque
         ProductMenu productMenu;
         SupplierMenu supplierMenu;
         SupplyMovementMenu supplyMovementMenu;
-        ProductMovement movement = new ProductMovement();
+        ProductMovement movement;
+        List<ProductMovement> movements;
 
-        readonly Utils _util = new Utils();
-
-        readonly ProdMovController _controller = new ProdMovController();
+        readonly Utils _utils;
+        readonly ProdMovController _controller;
 
         public Home()
         {
+            productMenu = new ProductMenu();
+            supplierMenu = new SupplierMenu(false);
+            supplyMovementMenu = new SupplyMovementMenu();
+            movement = new ProductMovement();
+            movements = new List<ProductMovement>();
+
+            _utils = new Utils();
+            _controller = new ProdMovController();
+
             InitializeComponent();
             InitializeForm();
         }
@@ -27,44 +37,81 @@ namespace Gerenciador_de_estoque
         private void InitializeForm()
         {
             AddColumns();
-            FillMovementList();
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+            FillCmb();
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+        }
+
+        private void CmbMonths_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+        }
+
+        private void CmbYears_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
         }
 
         private void AddColumns()
         {
-            _util.AddMovementColumns(DtMovement);
-            _util.AddProductColumns(DtProduct);
+            _utils.AddMovementColumns(DtMovement);
+            _utils.AddProductColumns(DtProduct);
 
             DtProduct.Columns["AvaliableAmount"].Visible = false;
             DtProduct.Columns.Add("AmountChange", movement.Type == "Entrada" ? "Entrada" : "Saída");
         }
 
-        private void FillMovementList()
+        private void FillDataGridView(string name, string month, string year)
         {
             try
             {
-                SupplierController supplierController = new SupplierController();
+                GatherMovements();
+                List<ProductMovement> filtered = FilterMovements(name, month, year);
 
-                var movements = _controller.GatherMovement();
-
-                DtMovement.Rows.Clear();
-
-                foreach (var movement in movements)
-                {
-                    movement.Supplier = supplierController.GetOneFornecedor(movement.Supplier.Id);
-
-                    DtMovement.Rows.Add(
-                        movement.Id,
-                        movement.Supplier.Id,
-                        movement.Supplier.Name,
-                        movement.Type,
-                        movement.Date
-                    );
-                }
+                FillMovementTable(filtered);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao preencher a lista de produtos: {ex.Message}");
+            }
+        }
+
+        private void GatherMovements()
+        {
+            if (movements.Count <= 0)
+            {
+                SupplierController supplierController = new SupplierController();
+                movements = _controller.GatherMovement();
+
+                foreach (ProductMovement movement in movements)
+                {
+                    movement.Supplier = supplierController.GetOneSupplier(movement.Supplier.Id);
+                }
+            }
+        }
+
+        private List<ProductMovement> FilterMovements(string name, string month, string year)
+        {
+            return _utils.FilterMovementList(movements, name, month, year);
+        }
+
+        private void FillMovementTable(List<ProductMovement> list)
+        {
+            DtMovement.Rows.Clear();
+
+            foreach (var movement in list)
+            {
+                DtMovement.Rows.Add(
+                    movement.Id,
+                    movement.Supplier.Id,
+                    movement.Supplier.Name,
+                    movement.Type,
+                    movement.Date
+                );
             }
         }
 
@@ -124,7 +171,7 @@ namespace Gerenciador_de_estoque
             formToShow.FormClosed += (sender, e) =>
             {
                 Show();
-                FillMovementList();
+                FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
             };
 
             formToShow.Show();
@@ -161,7 +208,7 @@ namespace Gerenciador_de_estoque
             {
                 if (table.CurrentRow != null)
                 {
-                    movement = _util.SelectRowMovement(DtMovement);
+                    movement = _utils.SelectRowMovement(DtMovement);
                     HandleFields(movement);
                 }
             }
@@ -176,6 +223,22 @@ namespace Gerenciador_de_estoque
             TxtName.Text = movement.Supplier.Name;
             TxtPhone.Text = movement.Supplier.Phone;
             TxtEmail.Text = movement.Supplier.Email;
+        }
+
+        private void FillCmb()
+        {
+            FillCmbMonths(movements);
+            FillCmbYears(movements);
+        }
+
+        private void FillCmbMonths(List<ProductMovement> movements)
+        {
+            CmbMonths.Items.AddRange(_utils.ListMonths(movements).ToArray());
+        }
+
+        private void FillCmbYears(List<ProductMovement> movements)
+        {
+            CmbYears.Items.AddRange(_utils.ListYears(movements).ToArray());
         }
     }
 }

@@ -14,9 +14,7 @@ namespace Gerenciador_de_estoque.src.Controllers
         {
             try
             {
-               List<Supplier> suppliers = supplierService.GatherSuppliers();
-
-             
+                List<Supplier> suppliers = supplierService.GatherSuppliers();
 
                 return suppliers;
             }
@@ -27,7 +25,7 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public Supplier GetOneFornecedor(int id)
+        public Supplier GetOneSupplier(int id)
         {
             try
             {
@@ -41,40 +39,30 @@ namespace Gerenciador_de_estoque.src.Controllers
             }
         }
 
-        public void AddFornecedor(Supplier supplier)
+        public bool AddSupplier(Supplier supplier)
         {
             try
             {
-                CheckForEmptyFields(supplier);
-
                 if (supplier.Id <= 0)
                 {
                     supplierService.AddSupplier(supplier);
-                    MessageBox.Show("Fornecedor adicionado com sucesso!");
                 }
                 else
                 {
                     supplierService.UpdateSupplier(supplier);
-                    MessageBox.Show("Fornecedor editado com sucesso!");
                 }
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Aviso: {ex.Message}");
+                return false;
             }
         }
 
-        private void CheckForEmptyFields(Supplier supplier)
+        public List<string> ValidateSupplier(Supplier supplier)
         {
-            List<string> emptyFields = GetEmptyFields(supplier);
-
-            if (emptyFields.Count > 0)
-            {
-                throw new ArgumentException(
-                    "Preencha os campos a seguir antes de continuar: "
-                        + string.Join(", ", emptyFields)
-                );
-            }
+            return GetEmptyFields(supplier);
         }
 
         private List<string> GetEmptyFields(Supplier supplier)
@@ -97,19 +85,6 @@ namespace Gerenciador_de_estoque.src.Controllers
                 emptyFields.Add("CEP");
 
             return emptyFields;
-        }
-
-        public void DeleteFornecedor(int id)
-        {
-            try
-            {
-                supplierService.DeleteSupplier(id);
-                MessageBox.Show("Fornecedor deletado com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Falha na operação: {ex.Message}");
-            }
         }
     }
 }

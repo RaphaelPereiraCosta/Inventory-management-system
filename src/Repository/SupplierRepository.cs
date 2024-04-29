@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Connection;
 using Gerenciador_de_estoque.src.Models;
 using MySql.Data.MySqlClient;
@@ -16,7 +17,7 @@ namespace Gerenciador_de_estoque.src.Repositories
 
             string query;
 
-            query = "SELECT * FROM supplier WHERE Name LIKE @name";
+            query = "SELECT * FROM supplier";
 
             try
             {
@@ -38,7 +39,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     Complement = reader.GetString("Complement"),
                                     Neighborhood = reader.GetString("Neighborhood"),
                                     City = reader.GetString("City"),
-                                    State = reader.GetString("Estado"),
+                                    State = reader.GetString("State"),
                                     CEP = reader.GetString("CEP"),
                                     Phone = reader.GetString("Phone"),
                                     Email = reader.GetString("Email")
@@ -52,7 +53,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao recuperar fornecedores: {ex.Message}");
+                MessageBox.Show($"Erro ao recuperar fornecedores: {ex.Message}");
             }
 
             return suppliers;
@@ -85,7 +86,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     Complement = reader.GetString("Complement"),
                                     Neighborhood = reader.GetString("Neighborhood"),
                                     City = reader.GetString("City"),
-                                    State = reader.GetString("Estado"),
+                                    State = reader.GetString("State"),
                                     CEP = reader.GetString("CEP"),
                                     Phone = reader.GetString("Phone"),
                                     Email = reader.GetString("Email")
@@ -97,7 +98,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao recuperar fornecedor: {ex.Message}");
+                MessageBox.Show($"Erro ao recuperar fornecedor: {ex.Message}");
             }
 
             return supplier;
@@ -106,7 +107,7 @@ namespace Gerenciador_de_estoque.src.Repositories
         public void AddSupplier(Supplier supplier)
         {
             var query =
-                "INSERT INTO supplier (Name, Street, Number, Complement, Neighborhood, City, Estado, CEP, Phone, Email) VALUES (@name, @street, @number, @complement, @neighborhood, @city, @estado, @cep, @phone, @email)";
+                "INSERT INTO supplier (Name, Street, Number, Complement, Neighborhood, City, State, CEP, Phone, Email) VALUES (@name, @street, @number, @complement, @neighborhood, @city, @estado, @cep, @phone, @email)";
 
             try
             {
@@ -120,7 +121,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                         command.Parameters.AddWithValue("@complement", supplier.Complement);
                         command.Parameters.AddWithValue("@neighborhood", supplier.Neighborhood);
                         command.Parameters.AddWithValue("@city", supplier.City);
-                        command.Parameters.AddWithValue("@estado", supplier.State);
+                        command.Parameters.AddWithValue("@state", supplier.State);
                         command.Parameters.AddWithValue("@cep", supplier.CEP);
                         command.Parameters.AddWithValue("@phone", supplier.Phone);
                         command.Parameters.AddWithValue("@email", supplier.Email);
@@ -132,14 +133,14 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao adicionar fornecedor: {ex.Message}");
+                MessageBox.Show($"Erro ao adicionar fornecedor: {ex.Message}");
             }
         }
 
         public void UpdateSupplier(Supplier supplier)
         {
             var query =
-                "UPDATE supplier SET Name = @name, Street = @street, Number = @number, Complement = @complement, Neighborhood = @neighborhood, City = @city, Estado = @estado, CEP = @cep, Phone = @phone, Email = @email WHERE Id = @id";
+                "UPDATE supplier SET Name = @name, Street = @street, Number = @number, Complement = @complement, Neighborhood = @neighborhood, City = @city, State = @state, CEP = @cep, Phone = @phone, Email = @email WHERE Id = @id";
 
             try
             {
@@ -153,7 +154,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                         command.Parameters.AddWithValue("@complement", supplier.Complement);
                         command.Parameters.AddWithValue("@neighborhood", supplier.Neighborhood);
                         command.Parameters.AddWithValue("@city", supplier.City);
-                        command.Parameters.AddWithValue("@estado", supplier.State);
+                        command.Parameters.AddWithValue("@state", supplier.State);
                         command.Parameters.AddWithValue("@cep", supplier.CEP);
                         command.Parameters.AddWithValue("@phone", supplier.Phone);
                         command.Parameters.AddWithValue("@email", supplier.Email);
@@ -166,30 +167,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao atualizar fornecedor: {ex.Message}");
-            }
-        }
-
-        public void DeleteSupplier(int id)
-        {
-            var query = "DELETE FROM supplier WHERE Id = @id";
-
-            try
-            {
-                using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
-                {
-                    using (var command = new MySqlCommand(query, connectDb))
-                    {
-                        command.Parameters.AddWithValue("@id", id);
-
-                        connectDb.Open();
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao excluir fornecedor: {ex.Message}");
+                MessageBox.Show($"Erro ao atualizar fornecedor: {ex.Message}");
             }
         }
 
@@ -201,7 +179,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao desconectar: {ex.Message}");
+                MessageBox.Show($"Erro ao desconectar: {ex.Message}");
             }
         }
     }

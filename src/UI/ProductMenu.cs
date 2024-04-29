@@ -9,7 +9,7 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductMenu : Form
     {
-        private Product _product;
+        private Product product;
         private List<Product> _products;
         private readonly ProductController _controller;
         private readonly Utils _utils;
@@ -18,7 +18,7 @@ namespace Gerenciador_de_estoque.src.UI
         {
             _controller = new ProductController();
             _utils = new Utils();
-            _product = new Product();
+            product = new Product();
             _products = new List<Product>();
             InitializeComponent();
             InitializeForm();
@@ -26,14 +26,14 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void InitializeForm()
         {
-            AddColumnsToProductList();
-            FillProductList("");
+            AddColumns();
+            FillDataGridView(TxtSearch.Text, true);
             HandleFields(true);
         }
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            FillProductList(TxtSearch.Text);
+            FillDataGridView(TxtSearch.Text, false);
         }
 
         private void TxtAmount_TextChanged(object sender, EventArgs e)
@@ -58,10 +58,11 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 UpdateProductObj();
                 SaveProduct();
+                FillDataGridView(TxtSearch.Text, true);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao salvar o Product: {ex.Message}");
+                MessageBox.Show($"Erro ao salvar o Produto. {ex.Message}");
             }
         }
 
@@ -80,54 +81,41 @@ namespace Gerenciador_de_estoque.src.UI
             Close();
         }
 
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            DeleteProduct();
-        }
-
         public void SelectRow()
         {
             if (DtProduct.SelectedRows.Count > 0)
             {
-                _product = _utils.SelectRowProduct(DtProduct);
+                product = _utils.SelectRowProduct(DtProduct);
                 HandleFields(true);
             }
         }
 
         private void SaveProduct()
         {
-            _controller.AddProduct(_product);
-            HandleFields(true);
-            FillProductList(TxtSearch.Text);
-        }
-
-        private void DeleteProduct()
-        {
-            if (ConfirmDeletion())
+            if (_controller.ValidateProduct(product).Count <= 0)
             {
-                _controller.DeleteProduct(_product.Id);
-                FillProductList(TxtSearch.Text);
+                if (_controller.AddProduct(product))
+                {
+                    MessageBox.Show("Produto salvo com sucesso!");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(
+                    "Preencha os campos a seguir antes de continuar: "
+                        + string.Join(", ", _controller.ValidateProduct(product))
+                );
             }
         }
 
-        private bool ConfirmDeletion()
-        {
-            DialogResult dialogResult = MessageBox.Show(
-                "Você está prestes a excluir um fornecedor. Você deseja continuar?",
-                "Confirmação",
-                MessageBoxButtons.YesNo
-            );
-            return dialogResult == DialogResult.Yes;
-        }
-
-        private void AddColumnsToProductList()
+        private void AddColumns()
         {
             _utils.AddProductColumns(DtProduct);
         }
 
-        private void FillProductList(string name)
+        private void FillDataGridView(string name, bool dbchange)
         {
-            GatherProducts();
+            GatherProducts(dbchange);
             List<Product> filtered = FilterProducts(name);
             FillProductTable(filtered);
         }
@@ -146,12 +134,10 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void GatherProducts()
+        private void GatherProducts(bool dbchange)
         {
-            if (_products.Count <= 0)
-            {
+            if (_products.Count <= 0 || dbchange)
                 _products = _controller.GatherProducts();
-            }
         }
 
         private List<Product> FilterProducts(string name)
@@ -161,9 +147,9 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void HandleFields(bool isReadOnly)
         {
-            TxtName.Text = _product.Name ?? "";
-            TxtAmount.Text = _product.AvailableAmount.ToString() ?? "";
-            TxtDescription.Text = _product.Description ?? "";
+            TxtName.Text = product.Name ?? "";
+            TxtAmount.Text = product.AvailableAmount.ToString() ?? "";
+            TxtDescription.Text = product.Description ?? "";
 
             UpdateButtons(isReadOnly);
 
@@ -180,13 +166,11 @@ namespace Gerenciador_de_estoque.src.UI
         private void UpdateButtons(bool isEnabled)
         {
             BtnNew.Visible = isEnabled;
-            BtnDelete.Visible = isEnabled;
             BtnEdit.Visible = isEnabled;
             BtnSave.Visible = !isEnabled;
             BtnCancel.Visible = !isEnabled;
 
             BtnNew.Enabled = isEnabled;
-            BtnDelete.Enabled = isEnabled;
             BtnEdit.Enabled = isEnabled;
             BtnSave.Enabled = !isEnabled;
             BtnCancel.Enabled = !isEnabled;
@@ -194,11 +178,11 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void UpdateProductObj()
         {
-            _product.Name = TxtName.Text;
+            product.Name = TxtName.Text;
 
             if (int.TryParse(TxtAmount.Text, out int quantidade))
             {
-                _product.AvailableAmount = quantidade;
+                product.AvailableAmount = quantidade;
             }
             else
             {
@@ -206,12 +190,12 @@ namespace Gerenciador_de_estoque.src.UI
                 return;
             }
 
-            _product.Description = TxtDescription.Text;
+            product.Description = TxtDescription.Text;
         }
 
         private void CleanProduct()
         {
-            _product = new Product();
+            product = new Product();
         }
     }
 }

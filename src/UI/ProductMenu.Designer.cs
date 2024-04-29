@@ -42,7 +42,6 @@
             this.LblSearch = new System.Windows.Forms.Label();
             this.BtnGoBack = new System.Windows.Forms.Button();
             this.BtnEdit = new System.Windows.Forms.Button();
-            this.BtnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,7 +115,7 @@
             // 
             // BtnSave
             // 
-            this.BtnSave.Location = new System.Drawing.Point(21, 320);
+            this.BtnSave.Location = new System.Drawing.Point(66, 320);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(75, 23);
             this.BtnSave.TabIndex = 10;
@@ -126,7 +125,7 @@
             // 
             // BtnCancel
             // 
-            this.BtnCancel.Location = new System.Drawing.Point(183, 320);
+            this.BtnCancel.Location = new System.Drawing.Point(147, 320);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 23);
             this.BtnCancel.TabIndex = 11;
@@ -136,7 +135,7 @@
             // 
             // BtnNew
             // 
-            this.BtnNew.Location = new System.Drawing.Point(21, 320);
+            this.BtnNew.Location = new System.Drawing.Point(66, 320);
             this.BtnNew.Name = "BtnNew";
             this.BtnNew.Size = new System.Drawing.Size(75, 23);
             this.BtnNew.TabIndex = 12;
@@ -173,7 +172,7 @@
             // 
             // BtnEdit
             // 
-            this.BtnEdit.Location = new System.Drawing.Point(102, 320);
+            this.BtnEdit.Location = new System.Drawing.Point(147, 320);
             this.BtnEdit.Name = "BtnEdit";
             this.BtnEdit.Size = new System.Drawing.Size(75, 23);
             this.BtnEdit.TabIndex = 16;
@@ -181,23 +180,12 @@
             this.BtnEdit.UseVisualStyleBackColor = true;
             this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
-            // BtnDelete
-            // 
-            this.BtnDelete.Location = new System.Drawing.Point(183, 320);
-            this.BtnDelete.Name = "BtnDelete";
-            this.BtnDelete.Size = new System.Drawing.Size(75, 23);
-            this.BtnDelete.TabIndex = 17;
-            this.BtnDelete.Text = "Deletar";
-            this.BtnDelete.UseVisualStyleBackColor = true;
-            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
-            // 
             // ProductMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(787, 404);
-            this.Controls.Add(this.BtnDelete);
             this.Controls.Add(this.BtnEdit);
             this.Controls.Add(this.BtnGoBack);
             this.Controls.Add(this.LblSearch);
@@ -237,6 +225,5 @@
         private System.Windows.Forms.Label LblSearch;
         private System.Windows.Forms.Button BtnGoBack;
         private System.Windows.Forms.Button BtnEdit;
-        private System.Windows.Forms.Button BtnDelete;
     }
 }

@@ -42,6 +42,8 @@
             this.TxtName = new System.Windows.Forms.TextBox();
             this.DtProduct = new System.Windows.Forms.DataGridView();
             this.LblProducts = new System.Windows.Forms.Label();
+            this.CmbMonths = new System.Windows.Forms.ComboBox();
+            this.CmbYears = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtMovement)).BeginInit();
             this.pnlButtonBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
@@ -91,7 +93,7 @@
             this.DtMovement.ReadOnly = true;
             this.DtMovement.RowHeadersVisible = false;
             this.DtMovement.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DtMovement.Size = new System.Drawing.Size(302, 338);
+            this.DtMovement.Size = new System.Drawing.Size(319, 338);
             this.DtMovement.TabIndex = 7;
             this.DtMovement.SelectionChanged += new System.EventHandler(this.DtMovement_SelectionChanged);
             // 
@@ -112,11 +114,12 @@
             this.TxtSearch.Name = "TxtSearch";
             this.TxtSearch.Size = new System.Drawing.Size(165, 20);
             this.TxtSearch.TabIndex = 14;
+            this.TxtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
             // 
             // LblEmail
             // 
             this.LblEmail.AutoSize = true;
-            this.LblEmail.Location = new System.Drawing.Point(327, 85);
+            this.LblEmail.Location = new System.Drawing.Point(335, 85);
             this.LblEmail.Name = "LblEmail";
             this.LblEmail.Size = new System.Drawing.Size(35, 13);
             this.LblEmail.TabIndex = 34;
@@ -124,7 +127,7 @@
             // 
             // TxtEmail
             // 
-            this.TxtEmail.Location = new System.Drawing.Point(330, 101);
+            this.TxtEmail.Location = new System.Drawing.Point(338, 101);
             this.TxtEmail.Name = "TxtEmail";
             this.TxtEmail.ReadOnly = true;
             this.TxtEmail.Size = new System.Drawing.Size(190, 20);
@@ -133,7 +136,7 @@
             // LblPhone
             // 
             this.LblPhone.AutoSize = true;
-            this.LblPhone.Location = new System.Drawing.Point(327, 130);
+            this.LblPhone.Location = new System.Drawing.Point(335, 130);
             this.LblPhone.Name = "LblPhone";
             this.LblPhone.Size = new System.Drawing.Size(49, 13);
             this.LblPhone.TabIndex = 32;
@@ -141,7 +144,7 @@
             // 
             // TxtPhone
             // 
-            this.TxtPhone.Location = new System.Drawing.Point(330, 146);
+            this.TxtPhone.Location = new System.Drawing.Point(338, 146);
             this.TxtPhone.Name = "TxtPhone";
             this.TxtPhone.ReadOnly = true;
             this.TxtPhone.Size = new System.Drawing.Size(134, 20);
@@ -150,7 +153,7 @@
             // LblName
             // 
             this.LblName.AutoSize = true;
-            this.LblName.Location = new System.Drawing.Point(327, 39);
+            this.LblName.Location = new System.Drawing.Point(335, 39);
             this.LblName.Name = "LblName";
             this.LblName.Size = new System.Drawing.Size(35, 13);
             this.LblName.TabIndex = 30;
@@ -158,7 +161,7 @@
             // 
             // TxtName
             // 
-            this.TxtName.Location = new System.Drawing.Point(330, 55);
+            this.TxtName.Location = new System.Drawing.Point(338, 55);
             this.TxtName.Name = "TxtName";
             this.TxtName.ReadOnly = true;
             this.TxtName.Size = new System.Drawing.Size(225, 20);
@@ -172,7 +175,7 @@
             this.DtProduct.AllowUserToResizeRows = false;
             this.DtProduct.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DtProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtProduct.Location = new System.Drawing.Point(330, 209);
+            this.DtProduct.Location = new System.Drawing.Point(338, 209);
             this.DtProduct.MultiSelect = false;
             this.DtProduct.Name = "DtProduct";
             this.DtProduct.ReadOnly = true;
@@ -184,17 +187,39 @@
             // LblProducts
             // 
             this.LblProducts.AutoSize = true;
-            this.LblProducts.Location = new System.Drawing.Point(327, 193);
+            this.LblProducts.Location = new System.Drawing.Point(335, 193);
             this.LblProducts.Name = "LblProducts";
             this.LblProducts.Size = new System.Drawing.Size(82, 13);
             this.LblProducts.TabIndex = 36;
             this.LblProducts.Text = "Movimentações";
+            // 
+            // CmbMonths
+            // 
+            this.CmbMonths.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbMonths.FormattingEnabled = true;
+            this.CmbMonths.Location = new System.Drawing.Point(181, 29);
+            this.CmbMonths.Name = "CmbMonths";
+            this.CmbMonths.Size = new System.Drawing.Size(56, 21);
+            this.CmbMonths.TabIndex = 37;
+            this.CmbMonths.SelectedIndexChanged += new System.EventHandler(this.CmbMonths_SelectedIndexChanged);
+            // 
+            // CmbYears
+            // 
+            this.CmbYears.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CmbYears.FormattingEnabled = true;
+            this.CmbYears.Location = new System.Drawing.Point(243, 29);
+            this.CmbYears.Name = "CmbYears";
+            this.CmbYears.Size = new System.Drawing.Size(78, 21);
+            this.CmbYears.TabIndex = 38;
+            this.CmbYears.SelectedIndexChanged += new System.EventHandler(this.CmbYears_SelectedIndexChanged);
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 409);
+            this.Controls.Add(this.CmbYears);
+            this.Controls.Add(this.CmbMonths);
             this.Controls.Add(this.LblProducts);
             this.Controls.Add(this.DtProduct);
             this.Controls.Add(this.LblEmail);
@@ -233,6 +258,8 @@
         private System.Windows.Forms.TextBox TxtName;
         private System.Windows.Forms.DataGridView DtProduct;
         private System.Windows.Forms.Label LblProducts;
+        private System.Windows.Forms.ComboBox CmbMonths;
+        private System.Windows.Forms.ComboBox CmbYears;
     }
 }
 
