@@ -52,11 +52,11 @@
             this.TxtState = new System.Windows.Forms.TextBox();
             this.BtnSelectSupplier = new System.Windows.Forms.Button();
             this.DtProduct = new System.Windows.Forms.DataGridView();
-            this.lblQuantity = new System.Windows.Forms.Label();
+            this.LblQuantity = new System.Windows.Forms.Label();
             this.TxtAmount = new System.Windows.Forms.TextBox();
             this.LblDescription = new System.Windows.Forms.Label();
             this.TxtDescription = new System.Windows.Forms.TextBox();
-            this.lblProdName = new System.Windows.Forms.Label();
+            this.LblProdName = new System.Windows.Forms.Label();
             this.TxtProdName = new System.Windows.Forms.TextBox();
             this.BtnSelectProducts = new System.Windows.Forms.Button();
             this.BtnConfirm = new System.Windows.Forms.Button();
@@ -64,8 +64,8 @@
             this.LblAmountChanged = new System.Windows.Forms.Label();
             this.TxtAmountChanged = new System.Windows.Forms.TextBox();
             this.TxtDate = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LblTodayDate = new System.Windows.Forms.Label();
+            this.LblDate = new System.Windows.Forms.Label();
             this.ChkToday = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.panel1.SuspendLayout();
@@ -289,14 +289,14 @@
             this.DtProduct.TabIndex = 51;
             this.DtProduct.SelectionChanged += new System.EventHandler(this.DtProduct_SelectionChanged);
             // 
-            // lblQuantity
+            // LblQuantity
             // 
-            this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(164, 64);
-            this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(88, 13);
-            this.lblQuantity.TabIndex = 57;
-            this.lblQuantity.Text = "Quantidade atual";
+            this.LblQuantity.AutoSize = true;
+            this.LblQuantity.Location = new System.Drawing.Point(164, 64);
+            this.LblQuantity.Name = "LblQuantity";
+            this.LblQuantity.Size = new System.Drawing.Size(88, 13);
+            this.LblQuantity.TabIndex = 57;
+            this.LblQuantity.Text = "Quantidade atual";
             // 
             // TxtAmount
             // 
@@ -324,14 +324,14 @@
             this.TxtDescription.Size = new System.Drawing.Size(300, 100);
             this.TxtDescription.TabIndex = 54;
             // 
-            // lblProdName
+            // LblProdName
             // 
-            this.lblProdName.AutoSize = true;
-            this.lblProdName.Location = new System.Drawing.Point(16, 63);
-            this.lblProdName.Name = "lblProdName";
-            this.lblProdName.Size = new System.Drawing.Size(35, 13);
-            this.lblProdName.TabIndex = 53;
-            this.lblProdName.Text = "Nome";
+            this.LblProdName.AutoSize = true;
+            this.LblProdName.Location = new System.Drawing.Point(16, 63);
+            this.LblProdName.Name = "LblProdName";
+            this.LblProdName.Size = new System.Drawing.Size(35, 13);
+            this.LblProdName.TabIndex = 53;
+            this.LblProdName.Text = "Nome";
             // 
             // TxtProdName
             // 
@@ -368,14 +368,14 @@
             this.panel1.Controls.Add(this.TxtAmountChanged);
             this.panel1.Controls.Add(this.DtProduct);
             this.panel1.Controls.Add(this.BtnSelectProducts);
-            this.panel1.Controls.Add(this.lblQuantity);
+            this.panel1.Controls.Add(this.LblQuantity);
             this.panel1.Controls.Add(this.TxtDescription);
             this.panel1.Controls.Add(this.TxtAmount);
             this.panel1.Controls.Add(this.CmbType);
             this.panel1.Controls.Add(this.LblDescription);
             this.panel1.Controls.Add(this.LblType);
             this.panel1.Controls.Add(this.TxtProdName);
-            this.panel1.Controls.Add(this.lblProdName);
+            this.panel1.Controls.Add(this.LblProdName);
             this.panel1.Location = new System.Drawing.Point(12, 168);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(832, 250);
@@ -400,37 +400,37 @@
             // 
             // TxtDate
             // 
-            this.TxtDate.Location = new System.Drawing.Point(467, 442);
+            this.TxtDate.Location = new System.Drawing.Point(460, 448);
             this.TxtDate.Name = "TxtDate";
             this.TxtDate.ReadOnly = true;
             this.TxtDate.Size = new System.Drawing.Size(80, 20);
             this.TxtDate.TabIndex = 61;
             this.TxtDate.TextChanged += new System.EventHandler(this.TxtDate_TextChanged);
             // 
-            // label1
+            // LblTodayDate
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(253, 446);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 13);
-            this.label1.TabIndex = 62;
-            this.label1.Text = "Data da movimentação:";
+            this.LblTodayDate.AutoSize = true;
+            this.LblTodayDate.Location = new System.Drawing.Point(334, 425);
+            this.LblTodayDate.Name = "LblTodayDate";
+            this.LblTodayDate.Size = new System.Drawing.Size(120, 13);
+            this.LblTodayDate.TabIndex = 62;
+            this.LblTodayDate.Text = "Data da movimentação:";
             // 
-            // label2
+            // LblDate
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(464, 426);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 64;
-            this.label2.Text = "Digite a data:";
+            this.LblDate.AutoSize = true;
+            this.LblDate.Location = new System.Drawing.Point(292, 452);
+            this.LblDate.Name = "LblDate";
+            this.LblDate.Size = new System.Drawing.Size(162, 13);
+            this.LblDate.TabIndex = 64;
+            this.LblDate.Text = "Digite a data (somente numeros):";
             // 
             // ChkToday
             // 
             this.ChkToday.AutoSize = true;
             this.ChkToday.Checked = true;
             this.ChkToday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkToday.Location = new System.Drawing.Point(376, 445);
+            this.ChkToday.Location = new System.Drawing.Point(460, 425);
             this.ChkToday.Name = "ChkToday";
             this.ChkToday.Size = new System.Drawing.Size(87, 17);
             this.ChkToday.TabIndex = 65;
@@ -444,8 +444,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 508);
             this.Controls.Add(this.ChkToday);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LblDate);
+            this.Controls.Add(this.LblTodayDate);
             this.Controls.Add(this.TxtDate);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.BtnConfirm);
@@ -507,18 +507,18 @@
         private System.Windows.Forms.TextBox TxtState;
         private System.Windows.Forms.Button BtnSelectSupplier;
         private System.Windows.Forms.DataGridView DtProduct;
-        private System.Windows.Forms.Label lblQuantity;
+        private System.Windows.Forms.Label LblQuantity;
         private System.Windows.Forms.TextBox TxtAmount;
         private System.Windows.Forms.Label LblDescription;
         private System.Windows.Forms.TextBox TxtDescription;
-        private System.Windows.Forms.Label lblProdName;
+        private System.Windows.Forms.Label LblProdName;
         private System.Windows.Forms.TextBox TxtProdName;
         private System.Windows.Forms.Button BtnSelectProducts;
         private System.Windows.Forms.Button BtnConfirm;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox TxtDate;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label LblTodayDate;
+        private System.Windows.Forms.Label LblDate;
         private System.Windows.Forms.CheckBox ChkToday;
         private System.Windows.Forms.Label LblAmountChanged;
         private System.Windows.Forms.TextBox TxtAmountChanged;

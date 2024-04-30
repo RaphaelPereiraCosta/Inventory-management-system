@@ -355,7 +355,7 @@ namespace Gerenciador_de_estoque.src.Utilities
             }
             if (!string.IsNullOrEmpty(year))
             {
-                sourceList = FilterMovementListByName(sourceList, year);
+                sourceList = FilterMovementListByYear(sourceList, year);
             }
 
             return sourceList;

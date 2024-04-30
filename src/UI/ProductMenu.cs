@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Controllers;
@@ -57,8 +56,8 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                UpdateProductObj();
-                SaveProduct();
+                Product product = CreateNewProductOBJ();
+                SaveProduct(product);
                 FillDataGridView(TxtSearch.Text, true);
             }
             catch (Exception ex)
@@ -91,11 +90,11 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void SaveProduct()
+        private void SaveProduct(Product product)
         {
-            if (_controller.ValidateProduct(_product).Count <= 0)
+            if (_controller.ValidateProduct(product).Count <= 0)
             {
-                if (_controller.AddProduct(_product))
+                if (_controller.AddProduct(product))
                 {
                     MessageBox.Show("Produto salvo com sucesso!");
                 }
@@ -177,21 +176,22 @@ namespace Gerenciador_de_estoque.src.UI
             BtnCancel.Enabled = !isEnabled;
         }
 
-        private void UpdateProductObj()
+        private Product CreateNewProductOBJ()
         {
-            _product.Name = TxtName.Text;
-
-            if (int.TryParse(TxtAmount.Text, out int quantidade))
-            {
-                _product.AvailableAmount = quantidade;
-            }
-            else
+            if (!int.TryParse(TxtAmount.Text, out int quantidade))
             {
                 MessageBox.Show("Quantidade inválida");
-                return;
+                return null;
             }
 
-            _product.Description = TxtDescription.Text;
+            Product product = new Product()
+            {
+                Name = TxtName.Text,
+                AvailableAmount = quantidade,
+                Description = TxtDescription.Text
+            };
+
+            return product;
         }
 
         private void CleanProduct()

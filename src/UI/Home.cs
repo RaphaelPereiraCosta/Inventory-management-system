@@ -18,6 +18,7 @@ namespace Gerenciador_de_estoque
 
         readonly Utils _utils;
         readonly ProdMovController _controller;
+        readonly SupplierController _supplierController;
 
         public Home()
         {
@@ -29,6 +30,7 @@ namespace Gerenciador_de_estoque
 
             _utils = new Utils();
             _controller = new ProdMovController();
+            _supplierController = new SupplierController();
 
             InitializeComponent();
             InitializeForm();
@@ -37,23 +39,33 @@ namespace Gerenciador_de_estoque
         private void InitializeForm()
         {
             AddColumns();
-            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text, true);
             FillCmb();
         }
 
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text, false);
         }
 
         private void CmbMonths_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text, false);
         }
 
         private void CmbYears_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+            FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text, false);
+        }
+
+        private void DtMovement_SelectionChanged(object sender, EventArgs e)
+        {
+            if (DtMovement.SelectedRows.Count > 0)
+            {
+                SelectRow(DtMovement);
+                FillDtProduct();
+                HandleFields(movement);
+            }
         }
 
         private void BtnProductMenu_Click(object sender, EventArgs e)
@@ -105,11 +117,11 @@ namespace Gerenciador_de_estoque
             DtProduct.Columns.Add("AmountChange", movement.Type == "Entrada" ? "Entrada" : "Saída");
         }
 
-        private void FillDataGridView(string name, string month, string year)
+        private void FillDataGridView(string name, string month, string year, bool dbchange)
         {
             try
             {
-                GatherMovements();
+                GatherMovements(dbchange);
                 List<ProductMovement> filtered = FilterMovements(name, month, year);
 
                 FillMovementTable(filtered);
@@ -177,16 +189,15 @@ namespace Gerenciador_de_estoque
             CmbYears.Items.AddRange(_utils.ListYears(movements).ToArray());
         }
 
-        private void GatherMovements()
+        private void GatherMovements(bool dbchange)
         {
-            if (movements.Count <= 0)
+            if (movements.Count <= 0 || dbchange)
             {
-                SupplierController supplierController = new SupplierController();
                 movements = _controller.GatherMovement();
 
                 foreach (ProductMovement movement in movements)
                 {
-                    movement.Supplier = supplierController.GetOneSupplier(movement.Supplier.Id);
+                    movement.Supplier = _supplierController.GetOneSupplier(movement.Supplier.Id);
                 }
             }
         }
@@ -203,7 +214,7 @@ namespace Gerenciador_de_estoque
             formToShow.FormClosed += (sender, e) =>
             {
                 Show();
-                FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text);
+                FillDataGridView(TxtSearch.Text, CmbMonths.Text, CmbYears.Text, true);
             };
 
             formToShow.Show();
@@ -222,16 +233,6 @@ namespace Gerenciador_de_estoque
         private void CreateNewSupplyMovementMenu()
         {
             _supplyMovementMenu = new SupplyMovementMenu();
-        }
-
-        private void DtMovement_SelectionChanged(object sender, EventArgs e)
-        {
-            if (DtMovement.SelectedRows.Count > 0)
-            {
-                SelectRow(DtMovement);
-                FillDtProduct();
-                HandleFields(movement);
-            }
         }
 
         private void HandleFields(ProductMovement movement)
