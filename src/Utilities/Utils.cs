@@ -60,7 +60,7 @@ namespace Gerenciador_de_estoque.src.Utilities
 
         public List<string> ListMonths(List<ProductMovement> movements)
         {
-            List<string> months = new List<string>();
+            List<string> months = new List<string> { "Mês" };
 
             foreach (ProductMovement movement in movements)
             {
@@ -76,7 +76,7 @@ namespace Gerenciador_de_estoque.src.Utilities
 
         public List<string> ListYears(List<ProductMovement> movements)
         {
-            List<string> years = new List<string>();
+            List<string> years = new List<string> { "Ano" };
 
             foreach (ProductMovement movement in movements)
             {
@@ -311,11 +311,11 @@ namespace Gerenciador_de_estoque.src.Utilities
             {
                 sourceList = FilterMovementListByName(sourceList, name);
             }
-            if (!string.IsNullOrEmpty(month))
+            if (!string.IsNullOrEmpty(month) || month == "Mês")
             {
                 sourceList = FilterMovementListByMonth(sourceList, month);
             }
-            if (!string.IsNullOrEmpty(year))
+            if (!string.IsNullOrEmpty(year) || year == "Ano")
             {
                 sourceList = FilterMovementListByYear(sourceList, year);
             }
@@ -389,84 +389,13 @@ namespace Gerenciador_de_estoque.src.Utilities
 
             if (!isNumber || number < 0)
             {
-                MessageBox.Show("Por favor, insira um número maior ou igual a zero");
-                text = "";
+                MessageBox.Show(
+                    "Este campo só aceita numeros inteiros. Letras e simbulos serão removidos"
+                );
+                text = RemoveNonDigits(text);
             }
 
             return text;
-        }
-
-        public string FormatPhone(string text)
-        {
-            try
-            {
-                text = RemoveNonDigits(text);
-
-                text = GetSubstring(text, 10);
-
-                if (text.Length == 10)
-                {
-                    if (text[2] != ')')
-                        text = text.Insert(0, "(").Insert(3, ")");
-
-                    if (text[6] != '-')
-                        text = text.Insert(6, "-");
-                }
-
-                return text;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao formatar telefone: {ex.Message}");
-
-                return text;
-            }
-        }
-
-        public string FormatCEP(string text)
-        {
-            try
-            {
-                text = RemoveNonDigits(text);
-
-                text = GetSubstring(text, 8);
-
-                if (text.Length == 8 && text[5] != '-')
-                    text = text.Insert(5, "-");
-
-                return text;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao formatar CEP: {ex.Message}");
-                return text;
-            }
-        }
-
-        public string FormatDate(string text)
-        {
-            try
-            {
-                text = RemoveNonDigits(text);
-
-                text = GetSubstring(text, 8);
-
-                if (text.Length == 8)
-                {
-                    if (text[2] != '/')
-                        text = text.Insert(2, "/");
-
-                    if (text[5] != '/')
-                        text = text.Insert(5, "/");
-                }
-
-                return text;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao formatar a data: {ex.Message}");
-                return text;
-            }
         }
 
         public string RemoveNonDigits(string text)

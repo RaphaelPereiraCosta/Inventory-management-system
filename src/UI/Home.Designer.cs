@@ -44,6 +44,7 @@
             this.LblProducts = new System.Windows.Forms.Label();
             this.CmbMonths = new System.Windows.Forms.ComboBox();
             this.CmbYears = new System.Windows.Forms.ComboBox();
+            this.BtnExit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DtMovement)).BeginInit();
             this.pnlButtonBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
@@ -213,11 +214,22 @@
             this.CmbYears.TabIndex = 38;
             this.CmbYears.SelectedIndexChanged += new System.EventHandler(this.CmbYears_SelectedIndexChanged);
             // 
+            // BtnExit
+            // 
+            this.BtnExit.Location = new System.Drawing.Point(648, 345);
+            this.BtnExit.Name = "BtnExit";
+            this.BtnExit.Size = new System.Drawing.Size(136, 48);
+            this.BtnExit.TabIndex = 7;
+            this.BtnExit.Text = "Sair";
+            this.BtnExit.UseVisualStyleBackColor = true;
+            this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 409);
+            this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.CmbYears);
             this.Controls.Add(this.CmbMonths);
             this.Controls.Add(this.LblProducts);
@@ -260,6 +272,7 @@
         private System.Windows.Forms.Label LblProducts;
         private System.Windows.Forms.ComboBox CmbMonths;
         private System.Windows.Forms.ComboBox CmbYears;
+        private System.Windows.Forms.Button BtnExit;
     }
 }
 

@@ -181,11 +181,13 @@ namespace Gerenciador_de_estoque
         private void FillCmbMonths(List<ProductMovement> movements)
         {
             CmbMonths.Items.AddRange(_utils.ListMonths(movements).ToArray());
+            CmbMonths.SelectedIndex = 0;
         }
 
         private void FillCmbYears(List<ProductMovement> movements)
         {
             CmbYears.Items.AddRange(_utils.ListYears(movements).ToArray());
+            CmbYears.SelectedIndex = 0;
         }
 
         private void GatherMovements(bool dbchange)
@@ -239,6 +241,11 @@ namespace Gerenciador_de_estoque
             TxtName.Text = movement.Supplier.Name;
             TxtPhone.Text = movement.Supplier.Phone;
             TxtEmail.Text = movement.Supplier.Email;
+        }
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

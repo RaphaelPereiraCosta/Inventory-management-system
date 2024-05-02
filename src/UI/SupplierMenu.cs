@@ -57,11 +57,6 @@ namespace Gerenciador_de_estoque.src.UI
             FillDataGridView(TxtSearch.Text, false);
         }
 
-        private void TxtCEP_Leave(object sender, EventArgs e)
-        {
-            MskTxtCEP.Text = _utils.FormatCEP(MskTxtCEP.Text);
-        }
-
         private void TxtNumber_TextChanged(object sender, EventArgs e)
         {
             TxtNumber.Text = _utils.ValidateNumber(TxtNumber.Text);
