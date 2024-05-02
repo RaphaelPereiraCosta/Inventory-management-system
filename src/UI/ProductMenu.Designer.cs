@@ -32,7 +32,6 @@
             this.LblName = new System.Windows.Forms.Label();
             this.LblDescription = new System.Windows.Forms.Label();
             this.TxtDescription = new System.Windows.Forms.TextBox();
-            this.TxtAmount = new System.Windows.Forms.TextBox();
             this.LblQuantity = new System.Windows.Forms.Label();
             this.DtProduct = new System.Windows.Forms.DataGridView();
             this.BtnSave = new System.Windows.Forms.Button();
@@ -42,6 +41,7 @@
             this.LblSearch = new System.Windows.Forms.Label();
             this.BtnGoBack = new System.Windows.Forms.Button();
             this.BtnEdit = new System.Windows.Forms.Button();
+            this.TxtAmount = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,14 +77,6 @@
             this.TxtDescription.Name = "TxtDescription";
             this.TxtDescription.Size = new System.Drawing.Size(237, 174);
             this.TxtDescription.TabIndex = 5;
-            // 
-            // TxtAmount
-            // 
-            this.TxtAmount.Location = new System.Drawing.Point(21, 90);
-            this.TxtAmount.Name = "TxtAmount";
-            this.TxtAmount.Size = new System.Drawing.Size(73, 20);
-            this.TxtAmount.TabIndex = 7;
-            this.TxtAmount.TextChanged += new System.EventHandler(this.TxtAmount_TextChanged);
             // 
             // LblQuantity
             // 
@@ -180,6 +172,14 @@
             this.BtnEdit.UseVisualStyleBackColor = true;
             this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
+            // TxtAmount
+            // 
+            this.TxtAmount.Location = new System.Drawing.Point(21, 90);
+            this.TxtAmount.Name = "TxtAmount";
+            this.TxtAmount.Size = new System.Drawing.Size(73, 20);
+            this.TxtAmount.TabIndex = 7;
+            this.TxtAmount.TextChanged += new System.EventHandler(this.TxtAmount_TextChanged);
+            // 
             // ProductMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,7 +215,6 @@
         private System.Windows.Forms.Label LblName;
         private System.Windows.Forms.Label LblDescription;
         private System.Windows.Forms.TextBox TxtDescription;
-        private System.Windows.Forms.TextBox TxtAmount;
         private System.Windows.Forms.Label LblQuantity;
         private System.Windows.Forms.DataGridView DtProduct;
         private System.Windows.Forms.Button BtnSave;
@@ -225,5 +224,6 @@
         private System.Windows.Forms.Label LblSearch;
         private System.Windows.Forms.Button BtnGoBack;
         private System.Windows.Forms.Button BtnEdit;
+        private System.Windows.Forms.TextBox TxtAmount;
     }
 }

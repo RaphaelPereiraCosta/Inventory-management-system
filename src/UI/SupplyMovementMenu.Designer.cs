@@ -63,10 +63,11 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.LblAmountChanged = new System.Windows.Forms.Label();
             this.TxtAmountChanged = new System.Windows.Forms.TextBox();
-            this.TxtDate = new System.Windows.Forms.TextBox();
             this.LblTodayDate = new System.Windows.Forms.Label();
             this.LblDate = new System.Windows.Forms.Label();
             this.ChkToday = new System.Windows.Forms.CheckBox();
+            this.BtnCancel = new System.Windows.Forms.Button();
+            this.MskTxtDate = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtProduct)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -353,7 +354,7 @@
             // 
             // BtnConfirm
             // 
-            this.BtnConfirm.Location = new System.Drawing.Point(316, 468);
+            this.BtnConfirm.Location = new System.Drawing.Point(316, 474);
             this.BtnConfirm.Name = "BtnConfirm";
             this.BtnConfirm.Size = new System.Drawing.Size(228, 38);
             this.BtnConfirm.TabIndex = 59;
@@ -398,19 +399,10 @@
             this.TxtAmountChanged.Size = new System.Drawing.Size(73, 20);
             this.TxtAmountChanged.TabIndex = 59;
             // 
-            // TxtDate
-            // 
-            this.TxtDate.Location = new System.Drawing.Point(460, 448);
-            this.TxtDate.Name = "TxtDate";
-            this.TxtDate.ReadOnly = true;
-            this.TxtDate.Size = new System.Drawing.Size(80, 20);
-            this.TxtDate.TabIndex = 61;
-            this.TxtDate.TextChanged += new System.EventHandler(this.TxtDate_TextChanged);
-            // 
             // LblTodayDate
             // 
             this.LblTodayDate.AutoSize = true;
-            this.LblTodayDate.Location = new System.Drawing.Point(334, 425);
+            this.LblTodayDate.Location = new System.Drawing.Point(303, 455);
             this.LblTodayDate.Name = "LblTodayDate";
             this.LblTodayDate.Size = new System.Drawing.Size(120, 13);
             this.LblTodayDate.TabIndex = 62;
@@ -419,18 +411,19 @@
             // LblDate
             // 
             this.LblDate.AutoSize = true;
-            this.LblDate.Location = new System.Drawing.Point(292, 452);
+            this.LblDate.Location = new System.Drawing.Point(352, 432);
             this.LblDate.Name = "LblDate";
-            this.LblDate.Size = new System.Drawing.Size(162, 13);
+            this.LblDate.Size = new System.Drawing.Size(70, 13);
             this.LblDate.TabIndex = 64;
-            this.LblDate.Text = "Digite a data (somente numeros):";
+            this.LblDate.Text = "Digite a data:";
+            this.LblDate.Visible = false;
             // 
             // ChkToday
             // 
             this.ChkToday.AutoSize = true;
             this.ChkToday.Checked = true;
             this.ChkToday.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkToday.Location = new System.Drawing.Point(460, 425);
+            this.ChkToday.Location = new System.Drawing.Point(429, 455);
             this.ChkToday.Name = "ChkToday";
             this.ChkToday.Size = new System.Drawing.Size(87, 17);
             this.ChkToday.TabIndex = 65;
@@ -438,15 +431,36 @@
             this.ChkToday.UseVisualStyleBackColor = true;
             this.ChkToday.CheckedChanged += new System.EventHandler(this.ChkToday_CheckedChanged);
             // 
+            // BtnCancel
+            // 
+            this.BtnCancel.Location = new System.Drawing.Point(316, 518);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(228, 38);
+            this.BtnCancel.TabIndex = 66;
+            this.BtnCancel.Text = "Cancelar";
+            this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
+            // MskTxtDate
+            // 
+            this.MskTxtDate.Location = new System.Drawing.Point(428, 429);
+            this.MskTxtDate.Mask = "00/00/0000";
+            this.MskTxtDate.Name = "MskTxtDate";
+            this.MskTxtDate.ReadOnly = true;
+            this.MskTxtDate.Size = new System.Drawing.Size(88, 20);
+            this.MskTxtDate.TabIndex = 67;
+            this.MskTxtDate.ValidatingType = typeof(System.DateTime);
+            // 
             // SupplyMovementMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 508);
+            this.ClientSize = new System.Drawing.Size(858, 567);
+            this.Controls.Add(this.MskTxtDate);
+            this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.ChkToday);
             this.Controls.Add(this.LblDate);
             this.Controls.Add(this.LblTodayDate);
-            this.Controls.Add(this.TxtDate);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.BtnConfirm);
             this.Controls.Add(this.BtnSelectSupplier);
@@ -516,11 +530,12 @@
         private System.Windows.Forms.Button BtnSelectProducts;
         private System.Windows.Forms.Button BtnConfirm;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox TxtDate;
         private System.Windows.Forms.Label LblTodayDate;
         private System.Windows.Forms.Label LblDate;
         private System.Windows.Forms.CheckBox ChkToday;
         private System.Windows.Forms.Label LblAmountChanged;
         private System.Windows.Forms.TextBox TxtAmountChanged;
+        private System.Windows.Forms.Button BtnCancel;
+        private System.Windows.Forms.MaskedTextBox MskTxtDate;
     }
 }

@@ -56,9 +56,8 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                Product product = CreateNewProductOBJ();
-                SaveProduct(product);
-                FillDataGridView(TxtSearch.Text, true);
+                if (SaveProduct())
+                    FillDataGridView(TxtSearch.Text, true);
             }
             catch (Exception ex)
             {
@@ -90,20 +89,23 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void SaveProduct(Product product)
+        private bool SaveProduct()
         {
+            Product product = CreateNewProductObj();
+
             if (_controller.ValidateProduct(product).Count <= 0)
             {
                 if (_controller.AddProduct(product))
                 {
                     MessageBox.Show("Produto salvo com sucesso!");
                 }
+                return true;
             }
             else
             {
                 throw new ArgumentException(
                     "Preencha os campos a seguir antes de continuar: "
-                        + string.Join(", ", _controller.ValidateProduct(_product))
+                        + string.Join(", ", _controller.ValidateProduct(product))
                 );
             }
         }
@@ -176,13 +178,9 @@ namespace Gerenciador_de_estoque.src.UI
             BtnCancel.Enabled = !isEnabled;
         }
 
-        private Product CreateNewProductOBJ()
+        private Product CreateNewProductObj()
         {
-            if (!int.TryParse(TxtAmount.Text, out int quantidade))
-            {
-                MessageBox.Show("Quantidade inválida");
-                return null;
-            }
+            int.TryParse(TxtAmount.Text, out int quantidade);
 
             Product product = new Product()
             {
@@ -190,6 +188,9 @@ namespace Gerenciador_de_estoque.src.UI
                 AvailableAmount = quantidade,
                 Description = TxtDescription.Text
             };
+
+            if (_product.Id > 0)
+                product.Id = _product.Id;
 
             return product;
         }

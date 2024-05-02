@@ -85,8 +85,6 @@ namespace Gerenciador_de_estoque.src.Controllers
                 emptyFields.Add("Cidade");
             if (string.IsNullOrEmpty(supplier.State))
                 emptyFields.Add("Estado");
-            if (string.IsNullOrEmpty(supplier.CEP))
-                emptyFields.Add("CEP");
 
             return emptyFields;
         }

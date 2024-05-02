@@ -42,9 +42,7 @@
             this.TxtCity = new System.Windows.Forms.TextBox();
             this.LblState = new System.Windows.Forms.Label();
             this.LblCEP = new System.Windows.Forms.Label();
-            this.TxtCEP = new System.Windows.Forms.TextBox();
             this.LblPhone = new System.Windows.Forms.Label();
-            this.TxtPhone = new System.Windows.Forms.TextBox();
             this.LblEmail = new System.Windows.Forms.Label();
             this.TxtEmail = new System.Windows.Forms.TextBox();
             this.CmbStates = new System.Windows.Forms.ComboBox();
@@ -57,6 +55,8 @@
             this.LblSearch = new System.Windows.Forms.Label();
             this.TxtSearch = new System.Windows.Forms.TextBox();
             this.BtnSelect = new System.Windows.Forms.Button();
+            this.MskTxtPhone = new System.Windows.Forms.MaskedTextBox();
+            this.MskTxtCEP = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.DtSupplier)).BeginInit();
             this.SuspendLayout();
             // 
@@ -160,7 +160,7 @@
             // LblState
             // 
             this.LblState.AutoSize = true;
-            this.LblState.Location = new System.Drawing.Point(176, 185);
+            this.LblState.Location = new System.Drawing.Point(189, 186);
             this.LblState.Name = "LblState";
             this.LblState.Size = new System.Drawing.Size(40, 13);
             this.LblState.TabIndex = 22;
@@ -175,30 +175,14 @@
             this.LblCEP.TabIndex = 24;
             this.LblCEP.Text = "CEP";
             // 
-            // TxtCEP
-            // 
-            this.TxtCEP.Location = new System.Drawing.Point(26, 260);
-            this.TxtCEP.Name = "TxtCEP";
-            this.TxtCEP.Size = new System.Drawing.Size(140, 20);
-            this.TxtCEP.TabIndex = 23;
-            this.TxtCEP.TextChanged += new System.EventHandler(this.TxtCEP_TextChanged);
-            // 
             // LblPhone
             // 
             this.LblPhone.AutoSize = true;
             this.LblPhone.Location = new System.Drawing.Point(189, 244);
             this.LblPhone.Name = "LblPhone";
-            this.LblPhone.Size = new System.Drawing.Size(49, 13);
+            this.LblPhone.Size = new System.Drawing.Size(68, 13);
             this.LblPhone.TabIndex = 26;
-            this.LblPhone.Text = "Telefone";
-            // 
-            // TxtPhone
-            // 
-            this.TxtPhone.Location = new System.Drawing.Point(192, 260);
-            this.TxtPhone.Name = "TxtPhone";
-            this.TxtPhone.Size = new System.Drawing.Size(134, 20);
-            this.TxtPhone.TabIndex = 25;
-            this.TxtPhone.TextChanged += new System.EventHandler(this.TxtPhone_TextChanged);
+            this.LblPhone.Text = "Telefone fixo";
             // 
             // LblEmail
             // 
@@ -220,7 +204,7 @@
             // 
             this.CmbStates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbStates.FormattingEnabled = true;
-            this.CmbStates.Location = new System.Drawing.Point(179, 199);
+            this.CmbStates.Location = new System.Drawing.Point(192, 200);
             this.CmbStates.Name = "CmbStates";
             this.CmbStates.Size = new System.Drawing.Size(124, 21);
             this.CmbStates.TabIndex = 29;
@@ -320,11 +304,29 @@
             this.BtnSelect.UseVisualStyleBackColor = true;
             this.BtnSelect.Click += new System.EventHandler(this.BtnSelect_Click);
             // 
+            // MskTxtPhone
+            // 
+            this.MskTxtPhone.Location = new System.Drawing.Point(192, 260);
+            this.MskTxtPhone.Mask = "(99) 0000-0000";
+            this.MskTxtPhone.Name = "MskTxtPhone";
+            this.MskTxtPhone.Size = new System.Drawing.Size(100, 20);
+            this.MskTxtPhone.TabIndex = 65;
+            // 
+            // MskTxtCEP
+            // 
+            this.MskTxtCEP.Location = new System.Drawing.Point(26, 260);
+            this.MskTxtCEP.Mask = "000000-000";
+            this.MskTxtCEP.Name = "MskTxtCEP";
+            this.MskTxtCEP.Size = new System.Drawing.Size(140, 20);
+            this.MskTxtCEP.TabIndex = 66;
+            // 
             // SupplierMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.MskTxtCEP);
+            this.Controls.Add(this.MskTxtPhone);
             this.Controls.Add(this.BtnSelect);
             this.Controls.Add(this.LblSearch);
             this.Controls.Add(this.TxtSearch);
@@ -338,9 +340,7 @@
             this.Controls.Add(this.LblEmail);
             this.Controls.Add(this.TxtEmail);
             this.Controls.Add(this.LblPhone);
-            this.Controls.Add(this.TxtPhone);
             this.Controls.Add(this.LblCEP);
-            this.Controls.Add(this.TxtCEP);
             this.Controls.Add(this.LblState);
             this.Controls.Add(this.LblCity);
             this.Controls.Add(this.TxtCity);
@@ -379,9 +379,7 @@
         private System.Windows.Forms.TextBox TxtCity;
         private System.Windows.Forms.Label LblState;
         private System.Windows.Forms.Label LblCEP;
-        private System.Windows.Forms.TextBox TxtCEP;
         private System.Windows.Forms.Label LblPhone;
-        private System.Windows.Forms.TextBox TxtPhone;
         private System.Windows.Forms.Label LblEmail;
         private System.Windows.Forms.TextBox TxtEmail;
         private System.Windows.Forms.ComboBox CmbStates;
@@ -394,5 +392,7 @@
         private System.Windows.Forms.Label LblSearch;
         private System.Windows.Forms.TextBox TxtSearch;
         private System.Windows.Forms.Button BtnSelect;
+        private System.Windows.Forms.MaskedTextBox MskTxtPhone;
+        private System.Windows.Forms.MaskedTextBox MskTxtCEP;
     }
 }

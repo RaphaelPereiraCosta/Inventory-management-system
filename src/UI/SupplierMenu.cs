@@ -23,7 +23,6 @@ namespace Gerenciador_de_estoque.src.UI
             {
                 _suppliers = new List<Supplier>();
                 _supplier = new Supplier();
-
                 _controller = new SupplierController();
                 _utils = new Utils();
                 _isSelecting = isSelecting;
@@ -58,16 +57,9 @@ namespace Gerenciador_de_estoque.src.UI
             FillDataGridView(TxtSearch.Text, false);
         }
 
-        private void TxtName_TextChanged(object sender, EventArgs e) { }
-
-        private void TxtPhone_TextChanged(object sender, EventArgs e)
+        private void TxtCEP_Leave(object sender, EventArgs e)
         {
-            TxtPhone.Text = _utils.FormatPhone(TxtPhone.Text);
-        }
-
-        private void TxtCEP_TextChanged(object sender, EventArgs e)
-        {
-            TxtCEP.Text = _utils.FormatCEP(TxtCEP.Text);
+            MskTxtCEP.Text = _utils.FormatCEP(MskTxtCEP.Text);
         }
 
         private void TxtNumber_TextChanged(object sender, EventArgs e)
@@ -90,9 +82,8 @@ namespace Gerenciador_de_estoque.src.UI
         {
             try
             {
-                UpdateSupplierObj();
-                SaveSupplier();
-                FillDataGridView(TxtSearch.Text, true);
+                if (SaveSupplier())
+                    FillDataGridView(TxtSearch.Text, true);
             }
             catch (Exception ex)
             {
@@ -137,20 +128,28 @@ namespace Gerenciador_de_estoque.src.UI
             HandleFields(_isSelecting, true);
         }
 
-        private void SaveSupplier()
+        private bool SaveSupplier()
         {
-            if (_controller.ValidateSupplier(_supplier).Count <= 0)
+            if (!VerifyLength())
+                return false;
+
+            Supplier supplier = CreateNewSupplierObj();
+
+            var validationErrors = _controller.ValidateSupplier(supplier);
+            if (validationErrors.Count <= 0)
             {
-                if (_controller.AddSupplier(_supplier))
+                if (_controller.AddSupplier(supplier))
                 {
                     MessageBox.Show("Fornecedor salvo com sucesso!");
                 }
+
+                return true;
             }
             else
             {
                 throw new ArgumentException(
                     "Preencha os campos a seguir antes de continuar: "
-                        + string.Join(", ", _controller.ValidateSupplier(_supplier))
+                        + string.Join(", ", _controller.ValidateSupplier(supplier))
                 );
             }
         }
@@ -209,9 +208,9 @@ namespace Gerenciador_de_estoque.src.UI
         {
             TxtName.Text = _supplier.Name ?? "";
             TxtCity.Text = _supplier.City ?? "";
-            TxtCEP.Text = _supplier.CEP ?? "";
+            MskTxtCEP.Text = _supplier.CEP ?? "";
             TxtNeigh.Text = _supplier.Neighborhood ?? "";
-            TxtPhone.Text = _supplier.Phone ?? "";
+            MskTxtPhone.Text = _supplier.Phone ?? "";
             TxtStreet.Text = _supplier.Street ?? "";
             TxtEmail.Text = _supplier.Email ?? "";
             TxtNumber.Text = _supplier.Number ?? "";
@@ -227,9 +226,9 @@ namespace Gerenciador_de_estoque.src.UI
         {
             TxtName.ReadOnly = isReadOnly;
             TxtCity.ReadOnly = isReadOnly;
-            TxtCEP.ReadOnly = isReadOnly;
+            MskTxtCEP.ReadOnly = isReadOnly;
             TxtNeigh.ReadOnly = isReadOnly;
-            TxtPhone.ReadOnly = isReadOnly;
+            MskTxtPhone.ReadOnly = isReadOnly;
             TxtStreet.ReadOnly = isReadOnly;
             TxtEmail.ReadOnly = isReadOnly;
             TxtNumber.ReadOnly = isReadOnly;
@@ -271,23 +270,46 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void UpdateSupplierObj()
+        private Supplier CreateNewSupplierObj()
         {
-            _supplier.Name = TxtName.Text;
-            _supplier.City = TxtCity.Text;
-            _supplier.CEP = TxtCEP.Text;
-            _supplier.Neighborhood = TxtNeigh.Text;
-            _supplier.Phone = TxtPhone.Text;
-            _supplier.Street = TxtStreet.Text;
-            _supplier.Email = TxtEmail.Text;
-            _supplier.Number = TxtNumber.Text;
-            _supplier.Complement = TxtComplement.Text;
-            _supplier.State = CmbStates.SelectedItem?.ToString();
+            Supplier supplier = new Supplier
+            {
+                Name = TxtName.Text,
+                City = TxtCity.Text,
+                CEP = MskTxtCEP.Text,
+                Neighborhood = TxtNeigh.Text,
+                Phone = MskTxtPhone.Text,
+                Street = TxtStreet.Text,
+                Email = TxtEmail.Text,
+                Number = TxtNumber.Text,
+                Complement = TxtComplement.Text,
+                State = CmbStates.SelectedItem?.ToString()
+            };
+
+            if (_supplier.Id > 0)
+                supplier.Id = _supplier.Id;
+
+            return supplier;
         }
 
         private void CleanSupplier()
         {
             _supplier = new Supplier();
+        }
+
+        private bool VerifyLength()
+        {
+            if (
+                !_utils.VerifyLength(MskTxtPhone.Text, LblPhone.Text, 10)
+                || !_utils.VerifyLength(MskTxtCEP.Text, LblCEP.Text, 8)
+            )
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

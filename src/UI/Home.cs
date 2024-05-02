@@ -25,12 +25,11 @@ namespace Gerenciador_de_estoque
             _productMenu = new ProductMenu();
             _supplierMenu = new SupplierMenu(false);
             _supplyMovementMenu = new SupplyMovementMenu();
-            movement = new ProductMovement();
-            movements = new List<ProductMovement>();
-
             _utils = new Utils();
             _controller = new ProdMovController();
             _supplierController = new SupplierController();
+            movement = new ProductMovement();
+            movements = new List<ProductMovement>();
 
             InitializeComponent();
             InitializeForm();

@@ -24,7 +24,6 @@ namespace Gerenciador_de_estoque.src.UI
             _added = produtosSelecionados ?? new List<Product>();
             _controller = new ProductController();
             _utils = new Utils();
-
             _product = new Product();
             _products = new List<Product>();
 
@@ -205,20 +204,10 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void HandleFields()
         {
-            if (_product != null)
-            {
-                TxtName.Text = _product.Name;
-                TxtDescription.Text = _product.Description;
-                TxtAvaQuantity.Text = Convert.ToString(_product.AvailableAmount);
-                TxtMovQuant.Text = Convert.ToString(_product.AmountChange);
-            }
-            else
-            {
-                TxtName.Text = "";
-                TxtAvaQuantity.Text = "";
-                TxtMovQuant.Text = "";
-                TxtDescription.Text = "";
-            }
+            TxtName.Text = _product.Name ?? "";
+            TxtDescription.Text = _product.Description ?? "";
+            TxtAvaQuantity.Text = Convert.ToString(_product.AvailableAmount) ?? "";
+            TxtMovQuant.Text = Convert.ToString(_product.AmountChange) ?? "";
         }
 
         private void UpdateOrAddProductToList(Product productDTO)

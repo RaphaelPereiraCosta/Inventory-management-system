@@ -25,9 +25,7 @@ namespace Gerenciador_de_estoque.src.UI
             _fornecedor = new Supplier();
             _selectedProduct = new Product();
             _products = new List<Product>();
-
             _utils = new Utils();
-
             _controller = new ProdMovController();
 
             InitializeComponent();
@@ -38,15 +36,10 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void InitializeForm()
         {
-            TxtDate.Text = DateTime.Now.ToString("dd-MM-yyyy").ToString();
+            MskTxtDate.Text = DateTime.Now.ToString("dd-MM-yyyy").ToString();
             FillTypes();
 
             AddColumnsToProductList();
-        }
-
-        private void TxtDate_TextChanged(object sender, EventArgs e)
-        {
-            TxtDate.Text = _utils.FormatDate(TxtDate.Text);
         }
 
         private void CmbType_SelectedIndexChanged(object sender, EventArgs e)
@@ -58,15 +51,15 @@ namespace Gerenciador_de_estoque.src.UI
         {
             if (ChkToday.Checked)
             {
-                TxtDate.ReadOnly = true;
+                MskTxtDate.ReadOnly = true;
                 LblDate.Visible = false;
-                TxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                MskTxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             }
             else
             {
                 LblDate.Visible = true;
-                TxtDate.ReadOnly = false;
-                TxtDate.Text = "";
+                MskTxtDate.ReadOnly = false;
+                MskTxtDate.Text = "";
             }
         }
 
@@ -94,7 +87,12 @@ namespace Gerenciador_de_estoque.src.UI
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            ProductMovement movement = CreateNewMovementOBJ();
+            SaveMovement();
+        }
+
+        private void SaveMovement()
+        {
+            ProductMovement movement = CreateNewMovementObj();
             _controller.AddProductMovement(movement);
             Close();
         }
@@ -129,19 +127,12 @@ namespace Gerenciador_de_estoque.src.UI
             try
             {
                 _selectedProduct = _utils.SelectRowProduct(DtProduct);
-                if (
-                    int.TryParse(
-                        DtProduct.CurrentRow.Cells["AmountChange"].Value.ToString(),
-                        out int amountChange
-                    )
-                )
-                {
-                    _selectedProduct.AmountChange = amountChange;
-                }
-                else
-                {
-                    _selectedProduct.AmountChange = 0;
-                }
+                int rowIndex = DtProduct.CurrentRow.Index;
+                _selectedProduct.AmountChange = _utils.GetIntValueFromCell(
+                    DtProduct,
+                    rowIndex,
+                    "AmountChange"
+                );
 
                 HandleFields(_selectedProduct);
             }
@@ -154,7 +145,7 @@ namespace Gerenciador_de_estoque.src.UI
         private void AddColumnsToProductList()
         {
             _utils.AddProductColumns(DtProduct);
-            DtProduct.Columns.Add("AmountChange", CmbType.Text == "Entrada" ? "Entrada" : "Saída");
+            DtProduct.Columns.Add("AmountChange", "Entrada");
         }
 
         private void UpdateProdList(List<Product> productList)
@@ -237,18 +228,21 @@ namespace Gerenciador_de_estoque.src.UI
 
                 BtnConfirm.Text = "Confirmar " + CmbType.Text;
 
+                if (DtProduct.Columns.Contains("AmountChange"))
+                    DtProduct.Columns["AmountChange"].HeaderText = CmbType.Text;
+
                 CreateNewProductSelect(movement, _products);
             }
         }
 
-        private ProductMovement CreateNewMovementOBJ()
+        private ProductMovement CreateNewMovementObj()
         {
             ProductMovement movement = new ProductMovement
             {
                 Supplier = new Supplier() { Id = _fornecedor.Id },
                 Type = CmbType.Text,
                 ProductsList = _products,
-                Date = TxtDate.Text
+                Date = MskTxtDate.Text
             };
             return movement;
         }
@@ -265,6 +259,11 @@ namespace Gerenciador_de_estoque.src.UI
             TxtNumber.Text = fornecedor.Number ?? "";
             TxtComplement.Text = fornecedor.Complement ?? "";
             TxtState.Text = fornecedor.State ?? "";
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

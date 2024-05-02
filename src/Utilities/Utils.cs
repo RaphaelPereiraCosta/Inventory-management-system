@@ -90,31 +90,13 @@ namespace Gerenciador_de_estoque.src.Utilities
             return years;
         }
 
-        public string ValidateNumber(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return text;
-            }
-
-            bool isNumber = int.TryParse(text, out int number);
-
-            if (!isNumber || number < 0)
-            {
-                MessageBox.Show("Por favor, insira um número maior ou igual a zero");
-                text = "";
-            }
-
-            return text;
-        }
-
         public DataGridView AddProductColumns(DataGridView table)
         {
             try
             {
                 table.Columns.Clear();
-                table.Columns.Add("IdProduct", "Id");
-                table.Columns["IdProduct"].Visible = false;
+                table.Columns.Add("Id", "Id");
+                table.Columns["Id"].Visible = false;
                 table.Columns.Add("Name", "Nome do Produto");
                 table.Columns.Add("AvaliableAmount", "Quantidade em Estoque");
                 table.Columns.Add("Description", "Descrição");
@@ -193,28 +175,10 @@ namespace Gerenciador_de_estoque.src.Utilities
                 {
                     int index = table.CurrentRow.Index;
 
-                    if (
-                        int.TryParse(
-                            table.Rows[index].Cells["IdProduct"].Value.ToString(),
-                            out int id
-                        )
-                    )
-                    {
-                        product.Id = id;
-                    }
-
-                    product.Name = table.Rows[index].Cells["Name"].Value as string;
-                    product.Description = table.Rows[index].Cells["Description"].Value as string;
-
-                    if (
-                        int.TryParse(
-                            table.Rows[index].Cells["AvaliableAmount"].Value.ToString(),
-                            out int availableAmount
-                        )
-                    )
-                    {
-                        product.AvailableAmount = availableAmount;
-                    }
+                    product.Id = GetIntValueFromCell(table, index, "Id");
+                    product.Name = GetStringValueFromCell(table, index, "Name");
+                    product.Description = GetStringValueFromCell(table, index, "Description");
+                    product.AvailableAmount = GetIntValueFromCell(table, index, "AvaliableAmount");
                 }
 
                 return product;
@@ -235,24 +199,17 @@ namespace Gerenciador_de_estoque.src.Utilities
                 {
                     int index = table.CurrentRow.Index;
 
-                    if (int.TryParse(table.Rows[index].Cells["Id"].Value.ToString(), out int id))
-                    {
-                        supplier.Id = id;
-                    }
-
-                    supplier.Name = table.Rows[index].Cells["Name"].Value.ToString();
-                    supplier.City = table.Rows[index].Cells["City"].Value.ToString();
-                    supplier.CEP = table.Rows[index].Cells["CEP"].Value.ToString();
-                    supplier.Neighborhood = table
-                        .Rows[index]
-                        .Cells["Neighborhood"]
-                        .Value.ToString();
-                    supplier.Phone = table.Rows[index].Cells["Phone"].Value.ToString();
-                    supplier.Street = table.Rows[index].Cells["Street"].Value.ToString();
-                    supplier.Email = table.Rows[index].Cells["Email"].Value.ToString();
-                    supplier.Number = table.Rows[index].Cells["Number"].Value.ToString();
-                    supplier.Complement = table.Rows[index].Cells["Complement"].Value.ToString();
-                    supplier.State = table.Rows[index].Cells["State"].Value.ToString();
+                    supplier.Id = GetIntValueFromCell(table, index, "Id");
+                    supplier.Name = GetStringValueFromCell(table, index, "Name");
+                    supplier.City = GetStringValueFromCell(table, index, "City");
+                    supplier.CEP = GetStringValueFromCell(table, index, "CEP");
+                    supplier.Neighborhood = GetStringValueFromCell(table, index, "Neighborhood");
+                    supplier.Phone = GetStringValueFromCell(table, index, "Phone");
+                    supplier.Street = GetStringValueFromCell(table, index, "Street");
+                    supplier.Email = GetStringValueFromCell(table, index, "Email");
+                    supplier.Number = GetStringValueFromCell(table, index, "Number");
+                    supplier.Complement = GetStringValueFromCell(table, index, "Complement");
+                    supplier.State = GetStringValueFromCell(table, index, "State");
                 }
 
                 return supplier;
@@ -282,13 +239,13 @@ namespace Gerenciador_de_estoque.src.Utilities
                 SupplierController supplierController = new SupplierController();
                 movement.Supplier = supplierController.GetOneSupplier(supplierId);
                 movement.Supplier.Id = supplierId;
-                movement.Supplier.Name = table.Rows[index].Cells["SupplierName"].Value as string;
+                movement.Supplier.Name = GetStringValueFromCell(table, index, "SupplierName");
 
                 ProductController productController = new ProductController();
                 movement.ProductsList = productController.GatherProductsByMovementId(movement.Id);
 
-                movement.Type = table.Rows[index].Cells["Type"].Value as string;
-                movement.Date = table.Rows[index].Cells["Date"].Value.ToString();
+                movement.Type = GetStringValueFromCell(table, index, "Type");
+                movement.Date = GetStringValueFromCell(table, index, "Date");
 
                 return movement;
             }
@@ -299,7 +256,7 @@ namespace Gerenciador_de_estoque.src.Utilities
             }
         }
 
-        private int GetIntValueFromCell(DataGridView table, int rowIndex, string columnName)
+        public int GetIntValueFromCell(DataGridView table, int rowIndex, string columnName)
         {
             if (
                 int.TryParse(table.Rows[rowIndex].Cells[columnName].Value.ToString(), out int value)
@@ -308,6 +265,11 @@ namespace Gerenciador_de_estoque.src.Utilities
                 return value;
             }
             return 0;
+        }
+
+        public string GetStringValueFromCell(DataGridView table, int rowIndex, string columnName)
+        {
+            return table.Rows[rowIndex].Cells[columnName].Value.ToString();
         }
 
         public List<Product> FilterProductList(List<Product> sourceList, string name)
@@ -416,17 +378,40 @@ namespace Gerenciador_de_estoque.src.Utilities
             return filtered;
         }
 
+        public string ValidateNumber(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            bool isNumber = int.TryParse(text, out int number);
+
+            if (!isNumber || number < 0)
+            {
+                MessageBox.Show("Por favor, insira um número maior ou igual a zero");
+                text = "";
+            }
+
+            return text;
+        }
+
         public string FormatPhone(string text)
         {
             try
             {
-                text = new string(text.Where(char.IsDigit).ToArray());
+                text = RemoveNonDigits(text);
 
-                if (text.Length > 10)
-                    text = text.Substring(0, 10);
+                text = GetSubstring(text, 10);
 
                 if (text.Length == 10)
-                    text = text.Insert(0, "(").Insert(3, ")").Insert(8, "-");
+                {
+                    if (text[2] != ')')
+                        text = text.Insert(0, "(").Insert(3, ")");
+
+                    if (text[6] != '-')
+                        text = text.Insert(6, "-");
+                }
 
                 return text;
             }
@@ -442,12 +427,11 @@ namespace Gerenciador_de_estoque.src.Utilities
         {
             try
             {
-                text = new string(text.Where(char.IsDigit).ToArray());
+                text = RemoveNonDigits(text);
 
-                if (text.Length > 8)
-                    text = text.Substring(0, 8);
+                text = GetSubstring(text, 8);
 
-                if (text.Length == 8 && !text.Contains("-"))
+                if (text.Length == 8 && text[5] != '-')
                     text = text.Insert(5, "-");
 
                 return text;
@@ -463,15 +447,17 @@ namespace Gerenciador_de_estoque.src.Utilities
         {
             try
             {
-                text = new string(text.Where(char.IsDigit).ToArray());
+                text = RemoveNonDigits(text);
 
-                if (text.Length > 8)
-                    text = text.Substring(0, 8);
+                text = GetSubstring(text, 8);
 
-                if (text.Length == 8 && text[2] != '/' && text[5] != '/')
+                if (text.Length == 8)
                 {
-                    text = text.Insert(2, "/");
-                    text = text.Insert(5, "/");
+                    if (text[2] != '/')
+                        text = text.Insert(2, "/");
+
+                    if (text[5] != '/')
+                        text = text.Insert(5, "/");
                 }
 
                 return text;
@@ -481,6 +467,37 @@ namespace Gerenciador_de_estoque.src.Utilities
                 MessageBox.Show($"Erro ao formatar a data: {ex.Message}");
                 return text;
             }
+        }
+
+        public string RemoveNonDigits(string text)
+        {
+            return new string(text.Where(char.IsDigit).ToArray());
+        }
+
+        public string GetSubstring(string text, int digits)
+        {
+            if (text.Length > digits)
+                text = text.Substring(0, digits);
+
+            return text;
+        }
+
+        public bool VerifyLength(string text, string field, int digits)
+        {
+            text = RemoveNonDigits(text);
+
+            if (text.Length < digits && text.Length > 0)
+            {
+                MessageBox.Show(
+                    "O "
+                        + field
+                        + " parece estar incompleto. Por favor, complete ou apague o conteúdo do campo.",
+                    "Aviso",
+                    MessageBoxButtons.OK
+                );
+                return false;
+            }
+            return true;
         }
     }
 }
