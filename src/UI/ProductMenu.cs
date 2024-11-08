@@ -9,11 +9,13 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class ProductMenu : Form
     {
+        // Fields for product data and controllers
         private Product _product;
         private List<Product> _products;
         private readonly ProductController _controller;
         private readonly Utils _utils;
 
+        // Constructor initializes controller, utils, and components
         public ProductMenu()
         {
             _controller = new ProductController();
@@ -24,6 +26,7 @@ namespace Gerenciador_de_estoque.src.UI
             InitializeForm();
         }
 
+        // Initializes the form by setting up columns and loading data
         private void InitializeForm()
         {
             AddColumns();
@@ -31,28 +34,69 @@ namespace Gerenciador_de_estoque.src.UI
             HandleFields(true);
         }
 
+        // Event handler for text change in search box
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             FillDataGridView(TxtSearch.Text, false);
         }
 
+        // Event handler for text change in the amount text box, validating input
         private void TxtAmount_TextChanged(object sender, EventArgs e)
         {
-            TxtAmount.Text = _utils.ValidateNumber(TxtAmount.Text);
+            ValidateAmount();
         }
 
+        // Event handler for product table selection change
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
             SelectRow();
         }
 
+        // Event handler for creating a new product entry
         private void BtnNew_Click(object sender, EventArgs e)
+        {
+            PrepareForNew();
+        }
+
+        // Event handler for saving product data
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            SavingProd();
+        }
+
+        // Event handler for enabling edit mode
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            HandleFields(false);
+        }
+
+        // Event handler for canceling edit or new entry
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            HandleFields(true);
+        }
+
+        // Event handler for closing the form
+        private void BtnGoBack_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        // Validates that the amount field contains a number
+        private void ValidateAmount()
+        {
+            TxtAmount.Text = _utils.ValidateNumber(TxtAmount.Text);
+        }
+
+        // Prepares form for entering a new product
+        private void PrepareForNew()
         {
             CleanProduct();
             HandleFields(false);
         }
 
-        private void BtnSave_Click(object sender, EventArgs e)
+        // Handles the saving of a product, including error handling
+        private void SavingProd()
         {
             try
             {
@@ -65,21 +109,7 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
-        private void BtnEdit_Click(object sender, EventArgs e)
-        {
-            HandleFields(false);
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            HandleFields(true);
-        }
-
-        private void BtnGoBack_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
+        // Selects a row in the product table
         public void SelectRow()
         {
             if (DtProduct.SelectedRows.Count > 0)
@@ -89,10 +119,12 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        // Saves a new or edited product
         private bool SaveProduct()
         {
             Product product = CreateNewProductObj();
 
+            // Validates the product and attempts to save it
             if (_controller.ValidateProduct(product).Count <= 0)
             {
                 if (_controller.AddProduct(product))
@@ -110,11 +142,13 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        // Adds columns to the product table for display
         private void AddColumns()
         {
             _utils.AddProductColumns(DtProduct);
         }
 
+        // Fills the data grid view with filtered product data
         private void FillDataGridView(string name, bool dbchange)
         {
             GatherProducts(dbchange);
@@ -122,6 +156,7 @@ namespace Gerenciador_de_estoque.src.UI
             FillProductTable(filtered);
         }
 
+        // Populates the product table with data
         private void FillProductTable(List<Product> list)
         {
             DtProduct.Rows.Clear();
@@ -136,17 +171,20 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        // Retrieves products from the database if necessary
         private void GatherProducts(bool dbchange)
         {
             if (_products.Count <= 0 || dbchange)
                 _products = _controller.GatherProducts();
         }
 
+        // Filters products based on the search criteria
         private List<Product> FilterProducts(string name)
         {
             return _utils.FilterProductList(_products, name);
         }
 
+        // Handles enabling/disabling fields and buttons based on context
         private void HandleFields(bool isReadOnly)
         {
             TxtName.Text = _product.Name ?? "";
@@ -154,10 +192,10 @@ namespace Gerenciador_de_estoque.src.UI
             TxtDescription.Text = _product.Description ?? "";
 
             UpdateButtons(isReadOnly);
-
             SetFieldReadOnlyStatus(isReadOnly);
         }
 
+        // Sets fields to be read-only or editable
         private void SetFieldReadOnlyStatus(bool isReadOnly)
         {
             TxtName.ReadOnly = isReadOnly;
@@ -165,6 +203,7 @@ namespace Gerenciador_de_estoque.src.UI
             TxtDescription.ReadOnly = isReadOnly;
         }
 
+        // Updates button visibility and enablement based on the form state
         private void UpdateButtons(bool isEnabled)
         {
             BtnNew.Visible = isEnabled;
@@ -178,6 +217,7 @@ namespace Gerenciador_de_estoque.src.UI
             BtnCancel.Enabled = !isEnabled;
         }
 
+        // Creates a new product object from the input fields
         private Product CreateNewProductObj()
         {
             int.TryParse(TxtAmount.Text, out int quantidade);
@@ -195,6 +235,7 @@ namespace Gerenciador_de_estoque.src.UI
             return product;
         }
 
+        // Clears the current product data
         private void CleanProduct()
         {
             _product = new Product();

@@ -44,3 +44,4 @@ C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerencia
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.src.UI.ProductMenu.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerenciador_de_estoque.src.UI.SupplierMenu.resources
 C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\obj\Debug\Gerencia.45971E3B.Up2Date
+C:\Users\Teste\Desktop\pastas\projetos\Gerenciador de estoque\bin\Debug\System.Configuration.ConfigurationManager.xml

@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Gerenciador_de_estoque.src.Connection;
 using Gerenciador_de_estoque.src.Models;
 using MySql.Data.MySqlClient;
 
 namespace Gerenciador_de_estoque.src.Repositories
 {
-    internal class ProdMovRepository
+    public class ProdMovRepository
     {
-        readonly DbConnect _connection;
+        // Database connection object
+        private readonly DbConnect _connection;
 
-        public ProdMovRepository()
+        // Constructor to initialize the database connection
+        public ProdMovRepository(DbConnect connect)
         {
-            _connection = new DbConnect();
+            _connection = connect;
         }
 
+        // Method to retrieve all product movements from the database
         public List<ProductMovement> GatherMovement()
         {
             var movements = new List<ProductMovement>();
@@ -28,8 +30,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     using (var command = new MySqlCommand())
                     {
                         command.Connection = connectDb;
-                        command.CommandText =
-                            "SELECT *, DATE_FORMAT(Date, '%d/%m/%Y') AS FormattedDate FROM movement";
+                        command.CommandText = "SELECT Id, Supplier_Id, movement_type_Id, Date FROM movement";
 
                         using (var reader = command.ExecuteReader())
                         {
@@ -42,8 +43,11 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     {
                                         Id = Convert.ToInt32(reader["Supplier_Id"])
                                     },
-                                    Type = Convert.ToString(reader["Type"]),
-                                    Date = Convert.ToString(reader["FormattedDate"])
+                                    Type = new MovementType
+                                    {
+                                        Id = Convert.ToInt32(reader["movement_type_Id"])
+                                    },
+                                    Date = Convert.ToDateTime(reader["Date"]).ToString("dd/MM/yyyy")
                                 };
 
                                 movements.Add(movement);
@@ -54,16 +58,12 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Erro ao obter movimentos de produto: {ex.Message}",
-                    "Erro",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                throw new InvalidOperationException($"Error retrieving product movements: {ex.Message}", ex);
             }
             return movements;
         }
 
+        // Method to retrieve product movements by movement ID
         public List<ProductMovement> GetByMovementId(int idMovement)
         {
             var movements = new List<ProductMovement>();
@@ -76,8 +76,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                     using (var command = new MySqlCommand())
                     {
                         command.Connection = connectDb;
-                        command.CommandText =
-                            "SELECT *, DATE_FORMAT(Date, '%d/%m/%Y') AS FormattedDate FROM movement WHERE Id = @IdMovement";
+                        command.CommandText = "SELECT Id, Supplier_Id, movement_type_Id, Date FROM movement WHERE Id = @IdMovement";
                         command.Parameters.Add("@IdMovement", MySqlDbType.Int32).Value = idMovement;
 
                         using (var reader = command.ExecuteReader())
@@ -91,8 +90,11 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     {
                                         Id = Convert.ToInt32(reader["Supplier_Id"])
                                     },
-                                    Type = Convert.ToString(reader["Type"]),
-                                    Date = Convert.ToString(reader["FormattedDate"])
+                                    Type = new MovementType
+                                    {
+                                        Id = Convert.ToInt32(reader["movement_type_Id"])
+                                    },
+                                    Date = Convert.ToDateTime(reader["Date"]).ToString("dd/MM/yyyy")
                                 };
                                 movements.Add(movement);
                             }
@@ -102,18 +104,17 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Erro ao obter movimentos de produto: {ex.Message}",
-                    "Erro",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                throw new InvalidOperationException($"Error retrieving product movements by ID: {ex.Message}", ex);
             }
             return movements;
         }
 
+        // Method to add a new product movement to the database and return its ID
         public int AddMovement(ProductMovement productMovement)
         {
+            if (productMovement == null)
+                throw new ArgumentNullException(nameof(productMovement));
+
             int id = 0;
             try
             {
@@ -125,13 +126,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                     {
                         command.Connection = connectDb;
                         command.CommandText =
-                            "INSERT INTO movement (Type, Date, Supplier_Id) VALUES (@Type, STR_TO_DATE(@Date, '%d/%m/%Y'), @Supplier_ID); SELECT LAST_INSERT_ID();";
-                        command.Parameters.Add("@Type", MySqlDbType.VarChar).Value =
-                            productMovement.Type;
-                        command.Parameters.Add("@Date", MySqlDbType.VarChar).Value =
-                            productMovement.Date;
-                        command.Parameters.Add("@Supplier_ID", MySqlDbType.Int32).Value =
-                            productMovement.Supplier.Id;
+                            "INSERT INTO movement (movement_type_Id, Date, Supplier_Id) VALUES (@Type, STR_TO_DATE(@Date, '%d/%m/%Y'), @Supplier_Id); SELECT LAST_INSERT_ID();";
+                        command.Parameters.Add("@Type", MySqlDbType.Int32).Value = productMovement.Type.Id;
+                        command.Parameters.Add("@Date", MySqlDbType.VarChar).Value = productMovement.Date;
+                        command.Parameters.Add("@Supplier_Id", MySqlDbType.Int32).Value = productMovement.Supplier.Id;
 
                         id = Convert.ToInt32(command.ExecuteScalar());
                     }
@@ -139,12 +137,7 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Erro ao adicionar movimento de produto: {ex.Message}",
-                    "Erro",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                throw new InvalidOperationException($"Error adding product movement: {ex.Message}", ex);
             }
             return id;
         }

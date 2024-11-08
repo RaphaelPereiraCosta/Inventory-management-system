@@ -9,23 +9,24 @@ namespace Gerenciador_de_estoque.src.Repositories
 {
     public class SupplierRepository : IDisposable
     {
+        // Database connection object
         readonly DbConnect _connection;
 
-        public SupplierRepository()
+        // Constructor to initialize the database connection
+        public SupplierRepository(DbConnect connect)
         {
-            _connection = new DbConnect();
+            _connection = connect;
         }
 
+        // Method to retrieve all suppliers from the database
         public List<Supplier> GatherSuppliers()
         {
             var suppliers = new List<Supplier>();
-
-            string query;
-
-            query = "SELECT * FROM supplier";
+            var query = "SELECT * FROM supplier";
 
             try
             {
+                // Using the database connection to execute the query
                 using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
                     using (var command = new MySqlCommand(query, connectDb))
@@ -44,7 +45,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     Complement = reader.GetString("Complement"),
                                     Neighborhood = reader.GetString("Neighborhood"),
                                     City = reader.GetString("City"),
-                                    State = reader.GetString("State"),
+                                    state = new State
+                                    {
+                                        Id = reader.GetInt32("State_Id")
+                                    },
                                     CEP = reader.GetString("CEP"),
                                     Phone = reader.GetString("Phone"),
                                     Email = reader.GetString("Email")
@@ -58,19 +62,22 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao recuperar fornecedores: {ex.Message}");
+                // Display an error message if something goes wrong
+                MessageBox.Show($"Error retrieving suppliers: {ex.Message}");
             }
 
             return suppliers;
         }
 
+        // Method to retrieve a single supplier by its ID
         public Supplier GetOneSupplier(int id)
         {
             Supplier supplier = null;
-            var query = $"SELECT * FROM supplier WHERE Id = @id";
+            var query = "SELECT * FROM supplier WHERE Id = @id";
 
             try
             {
+                // Using the database connection to execute the query
                 using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
                     using (var command = new MySqlCommand(query, connectDb))
@@ -91,7 +98,10 @@ namespace Gerenciador_de_estoque.src.Repositories
                                     Complement = reader.GetString("Complement"),
                                     Neighborhood = reader.GetString("Neighborhood"),
                                     City = reader.GetString("City"),
-                                    State = reader.GetString("State"),
+                                    state = new State
+                                    {
+                                        Id = reader.GetInt32("State_Id")
+                                    },
                                     CEP = reader.GetString("CEP"),
                                     Phone = reader.GetString("Phone"),
                                     Email = reader.GetString("Email")
@@ -103,19 +113,22 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao recuperar fornecedor: {ex.Message}");
+                // Display an error message if something goes wrong
+                MessageBox.Show($"Error retrieving supplier: {ex.Message}");
             }
 
             return supplier;
         }
 
+        // Method to add a new supplier to the database
         public void AddSupplier(Supplier supplier)
         {
             var query =
-                "INSERT INTO supplier (Name, Street, Number, Complement, Neighborhood, City, State, CEP, Phone, Email) VALUES (@name, @street, @number, @complement, @neighborhood, @city, @estado, @cep, @phone, @email)";
+                "INSERT INTO supplier (Name, Street, Number, Complement, Neighborhood, City, State_Id, CEP, Phone, Email) VALUES (@name, @street, @number, @complement, @neighborhood, @city, @stateId, @cep, @phone, @email)";
 
             try
             {
+                // Using the database connection to execute the query
                 using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
                     using (var command = new MySqlCommand(query, connectDb))
@@ -126,7 +139,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                         command.Parameters.AddWithValue("@complement", supplier.Complement);
                         command.Parameters.AddWithValue("@neighborhood", supplier.Neighborhood);
                         command.Parameters.AddWithValue("@city", supplier.City);
-                        command.Parameters.AddWithValue("@state", supplier.State);
+                        command.Parameters.AddWithValue("@stateId", supplier.state.Id);
                         command.Parameters.AddWithValue("@cep", supplier.CEP);
                         command.Parameters.AddWithValue("@phone", supplier.Phone);
                         command.Parameters.AddWithValue("@email", supplier.Email);
@@ -138,17 +151,20 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao adicionar fornecedor: {ex.Message}");
+                // Display an error message if something goes wrong
+                MessageBox.Show($"Error adding supplier: {ex.Message}");
             }
         }
 
+        // Method to update an existing supplier's information in the database
         public void UpdateSupplier(Supplier supplier)
         {
             var query =
-                "UPDATE supplier SET Name = @name, Street = @street, Number = @number, Complement = @complement, Neighborhood = @neighborhood, City = @city, State = @state, CEP = @cep, Phone = @phone, Email = @email WHERE Id = @id";
+                "UPDATE supplier SET Name = @name, Street = @street, Number = @number, Complement = @complement, Neighborhood = @neighborhood, City = @city, State_Id = @stateId, CEP = @cep, Phone = @phone, Email = @email WHERE Id = @id";
 
             try
             {
+                // Using the database connection to execute the query
                 using (var connectDb = new MySqlConnection(_connection.conectDb.ConnectionString))
                 {
                     using (var command = new MySqlCommand(query, connectDb))
@@ -159,7 +175,7 @@ namespace Gerenciador_de_estoque.src.Repositories
                         command.Parameters.AddWithValue("@complement", supplier.Complement);
                         command.Parameters.AddWithValue("@neighborhood", supplier.Neighborhood);
                         command.Parameters.AddWithValue("@city", supplier.City);
-                        command.Parameters.AddWithValue("@state", supplier.State);
+                        command.Parameters.AddWithValue("@stateId", supplier.state.Id);
                         command.Parameters.AddWithValue("@cep", supplier.CEP);
                         command.Parameters.AddWithValue("@phone", supplier.Phone);
                         command.Parameters.AddWithValue("@email", supplier.Email);
@@ -172,19 +188,22 @@ namespace Gerenciador_de_estoque.src.Repositories
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao atualizar fornecedor: {ex.Message}");
+                // Display an error message if something goes wrong
+                MessageBox.Show($"Error updating supplier: {ex.Message}");
             }
         }
 
+        // Method to dispose the connection and clean up resources
         public void Dispose()
         {
             try
             {
-                _connection.desconectar();
+                _connection.Disconect();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao desconectar: {ex.Message}");
+                // Display an error message if something goes wrong
+                MessageBox.Show($"Error disconnecting: {ex.Message}");
             }
         }
     }

@@ -9,44 +9,6 @@ namespace Gerenciador_de_estoque.src.Utilities
 {
     public class Utils
     {
-        public List<string> ListStates()
-        {
-            string[] stateAbbreviations = new string[]
-            {
-                "AC",
-                "AL",
-                "AP",
-                "AM",
-                "BA",
-                "CE",
-                "DF",
-                "ES",
-                "GO",
-                "MA",
-                "MT",
-                "MS",
-                "MG",
-                "PA",
-                "PB",
-                "PR",
-                "PE",
-                "PI",
-                "RJ",
-                "RN",
-                "RS",
-                "RO",
-                "RR",
-                "SC",
-                "SP",
-                "SE",
-                "TO"
-            };
-
-            List<string> states = new List<string>();
-            states.AddRange(stateAbbreviations);
-            return states;
-        }
-
         public Dictionary<string, int> ListTypes()
         {
             Dictionary<string, int> types = new Dictionary<string, int>
@@ -119,7 +81,9 @@ namespace Gerenciador_de_estoque.src.Utilities
                 table.Columns.Add("SupplierId", "SId");
                 table.Columns["SupplierId"].Visible = false;
                 table.Columns.Add("SupplierName", "Nome do Fornecedor");
-                table.Columns.Add("Type", "Tipo");
+                table.Columns.Add("TypeId", "TId");
+                table.Columns["TypeId"].Visible = false;
+                table.Columns.Add("TypeName", "Tipo de Movimento");
                 table.Columns.Add("Date", "Data");
             }
             catch (Exception ex)
@@ -209,7 +173,7 @@ namespace Gerenciador_de_estoque.src.Utilities
                     supplier.Email = GetStringValueFromCell(table, index, "Email");
                     supplier.Number = GetStringValueFromCell(table, index, "Number");
                     supplier.Complement = GetStringValueFromCell(table, index, "Complement");
-                    supplier.State = GetStringValueFromCell(table, index, "State");
+                    supplier.state.Name = GetStringValueFromCell(table, index, "State") ?? "";
                 }
 
                 return supplier;
@@ -235,6 +199,7 @@ namespace Gerenciador_de_estoque.src.Utilities
             {
                 movement.Id = GetIntValueFromCell(table, index, "Id");
                 int supplierId = GetIntValueFromCell(table, index, "SupplierId");
+                int movementTypeId = GetIntValueFromCell(table, index, "TypeId");
 
                 SupplierController supplierController = new SupplierController();
                 movement.Supplier = supplierController.GetOneSupplier(supplierId);
@@ -244,7 +209,11 @@ namespace Gerenciador_de_estoque.src.Utilities
                 ProductController productController = new ProductController();
                 movement.ProductsList = productController.GatherProductsByMovementId(movement.Id);
 
-                movement.Type = GetStringValueFromCell(table, index, "Type");
+                MovementTypeController movementTypeController = new MovementTypeController();
+                movement.Type = movementTypeController.GetOneMovementType(movementTypeId);
+                movement.Type.Id = movementTypeId;
+                movement.Type.Name = GetStringValueFromCell(table, index, "TypeName")??"";
+                
                 movement.Date = GetStringValueFromCell(table, index, "Date");
 
                 return movement;
@@ -269,7 +238,7 @@ namespace Gerenciador_de_estoque.src.Utilities
 
         public string GetStringValueFromCell(DataGridView table, int rowIndex, string columnName)
         {
-            return table.Rows[rowIndex].Cells[columnName].Value.ToString();
+            return table.Rows[rowIndex].Cells[columnName].Value?.ToString();
         }
 
         public List<Product> FilterProductList(List<Product> sourceList, string name)
@@ -311,11 +280,11 @@ namespace Gerenciador_de_estoque.src.Utilities
             {
                 sourceList = FilterMovementListByName(sourceList, name);
             }
-            if (!string.IsNullOrEmpty(month) || month == "Mês")
+            if (!string.IsNullOrEmpty(month) && month != "Mês")
             {
                 sourceList = FilterMovementListByMonth(sourceList, month);
             }
-            if (!string.IsNullOrEmpty(year) || year == "Ano")
+            if (!string.IsNullOrEmpty(year) && year != "Ano")
             {
                 sourceList = FilterMovementListByYear(sourceList, year);
             }

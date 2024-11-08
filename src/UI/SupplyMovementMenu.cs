@@ -9,24 +9,26 @@ namespace Gerenciador_de_estoque.src.UI
 {
     public partial class SupplyMovementMenu : Form
     {
-        private Supplier _fornecedor;
+        private Supplier _supplier;
         private Product _selectedProduct;
         private List<Product> _products;
         private int movement;
         private readonly Utils _utils;
-
         private readonly ProdMovController _controller;
+        private readonly MovementTypeController _movementTypeController;
 
         private SupplierMenu _supplierMenu;
         private ProductSelect _productSelect;
 
+        // Constructor: Initializes the supply movement menu and its components.
         public SupplyMovementMenu()
         {
-            _fornecedor = new Supplier();
+            _supplier = new Supplier();
             _selectedProduct = new Product();
             _products = new List<Product>();
             _utils = new Utils();
             _controller = new ProdMovController();
+            _movementTypeController = new MovementTypeController();
 
             InitializeComponent();
             InitializeForm();
@@ -34,62 +36,89 @@ namespace Gerenciador_de_estoque.src.UI
             movement = CmbType.SelectedIndex;
         }
 
+        // Sets the initial values and configurations for the form.
         private void InitializeForm()
         {
             MskTxtDate.Text = DateTime.Now.ToString("dd-MM-yyyy").ToString();
             FillTypes();
-
             AddColumnsToProductList();
         }
 
+        // Handles the change in the combo box selection.
         private void CmbType_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetBehavior();
         }
 
+        // Manages the state of the date input based on checkbox status.
         private void ChkToday_CheckedChanged(object sender, EventArgs e)
         {
-            if (ChkToday.Checked)
-            {
-                MskTxtDate.ReadOnly = true;
-                LblDate.Visible = false;
-                MskTxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            }
-            else
-            {
-                LblDate.Visible = true;
-                MskTxtDate.ReadOnly = false;
-                MskTxtDate.Text = "";
-            }
+            HandleDateInput();
         }
 
+        // Updates the selected product based on the DataGridView selection.
         private void DtProduct_SelectionChanged(object sender, EventArgs e)
         {
             SelectRow();
-            HandleFields(_selectedProduct);
         }
 
+        // Opens the supplier selection menu.
         private void BtnSelectSupplier_Click(object sender, EventArgs e)
         {
-            if (_supplierMenu == null || _supplierMenu.IsDisposed)
-                CreateNewSupplierMenu(true);
-
-            ShowSupplierMenu();
+            OpenSupMenu();
         }
 
+        // Opens the product selection menu.
         private void BtnSelectProducts_Click(object sender, EventArgs e)
         {
-            if (_productSelect == null || _productSelect.IsDisposed)
-                CreateNewProductSelect(movement, _products);
-
-            ShowProductSelect();
+            OpenProdMenu();
         }
 
+        // Confirms and saves the movement data.
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
             SaveMovement();
         }
 
+        // Handles closure of the product selection form.
+        private void ProductSelect_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ProdSelectClosedEvent();
+        }
+
+        // Handles closure of the supplier menu form.
+        private void SupplierMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SupplierMenuClosedEvent();
+        }
+
+        // Invoked when a supplier is selected from the supplier menu.
+        private void SupplierSelectForm_SupplierSelected(Supplier supplier)
+        {
+            SupplierSelectedEvent(supplier);
+        }
+
+        // Invoked when products are selected from the product menu.
+        private void ProductSelectForm_ProductSelected(List<Product> products)
+        {
+            ProductSelectedEvent(products);
+        }
+
+        // Sets the selected supplier and updates the form fields.
+        private void SupplierSelectedEvent(Supplier supplier)
+        {
+            _supplier = supplier;
+            HandleSupFields(_supplier);
+        }
+
+        // Updates the product list based on the selected products.
+        private void ProductSelectedEvent(List<Product> products)
+        {
+            _products = products;
+            UpdateProdList(_products);
+        }
+
+        // Saves the product movement by creating a new movement object.
         private void SaveMovement()
         {
             ProductMovement movement = CreateNewMovementObj();
@@ -97,31 +126,7 @@ namespace Gerenciador_de_estoque.src.UI
             Close();
         }
 
-        private void ProductSelect_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-
-            CreateNewProductSelect(movement, _products);
-        }
-
-        private void SupplierMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Show();
-            CreateNewSupplierMenu(true);
-        }
-
-        private void SupplierSelectForm_SupplierSelected(Supplier fornecedor)
-        {
-            _fornecedor = fornecedor;
-            HandleSupFields(_fornecedor);
-        }
-
-        private void ProductSelectForm_ProductSelected(List<Product> products)
-        {
-            _products = products;
-            UpdateProdList(_products);
-        }
-
+        // Selects a product from the DataGridView.
         private void SelectRow()
         {
             try
@@ -138,52 +143,84 @@ namespace Gerenciador_de_estoque.src.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao selecionar produto: {ex.Message}");
+                MessageBox.Show($"Error selecting product: {ex.Message}");
             }
         }
 
+        // Opens the supplier selection menu.
+        private void OpenSupMenu()
+        {
+            if (_supplierMenu == null || _supplierMenu.IsDisposed)
+                CreateNewSupplierMenu(true);
+
+            ShowSupplierMenu();
+        }
+
+        // Opens the product selection menu.
+        private void OpenProdMenu()
+        {
+            if (_productSelect == null || _productSelect.IsDisposed)
+                CreateNewProductSelect(movement, _products);
+
+            ShowProductSelect();
+        }
+
+        // Handles the closure of the product selection menu.
+        private void ProdSelectClosedEvent()
+        {
+            Show();
+            CreateNewProductSelect(movement, _products);
+        }
+
+        // Handles the closure of the supplier selection menu.
+        private void SupplierMenuClosedEvent()
+        {
+            Show();
+            CreateNewSupplierMenu(true);
+        }
+
+        // Adds columns to the product DataGridView.
         private void AddColumnsToProductList()
         {
             _utils.AddProductColumns(DtProduct);
             DtProduct.Columns.Add("AmountChange", "Entrada");
         }
 
+        // Updates the DataGridView with the current product list.
         private void UpdateProdList(List<Product> productList)
         {
             DtProduct.Rows.Clear();
 
-            foreach (var produto in productList)
+            foreach (var product in productList)
             {
                 DtProduct.Rows.Add(
-                    produto.Id,
-                    produto.Name,
-                    produto.AvailableAmount,
-                    produto.Description,
-                    produto.AmountChange
+                    product.Id,
+                    product.Name,
+                    product.AvailableAmount,
+                    product.Description,
+                    product.AmountChange
                 );
             }
         }
 
+        // Fills the combo box with movement types.
         private void FillTypes()
         {
             try
             {
-                Utils utils = new Utils();
-                Dictionary<string, int> types = utils.ListTypes();
-                foreach (var type in types)
-                {
-                    CmbType.Items.Add(new { Text = type.Key, type.Value });
-                }
-                CmbType.DisplayMember = "Text";
-                CmbType.ValueMember = "Value";
-                CmbType.SelectedIndex = 0;
+                List<MovementType> types = _movementTypeController.GetAllMovementTypes();
+                CmbType.Items.Clear();
+                CmbType.DataSource = types;
+                CmbType.ValueMember = "Id";
+                CmbType.DisplayMember = "Name";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erro ao preencher tipos: {ex.Message}");
+                MessageBox.Show($"Error filling types: {ex.Message}");
             }
         }
 
+        // Creates a new instance of the supplier menu.
         private void CreateNewSupplierMenu(bool isSelecting)
         {
             _supplierMenu = new SupplierMenu(isSelecting);
@@ -191,25 +228,29 @@ namespace Gerenciador_de_estoque.src.UI
             _supplierMenu.SupplierSelected += SupplierSelectForm_SupplierSelected;
         }
 
-        private void CreateNewProductSelect(int type, List<Product> produtos)
+        // Creates a new instance of the product selection menu.
+        private void CreateNewProductSelect(int type, List<Product> products)
         {
-            _productSelect = new ProductSelect(type, produtos);
+            _productSelect = new ProductSelect(type, products);
             _productSelect.FormClosed += ProductSelect_FormClosed;
             _productSelect.ProdutoSelected += ProductSelectForm_ProductSelected;
         }
 
+        // Shows the product selection menu.
         private void ShowProductSelect()
         {
             Hide();
             _productSelect.Show();
         }
 
+        // Shows the supplier selection menu.
         private void ShowSupplierMenu()
         {
             Hide();
             _supplierMenu.Show();
         }
 
+        // Updates the form fields with the selected product's details.
         private void HandleFields(Product selected)
         {
             TxtProdName.Text = selected.Name ?? "";
@@ -218,6 +259,24 @@ namespace Gerenciador_de_estoque.src.UI
             TxtAmountChanged.Text = Convert.ToString(selected.AmountChange) ?? "";
         }
 
+        // Manages the date input based on the checkbox state.
+        private void HandleDateInput()
+        {
+            if (ChkToday.Checked)
+            {
+                MskTxtDate.ReadOnly = true;
+                LblDate.Visible = false;
+                MskTxtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            }
+            else
+            {
+                LblDate.Visible = true;
+                MskTxtDate.ReadOnly = false;
+                MskTxtDate.Text = "";
+            }
+        }
+
+        // Sets the behavior based on the selected movement type.
         public void SetBehavior()
         {
             if (int.TryParse(CmbType.SelectedIndex.ToString(), out int type))
@@ -226,7 +285,7 @@ namespace Gerenciador_de_estoque.src.UI
 
                 LblAmountChanged.Text = type == 0 ? "Quantidade adicionada" : "Quantidade retirada";
 
-                BtnConfirm.Text = "Confirmar " + CmbType.Text;
+                BtnConfirm.Text = "Confirmar " + CmbType.SelectedText;
 
                 if (DtProduct.Columns.Contains("AmountChange"))
                     DtProduct.Columns["AmountChange"].HeaderText = CmbType.Text;
@@ -235,32 +294,37 @@ namespace Gerenciador_de_estoque.src.UI
             }
         }
 
+        // Creates a new product movement object.
         private ProductMovement CreateNewMovementObj()
         {
+            int typeid = Convert.ToInt32(CmbType.SelectedValue);
+
             ProductMovement movement = new ProductMovement
             {
-                Supplier = new Supplier() { Id = _fornecedor.Id },
-                Type = CmbType.Text,
+                Supplier = new Supplier() { Id = _supplier.Id },
+                Type = new MovementType { Id = typeid },
                 ProductsList = _products,
                 Date = MskTxtDate.Text
             };
             return movement;
         }
 
-        private void HandleSupFields(Supplier fornecedor)
+        // Updates the supplier fields with the selected supplier's data.
+        private void HandleSupFields(Supplier supplier)
         {
-            TxtName.Text = fornecedor.Name ?? "";
-            TxtCity.Text = fornecedor.City ?? "";
-            TxtCEP.Text = fornecedor.CEP ?? "";
-            TxtNeigh.Text = fornecedor.Neighborhood ?? "";
-            TxtPhone.Text = fornecedor.Phone ?? "";
-            TxtStreet.Text = fornecedor.Street ?? "";
-            TxtEmail.Text = fornecedor.Email ?? "";
-            TxtNumber.Text = fornecedor.Number ?? "";
-            TxtComplement.Text = fornecedor.Complement ?? "";
-            TxtState.Text = fornecedor.State ?? "";
+            TxtName.Text = supplier.Name ?? "";
+            TxtCity.Text = supplier.City ?? "";
+            TxtCEP.Text = supplier.CEP ?? "";
+            TxtNeigh.Text = supplier.Neighborhood ?? "";
+            TxtPhone.Text = supplier.Phone ?? "";
+            TxtStreet.Text = supplier.Street ?? "";
+            TxtEmail.Text = supplier.Email ?? "";
+            TxtNumber.Text = supplier.Number ?? "";
+            TxtComplement.Text = supplier.Complement ?? "";
+            TxtState.Text = supplier.state.Name ?? "";
         }
 
+        // Closes the current form.
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             Close();
